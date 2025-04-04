@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付订单 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .back-btn {
+            color: var(--neutral-800);
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .back-btn:active {
+            background-color: var(--neutral-100);
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--neutral-900);
+        }
+
+        .payment-amount {
+            background: linear-gradient(135deg, var(--primary-color), #1a54ff);
+            margin: var(--spacing-lg);
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius-lg);
+            text-align: center;
+            color: white;
+            box-shadow: 0 8px 16px rgba(26, 84, 255, 0.15);
+        }
+
+        .amount-label {
+            font-size: var(--font-size-md);
+            opacity: 0.9;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .amount-value {
+            font-size: 52px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: -1px;
+        }
+
+        .payment-section {
+            background-color: white;
+            margin: 0 var(--spacing-lg) var(--spacing-lg);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .notice-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .notice-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background-color: var(--neutral-50);
+            border-radius: var(--border-radius);
+        }
+
+        .notice-item i {
+            color: var(--primary-color);
+            font-size: 20px;
+            padding: var(--spacing-xs);
+            background-color: var(--primary-50);
+            border-radius: var(--border-radius);
+        }
+
+        .notice-content {
+            flex: 1;
+        }
+
+        .notice-title {
+            font-weight: 600;
+            color: var(--neutral-900);
+            margin-bottom: 4px;
+        }
+
+        .notice-desc {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+            line-height: 1.4;
+        }
+
+        .section-title {
+            font-size: var(--font-size-lg);
+            color: var(--neutral-900);
+            margin-bottom: var(--spacing-lg);
+            font-weight: 600;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .payment-method:last-child {
+            margin-bottom: 0;
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary-color);
+            background-color: var(--primary-50);
+        }
+
+        .method-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            font-size: 28px;
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .wechat-icon {
+            color: #07C160;
+            background-color: rgba(7, 193, 96, 0.1);
+        }
+
+        .alipay-icon {
+            color: #1677FF;
+            background-color: rgba(22, 119, 255, 0.1);
+        }
+
+        .unionpay-icon {
+            color: #E60012;
+            background-color: rgba(230, 0, 18, 0.1);
+        }
+
+        .method-info {
+            flex-grow: 1;
+        }
+
+        .method-name {
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            color: var(--neutral-900);
+            margin-bottom: 4px;
+        }
+
+        .method-desc {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+
+        .method-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--neutral-300);
+            margin-left: var(--spacing-md);
+            position: relative;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .method-radio.selected {
+            border-color: var(--primary-color);
+            background-color: var(--primary-color);
+        }
+
+        .method-radio.selected::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .info-label {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+        }
+
+        .info-value {
+            color: var(--neutral-900);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+
+        .payment-action {
+            padding: var(--spacing-lg);
+            background-color: white;
+            position: sticky;
+            bottom: 0;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+            margin-top: auto;
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: var(--spacing-md);
+            font-size: var(--font-size-lg);
+            background: linear-gradient(135deg, var(--primary-color), #1a54ff);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(26, 84, 255, 0.2);
+        }
+
+        .btn-pay:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(26, 84, 255, 0.15);
+        }
+
+        .payment-notice {
+            text-align: center;
+            font-size: var(--font-size-sm);
+            color: var(--neutral-500);
+            margin-top: var(--spacing-md);
+        }
+
+        .payment-notice a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="#" onclick="goBack()" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="header-title">支付订单</div>
+        <div style="width: 40px;"></div>
+    </header>
+    
+    <div class="payment-amount">
+        <div class="amount-label">订单金额</div>
+        <div class="amount-value">¥398.00</div>
+    </div>
+    
+    <div class="payment-section">
+        <h3 class="section-title">选择支付方式</h3>
+        
+        <div class="payment-method selected">
+            <div class="method-icon wechat-icon">
+                <i class="fab fa-weixin"></i>
+            </div>
+            <div class="method-info">
+                <div class="method-name">微信支付</div>
+                <div class="method-desc">使用微信扫码支付</div>
+            </div>
+            <div class="method-radio selected"></div>
+        </div>
+        
+        <div class="payment-method">
+            <div class="method-icon alipay-icon">
+                <i class="fab fa-alipay"></i>
+            </div>
+            <div class="method-info">
+                <div class="method-name">支付宝</div>
+                <div class="method-desc">使用支付宝扫码支付</div>
+            </div>
+            <div class="method-radio"></div>
+        </div>
+        
+        <div class="payment-method">
+            <div class="method-icon unionpay-icon">
+                <i class="fas fa-credit-card"></i>
+            </div>
+            <div class="method-info">
+                <div class="method-name">银联支付</div>
+                <div class="method-desc">使用银行卡支付</div>
+            </div>
+            <div class="method-radio"></div>
+        </div>
+    </div>
+    
+    <div class="payment-section">
+        <h3 class="section-title">下单须知</h3>
+        <div class="notice-list">
+            <div class="notice-item">
+                <i class="fas fa-car"></i>
+                <div class="notice-content">
+                    <div class="notice-title">交通费说明</div>
+                    <div class="notice-desc">商家出发后，超出5公里服务范围将收取每公里3元交通费</div>
+                </div>
+            </div>
+            <div class="notice-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="notice-content">
+                    <div class="notice-title">服务范围</div>
+                    <div class="notice-desc">目前仅支持北京市六环内区域服务</div>
+                </div>
+            </div>
+            <div class="notice-item">
+                <i class="fas fa-ban"></i>
+                <div class="notice-content">
+                    <div class="notice-title">取消规则</div>
+                    <div class="notice-desc">技师出发前可免费取消，出发后将收取50%违约金</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="payment-section">
+        <h3 class="section-title">订单信息</h3>
+        
+        <div class="order-info">
+            <div class="info-item">
+                <div class="info-label">订单编号</div>
+                <div class="info-value">QX20230615001</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">下单时间</div>
+                <div class="info-value">2023-06-15 14:30</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">服务项目</div>
+                <div class="info-value">全车基础保养 + 刹车系统检修</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">服务车辆</div>
+                <div class="info-value">奥迪 A6L (京A12345)</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="payment-action">
+        <button class="btn-pay">确认支付 ¥398.00</button>
+        <div class="payment-notice">点击上方按钮，表示您已同意<a href="#">《宝驹支付协议》</a></div>
+    </div>
+    
+    <script>
+        function goBack() {
+            const referrer = document.referrer;
+            if (referrer && referrer.includes('shop-detail.html')) {
+                const shopId = new URLSearchParams(window.location.search).get('shopId');
+                window.location.href = `shop-detail.html?id=${shopId}`;
+            } else if (referrer && referrer.includes('service-detail.html')) {
+                const serviceId = new URLSearchParams(window.location.search).get('serviceId');
+                window.location.href = `service-detail.html?id=${serviceId}`;
+            } else {
+                window.history.back();
+            }
+        }
+
+        // 支付方式选择
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', () => {
+                // 移除所有选中状态
+                paymentMethods.forEach(m => {
+                    m.classList.remove('selected');
+                    m.querySelector('.method-radio').classList.remove('selected');
+                });
+                
+                // 设置当前选中
+                method.classList.add('selected');
+                method.querySelector('.method-radio').classList.add('selected');
+            });
+        });
+        
+        // 支付按钮点击事件
+        document.querySelector('.btn-pay').addEventListener('click', () => {
+            // 获取选中的支付方式
+            const selectedMethod = document.querySelector('.payment-method.selected');
+            const methodName = selectedMethod.querySelector('.method-name').textContent;
+            
+            // 模拟支付流程
+            alert(`您选择了${methodName}，即将跳转到支付页面`);
+            
+            // 实际项目中这里会跳转到相应的支付网关
+            setTimeout(() => {
+                const params = new URLSearchParams();
+params.append('orderId', '2023' + Math.floor(Math.random() * 1000000));
+params.append('amount', document.querySelector('.amount-value').textContent.replace('¥', ''));
+params.append('status', 'success');
+window.location.href = `payment-result.html?${params.toString()}`;
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

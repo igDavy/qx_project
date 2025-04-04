@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .back-btn {
+            margin-right: var(--spacing-md);
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            flex: 1;
+            text-align: center;
+            margin-right: var(--spacing-xl);
+        }
+
+        .about-logo {
+            text-align: center;
+            padding: var(--spacing-xl) 0;
+        }
+
+        .about-logo img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .app-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .app-version {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+        }
+
+        .about-content {
+            background: white;
+            margin: var(--spacing-md);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .about-section {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .about-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            color: var(--neutral-800);
+        }
+
+        .section-text {
+            color: var(--neutral-600);
+            line-height: 1.8;
+            font-size: var(--font-size-md);
+        }
+
+        .contact-list {
+            margin-top: var(--spacing-md);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+            color: var(--neutral-600);
+            font-size: var(--font-size-md);
+        }
+
+        .contact-item i {
+            width: 24px;
+            color: var(--primary-color);
+            margin-right: var(--spacing-sm);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="profile.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">关于我们</h1>
+    </header>
+
+    <div class="about-logo">
+        <img src="../images/logo-merchant.svg" alt="宝驹logo">
+        <div class="app-name">宝驹</div>
+        <div class="app-version">版本 1.0.0</div>
+    </div>
+
+    <div class="about-content">
+        <div class="about-section">
+            <div class="section-title">公司简介</div>
+            <div class="section-text">
+                宝驹是一家专注于汽车维修服务的创新型科技公司。我们致力于为车主提供便捷、透明、高质量的汽车维修保养服务，通过互联网技术连接车主与优质的汽修服务商，打造全新的汽车后市场服务生态。
+            </div>
+        </div>
+
+        <div class="about-section">
+            <div class="section-title">服务理念</div>
+            <div class="section-text">
+                以客户为中心，以质量为保证，以科技为驱动。我们承诺为每一位车主提供专业、诚信、便捷的汽车维修保养服务，让车主省心、放心、安心。
+            </div>
+        </div>
+
+        <div class="about-section">
+            <div class="section-title">联系我们</div>
+            <div class="contact-list">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>客服热线：400-888-8888</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>商务合作：business@qixiubao.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>公司地址：深圳市南山区科技园</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+    <!-- 背景 -->
+    <rect width="800" height="600" fill="#f5f7fa"/>
+    
+    <!-- 汽车轮廓 -->
+    <path d="M200 300 C200 250 600 250 600 300 L600 400 L200 400 Z" fill="#2962ff" opacity="0.1"/>
+    
+    <!-- 工具箱 -->
+    <rect x="300" y="200" width="200" height="150" rx="10" fill="#2962ff"/>
+    <rect x="320" y="220" width="160" height="110" rx="5" fill="#ffffff"/>
+    
+    <!-- 工具 -->
+    <circle cx="350" cy="250" r="10" fill="#ff6b6b"/>
+    <circle cx="390" cy="250" r="10" fill="#ffd93d"/>
+    <circle cx="430" cy="250" r="10" fill="#51cf66"/>
+    
+    <!-- 扳手 -->
+    <path d="M360 280 C360 270 380 270 380 280 L390 300 L350 300 Z" fill="#868e96"/>
+    
+    <!-- 螺丝刀 -->
+    <rect x="400" y="280" width="40" height="8" rx="4" fill="#868e96"/>
+    <rect x="440" y="282" width="20" height="4" rx="2" fill="#495057"/>
+    
+    <!-- 文本 -->
+    <text x="400" y="450" font-family="Arial" font-size="24" fill="#495057" text-anchor="middle">专业汽车保养</text>
+</svg>

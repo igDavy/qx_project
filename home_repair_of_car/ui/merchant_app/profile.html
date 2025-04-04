@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 宝驹商家端</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px; /* 为底部导航留出空间 */
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .profile-header {
+            background-image: var(--gradient-secondary);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-2);
+            color: white;
+        }
+        
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: var(--shadow-2);
+            transition: all var(--transition-normal) var(--transition-spring);
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-3);
+        }
+        
+        .profile-details {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .profile-role {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-xs);
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            display: inline-block;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-weight: 700;
+            color: white;
+            font-size: var(--font-size-lg);
+        }
+        
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .menu-list {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            margin: 0 var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 1px solid var(--neutral-200);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--neutral-50);
+            transform: translateX(var(--spacing-xs));
+        }
+
+        .menu-item span{
+            color: black;
+        }
+        
+        .menu-icon {
+            width: 24px;
+            color: var(--secondary-color);
+            margin-right: var(--spacing-md);
+        }
+        
+        .menu-title {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .menu-arrow {
+            color: var(--neutral-400);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: var(--shadow-2);
+            border-top: 1px solid var(--neutral-200);
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .nav-item.active {
+            color: var(--secondary-color);
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <h2>个人中心</h2>
+        <!-- <a href="settings.html" class="menu-icon">
+            <i class="fas fa-cog"></i>
+        </a> -->
+    </header>
+    
+    <div class="profile-header">
+        <div class="profile-info">
+            <img src="../images/avatar-business.svg" alt="商家头像" class="profile-avatar">
+            <div class="profile-details">
+                <div class="profile-name">张师傅汽修店</div>
+                <div class="profile-role">高级技师</div>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">4.9</div>
+                        <div class="stat-label">评分</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">328</div>
+                        <div class="stat-label">订单</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">96%</div>
+                        <div class="stat-label">好评率</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="menu-list">
+        <a href="skills.html" class="menu-item">
+            <i class="fas fa-tools menu-icon"></i>
+            <span class="menu-title">技能管理</span>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+        <a href="services.html" class="menu-item">
+            <i class="fas fa-list menu-icon"></i>
+            <span class="menu-title">服务管理</span>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+        <a href="parts.html" class="menu-item">
+            <i class="fas fa-cog menu-icon"></i>
+            <span class="menu-title">配件管理</span>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+        <a href="income.html" class="menu-item">
+            <i class="fas fa-wallet menu-icon"></i>
+            <span class="menu-title">收入管理</span>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+        <a href="withdraw.html" class="menu-item">
+            <i class="fas fa-money-bill-wave menu-icon"></i>
+            <span class="menu-title">提现</span>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+    </div>
+    
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-list-alt nav-icon"></i>
+            <span>订单</span>
+        </a>
+        <a href="services.html" class="nav-item">
+            <i class="fas fa-tools nav-icon"></i>
+            <span>服务</span>
+        </a>
+        <a href="parts.html" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>配件</span>
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+</body>
+</html>

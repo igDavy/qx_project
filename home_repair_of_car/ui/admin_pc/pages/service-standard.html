@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务标准管理 - 宝驹后台管理系统</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        .page-container {
+            padding: var(--spacing-lg);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            background-color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        th {
+            background-color: var(--neutral-100);
+            font-weight: 600;
+            color: var(--neutral-700);
+        }
+
+        .action-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: none;
+            border-radius: var(--radius-sm);
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-normal);
+            margin-right: var(--spacing-xs);
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-color-dark);
+        }
+
+        .action-btn.danger {
+            background-color: var(--danger-color);
+        }
+
+        .action-btn.danger:hover {
+            background-color: var(--danger-color-dark);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            padding: var(--spacing-md);
+            background-color: white;
+            border-top: 1px solid var(--neutral-200);
+        }
+
+        .page-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            background-color: white;
+            margin: 0 2px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .page-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .page-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .add-btn {
+            background-color: var(--success-color);
+        }
+
+        .add-btn:hover {
+            background-color: var(--success-color-dark);
+        }
+
+        .standard-desc {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="搜索标准名称">
+            <select class="search-input">
+                <option value="">所有分类</option>
+                <option value="1">日常保养</option>
+                <option value="2">故障维修</option>
+                <option value="3">轮胎服务</option>
+            </select>
+            <button class="action-btn add-btn">新增标准</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>标准ID</th>
+                        <th>标准名称</th>
+                        <th>适用分类</th>
+                        <th>具体要求</th>
+                        <th>状态</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>机油更换标准</td>
+                        <td>日常保养</td>
+                        <td class="standard-desc">1. 检查机油品质和油位；2. 使用专业工具更换机油；3. 更换机油滤清器；4. 检查并紧固放油螺丝。</td>
+                        <td>启用</td>
+                        <td>2023-06-15 10:30</td>
+                        <td>
+                            <button class="action-btn">编辑</button>
+                            <button class="action-btn danger">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>轮胎更换规范</td>
+                        <td>轮胎服务</td>
+                        <td class="standard-desc">1. 检查轮胎规格；2. 使用标准扭力进行安装；3. 进行动平衡调整；4. 检查胎压。</td>
+                        <td>启用</td>
+                        <td>2023-06-15 10:30</td>
+                        <td>
+                            <button class="action-btn">编辑</button>
+                            <button class="action-btn danger">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>刹车系统检修标准</td>
+                        <td>故障维修</td>
+                        <td class="standard-desc">1. 检查刹车片磨损程度；2. 测试刹车油质量；3. 检查刹车系统密封性；4. 路试确认。</td>
+                        <td>启用</td>
+                        <td>2023-06-15 10:30</td>
+                        <td>
+                            <button class="action-btn">编辑</button>
+                            <button class="action-btn danger">删除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button class="page-btn">上一页</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">下一页</button>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+</html>

@@ -1,0 +1,3671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宝驹上门维修服务 - 商家端原型</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .prototype-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        /* 手机框架样式 */
+        .phone-frame {
+            width: 360px;
+            height: 720px;
+            background-color: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: relative;
+            border: 10px solid #333;
+            margin-bottom: 40px;
+        }
+        
+        .phone-header {
+            height: 40px;
+            background-color: #f8f8f8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .phone-content {
+            height: calc(100% - 90px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+        }
+        
+        .phone-footer {
+            height: 50px;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #eee;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            color: #999;
+            cursor: pointer;
+        }
+        
+        .nav-item.active {
+            color: #1890ff;
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+        
+        /* 登录注册页面样式 */
+        .login-page {
+            padding: 30px 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+        }
+        
+        .logo {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            background-color: #1890ff;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+        }
+        
+        .form-button {
+            width: 100%;
+            padding: 14px;
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .form-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .form-link a {
+            color: #1890ff;
+            text-decoration: none;
+        }
+        
+        /* 首页样式 */
+        .home-page {
+            padding: 15px;
+            background-color: #f5f7fa;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .status-card {
+            background-color: #1890ff;
+            color: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(24, 144, 255, 0.2);
+        }
+        
+        .status-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .toggle-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 5px 15px;
+            color: white;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+        
+        .stat-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 12px;
+            width: 48%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .stat-title {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .stat-value {
+            font-size: 22px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .action-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .action-icon {
+            font-size: 24px;
+            color: #1890ff;
+            margin-bottom: 8px;
+        }
+        
+        .action-text {
+            font-size: 12px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 20px 0 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-more {
+            font-size: 13px;
+            color: #999;
+            font-weight: normal;
+        }
+        
+        .orders-list {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .order-item {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .order-info {
+            flex: 1;
+        }
+        
+        .order-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .order-meta {
+            font-size: 13px;
+            color: #999;
+        }
+        
+        .order-price {
+            color: #ff6b01;
+            font-weight: 500;
+        }
+        
+        .order-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: white;
+            background-color: #1890ff;
+            margin-left: 5px;
+        }
+        
+        .order-status.urgent {
+            background-color: #ff4d4f;
+        }
+        
+        /* 订单页面样式 */
+        .orders-page {
+            padding: 15px;
+            background-color: #f5f7fa;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .tabs {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .tab {
+            padding: 12px 15px;
+            font-size: 14px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .tab.active {
+            color: #1890ff;
+            font-weight: 500;
+        }
+        
+        .tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 15px;
+            right: 15px;
+            height: 3px;
+            background-color: #1890ff;
+            border-radius: 3px;
+        }
+        
+        .order-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .order-card-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .order-number {
+            color: #666;
+        }
+        
+        .order-card-status {
+            color: #1890ff;
+            font-weight: 500;
+        }
+        
+        .order-card-status.urgent {
+            color: #ff4d4f;
+        }
+        
+        .order-card-content {
+            margin-bottom: 15px;
+        }
+        
+        .order-service {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .order-location {
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+        
+        .order-location i {
+            margin-right: 5px;
+            color: #999;
+        }
+        
+        .order-time {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .order-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 12px;
+            font-size: 14px;
+        }
+        
+        .order-total {
+            font-size: 16px;
+            font-weight: 500;
+            color: #ff6b01;
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: #1890ff;
+            color: white;
+            border: none;
+        }
+        
+        .btn-outline {
+            background-color: white;
+            color: #666;
+            border: 1px solid #d9d9d9;
+        }
+        
+        /* 订单详情页 */
+        .order-detail-page {
+            padding: 15px;
+            background-color: #f5f7fa;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .detail-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .detail-header {
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 15px;
+        }
+        
+        .detail-status {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1890ff;
+            margin-bottom: 5px;
+        }
+        
+        .detail-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .info-label {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .info-value {
+            font-size: 14px;
+            text-align: right;
+            font-weight: 500;
+        }
+        
+        .customer-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .customer-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .customer-phone {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .phone-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #1890ff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .service-name {
+            flex: 1;
+        }
+        
+        .service-quantity {
+            color: #999;
+            margin: 0 15px;
+        }
+        
+        .service-price {
+            font-weight: 500;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .accept-btn {
+            background-color: #1890ff;
+            color: white;
+        }
+        
+        .reject-btn {
+            background-color: white;
+            color: #ff4d4f;
+            border: 1px solid #ff4d4f;
+        }
+        
+        /* 服务管理页 */
+        .services-page {
+            padding: 15px;
+            background-color: #f5f7fa;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .search-bar {
+            background-color: white;
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .search-bar i {
+            color: #999;
+            margin-right: 10px;
+        }
+        
+        .search-input {
+            border: none;
+            flex: 1;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .add-service {
+            background-color: #1890ff;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(24, 144, 255, 0.4);
+            z-index: 100;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .service-img {
+            height: 120px;
+            background-color: #f0f0f0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ccc;
+            font-size: 40px;
+        }
+        
+        .service-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: white;
+        }
+        
+        .status-active {
+            background-color: #52c41a;
+        }
+        
+        .status-inactive {
+            background-color: #999;
+        }
+        
+        .service-info {
+            padding: 15px;
+        }
+        
+        .service-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .service-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .service-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+        
+        .service-duration {
+            color: #999;
+        }
+        
+        .service-price-value {
+            color: #ff6b01;
+            font-weight: 500;
+        }
+        
+        /* 个人中心页面 */
+        .profile-page {
+            padding: 0 0 15px;
+            background-color: #f5f7fa;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .profile-header {
+            background-color: #1890ff;
+            padding: 30px 20px;
+            color: white;
+            position: relative;
+        }
+        
+        .profile-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: white;
+            margin-right: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            color: #1890ff;
+        }
+        
+        .profile-name {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .profile-type {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .profile-edit {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 20px;
+        }
+        
+        .menu-list {
+            background-color: white;
+            border-radius: 10px;
+            margin: 15px;
+            overflow: hidden;
+        }
+        
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .menu-icon {
+            width: 24px;
+            color: #1890ff;
+            margin-right: 10px;
+            text-align: center;
+        }
+        
+        .menu-label {
+            flex: 1;
+            font-size: 15px;
+        }
+        
+        .menu-arrow {
+            color: #999;
+        }
+        
+        /* 子账号管理页面 */
+        .subaccount-page {
+            padding: 15px;
+            background-color: #f5f7fa;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .sub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .sub-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .add-sub-btn {
+            padding: 8px 15px;
+            background-color: #1890ff;
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .subaccount-card {
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .sub-info {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sub-details {
+            flex: 1;
+        }
+        
+        .sub-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        
+        .sub-phone {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .sub-type {
+            font-size: 13px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: white;
+            background-color: #1890ff;
+        }
+        
+        .sub-type.shop {
+            background-color: #52c41a;
+        }
+        
+        .sub-type.tech {
+            background-color: #722ed1;
+        }
+        
+        .sub-type.service {
+            background-color: #faad14;
+        }
+        
+        .sub-actions {
+            padding: 0 15px 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .sub-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .edit-btn {
+            background-color: #f0f0f0;
+            color: #666;
+        }
+        
+        .disable-btn {
+            background-color: #ff4d4f;
+            color: white;
+        }
+        
+        /* 技工管理页面 */
+        .technicians-page {
+            padding: 15px;
+            background-color: #f5f7fa;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .tech-card {
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .tech-avatar {
+            width: 100px;
+            height: 120px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: #999;
+        }
+        
+        .tech-info {
+            flex: 1;
+            padding: 15px;
+            position: relative;
+        }
+        
+        .tech-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: white;
+        }
+        
+        .status-working {
+            background-color: #52c41a;
+        }
+        
+        .status-unavailable {
+            background-color: #999;
+        }
+        
+        .tech-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .tech-skills {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .tech-rating {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .rating-stars {
+            color: #faad14;
+            margin-right: 5px;
+        }
+        
+        .tech-orders {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 消息中心页面 */
+        .messages-page {
+            padding: 15px;
+            background-color: #f5f7fa;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .message-tabs {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .message-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+            position: relative;
+        }
+        
+        .message-tab.active {
+            color: #1890ff;
+            font-weight: 500;
+        }
+        
+        .message-tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            right: 20%;
+            height: 3px;
+            background-color: #1890ff;
+            border-radius: 3px;
+        }
+        
+        .unread-badge {
+            position: absolute;
+            top: 8px;
+            right: 20px;
+            background-color: #ff4d4f;
+            color: white;
+            border-radius: 10px;
+            padding: 0 5px;
+            font-size: 12px;
+            min-width: 16px;
+            text-align: center;
+        }
+        
+        .message-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .message-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e6f7ff;
+            color: #1890ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            margin-right: 15px;
+        }
+        
+        .message-content {
+            flex: 1;
+        }
+        
+        .message-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .message-time {
+            font-size: 13px;
+            color: #999;
+            font-weight: normal;
+        }
+        
+        .message-preview {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .message-status {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            font-size: 13px;
+            color: #1890ff;
+        }
+        
+        /* 统计分析页面 */
+        .stats-page {
+            padding: 15px;
+            background-color: #f5f7fa;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .period-selector {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .period {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            border-right: 1px solid #f0f0f0;
+        }
+        
+        .period:last-child {
+            border-right: none;
+        }
+        
+        .period.active {
+            background-color: #1890ff;
+            color: white;
+        }
+        
+        .chart-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .chart-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .chart-placeholder {
+            height: 200px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .stat-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .stat-content {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .stat-trend {
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        
+        .trend-up {
+            color: #52c41a;
+        }
+        
+        .trend-down {
+            color: #ff4d4f;
+        }
+        
+        /* 新订单弹窗 */
+        .new-order-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .popup-header {
+            background-color: #1890ff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 18px;
+        }
+        
+        .popup-content {
+            padding: 20px;
+        }
+        
+        .popup-actions {
+            display: flex;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .popup-btn {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            font-size: 16px;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        
+        .popup-btn.confirm {
+            color: #1890ff;
+            font-weight: 500;
+            border-left: 1px solid #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>宝驹上门维修服务 - 商家端原型设计</h1>
+            <p>完整UI界面设计和交互原型</p>
+        </div>
+        
+        <div class="prototype-container">
+
+            <!-- 注册账号页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="login-page">
+                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                            <i class="fas fa-arrow-left" style="font-size: 20px; margin-right: 10px;"></i>
+                            <h2>注册账号</h2>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">手机号码</label>
+                            <div style="position: relative;">
+                                <input type="text" class="form-input" placeholder="请输入手机号码">
+                                <button style="position: absolute; right: 10px; top: 10px; background-color: #1890ff; color: white; border: none; border-radius: 4px; padding: 5px 10px; font-size: 14px;">
+                                    获取验证码
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">验证码</label>
+                            <input type="text" class="form-input" placeholder="请输入短信验证码">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">设置密码</label>
+                            <div style="position: relative;">
+                                <input type="password" class="form-input" placeholder="请设置登录密码">
+                                <i class="fas fa-eye-slash" style="position: absolute; right: 15px; top: 15px; color: #999;"></i>
+                            </div>
+                            <div style="font-size: 12px; color: #999; margin-top: 5px;">
+                                密码长度8-20位，需包含字母和数字
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">确认密码</label>
+                            <div style="position: relative;">
+                                <input type="password" class="form-input" placeholder="请再次输入密码">
+                                <i class="fas fa-eye-slash" style="position: absolute; right: 15px; top: 15px; color: #999;"></i>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <label style="display: flex; align-items: center; font-size: 14px; color: #666;">
+                                <input type="checkbox" style="margin-right: 10px;">
+                                我已阅读并同意 <span style="color: #1890ff; margin-left: 5px;">《用户协议》</span>和<span style="color: #1890ff;">《隐私政策》</span>
+                            </label>
+                        </div>
+                        
+                        <button class="form-button" style="margin-top: 20px;">注册</button>
+                        
+                        <div class="form-link" style="margin-top: 20px;">
+                            已有账号？<a href="#">立即登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 登录/注册页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="login-page">
+                        <div class="logo">
+                            <div class="logo-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <h2 style="margin-top: 15px;">宝驹</h2>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">手机号码</label>
+                            <input type="text" class="form-input" placeholder="请输入手机号码">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">登录密码</label>
+                            <input type="password" class="form-input" placeholder="请输入登录密码">
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 20px;">
+                            <div><input type="checkbox"> 记住密码</div>
+                            <div style="color: #1890ff;">忘记密码？</div>
+                        </div>
+                        
+                        <button class="form-button">登 录</button>
+                        
+                        <div style="text-align: center; margin: 20px 0; position: relative;">
+                            <div style="position: absolute; left: 0; right: 0; top: 50%; height: 1px; background-color: #e0e0e0;"></div>
+                            <span style="position: relative; background-color: white; padding: 0 15px; color: #999; font-size: 14px;">其他登录方式</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+                            <div style="text-align: center;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background-color: #07c160; color: white; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                                    <i class="fab fa-weixin"></i>
+                                </div>
+                                <div style="font-size: 12px; margin-top: 5px;">微信登录</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; background-color: #ff6b01; color: white; display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                                    <i class="fas fa-comment-dots"></i>
+                                </div>
+                                <div style="font-size: 12px; margin-top: 5px;">验证码登录</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-link">
+                            还没有账号？<a href="#">立即注册</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 首页 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="home-page">
+                        <div class="status-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h3>你好，张师傅</h3>
+                                    <p style="opacity: 0.8; font-size: 14px;">今天是周三，祝您生意兴隆</p>
+                                </div>
+                                <div style="position: relative;">
+                                    <i class="fas fa-bell" style="font-size: 24px;"></i>
+                                    <span style="position: absolute; top: -5px; right: -5px; background-color: #ff4d4f; width: 16px; height: 16px; border-radius: 50%; font-size: 12px; display: flex; justify-content: center; align-items: center;">3</span>
+                                </div>
+                            </div>
+                            
+                            <div class="status-toggle">
+                                <div>营业状态</div>
+                                <div class="toggle-btn">
+                                    <span>营业中</span>
+                                    <i class="fas fa-toggle-on" style="margin-left: 5px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-container">
+                            <div class="stat-box">
+                                <div class="stat-title">今日订单</div>
+                                <div class="stat-value">8</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">今日收入</div>
+                                <div class="stat-value">¥1,860</div>
+                            </div>
+                        </div>
+                        
+                        <div class="quick-actions">
+                            <div class="action-item">
+                                <div class="action-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="action-text">一键接单</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="action-text">技工排班</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-icon">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <div class="action-text">服务管理</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-icon">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="action-text">资金管理</div>
+                            </div>
+                        </div>
+                        
+                        <div class="section-title">
+                            <div>待处理订单 (5)</div>
+                            <div class="section-more">查看全部 <i class="fas fa-chevron-right" style="font-size: 12px;"></i></div>
+                        </div>
+                        
+                        <div class="orders-list">
+                            <div class="order-item">
+                                <div class="order-info">
+                                    <div class="order-title">发动机积碳清洗</div>
+                                    <div class="order-meta">
+                                        <span>3.5km</span> · 
+                                        <span>10分钟前</span>
+                                        <span class="order-status urgent">紧急</span>
+                                    </div>
+                                </div>
+                                <div class="order-price">¥380</div>
+                            </div>
+                            <div class="order-item">
+                                <div class="order-info">
+                                    <div class="order-title">四轮定位调整</div>
+                                    <div class="order-meta">
+                                        <span>2.8km</span> · 
+                                        <span>15分钟前</span>
+                                    </div>
+                                </div>
+                                <div class="order-price">¥220</div>
+                            </div>
+                            <div class="order-item">
+                                <div class="order-info">
+                                    <div class="order-title">全车检测保养</div>
+                                    <div class="order-meta">
+                                        <span>5.1km</span> · 
+                                        <span>28分钟前</span>
+                                    </div>
+                                </div>
+                                <div class="order-price">¥520</div>
+                            </div>
+                        </div>
+                        
+                        <div class="section-title" style="margin-top: 20px;">
+                            <div>本周业绩趋势</div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-line" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-footer">
+                    <div class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>服务</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-user"></i>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 订单管理页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="orders-page">
+                        <div class="tabs">
+                            <div class="tab active">全部</div>
+                            <div class="tab">待接单</div>
+                            <div class="tab">已接单</div>
+                            <div class="tab">服务中</div>
+                            <div class="tab">已完成</div>
+                            <div class="tab">已取消</div>
+                        </div>
+                        
+                        <div class="order-card">
+                            <div class="order-card-header">
+                                <div class="order-number">订单号：2023060801</div>
+                                <div class="order-card-status urgent">待接单 · 紧急</div>
+                            </div>
+                            <div class="order-card-content">
+                                <div class="order-service">发动机积碳清洗</div>
+                                <div class="order-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>白云区云城东路500号 (距离3.5公里)</span>
+                                </div>
+                                <div class="order-time">
+                                    <i class="far fa-clock" style="margin-right: 5px; color: #999;"></i>
+                                    <span>2023-06-08 10:30</span>
+                                </div>
+                            </div>
+                            <div class="order-card-footer">
+                                <div class="order-total">¥380.00</div>
+                                <div class="order-actions">
+                                    <div class="btn btn-outline">拒绝</div>
+                                    <div class="btn btn-primary">接单</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="order-card">
+                            <div class="order-card-header">
+                                <div class="order-number">订单号：2023060802</div>
+                                <div class="order-card-status">待接单</div>
+                            </div>
+                            <div class="order-card-content">
+                                <div class="order-service">四轮定位调整</div>
+                                <div class="order-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>天河区天河路385号 (距离2.8公里)</span>
+                                </div>
+                                <div class="order-time">
+                                    <i class="far fa-clock" style="margin-right: 5px; color: #999;"></i>
+                                    <span>2023-06-08 11:15</span>
+                                </div>
+                            </div>
+                            <div class="order-card-footer">
+                                <div class="order-total">¥220.00</div>
+                                <div class="order-actions">
+                                    <div class="btn btn-outline">拒绝</div>
+                                    <div class="btn btn-primary">接单</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="order-card">
+                            <div class="order-card-header">
+                                <div class="order-number">订单号：2023060803</div>
+                                <div class="order-card-status">服务中</div>
+                            </div>
+                            <div class="order-card-content">
+                                <div class="order-service">全车检测保养</div>
+                                <div class="order-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>越秀区建设六马路11号 (距离5.1公里)</span>
+                                </div>
+                                <div class="order-time">
+                                    <i class="far fa-clock" style="margin-right: 5px; color: #999;"></i>
+                                    <span>2023-06-08 09:00</span>
+                                </div>
+                            </div>
+                            <div class="order-card-footer">
+                                <div class="order-total">¥520.00</div>
+                                <div class="order-actions">
+                                    <div class="btn btn-primary">完成服务</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-footer">
+                    <div class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </div>
+                    <div class="nav-item active">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>服务</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-user"></i>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 订单详情页 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="order-detail-page">
+                        <div class="detail-card">
+                            <div class="detail-header">
+                                <div class="detail-status">待接单</div>
+                                <div class="detail-desc">请在10分钟内确认是否接单</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">订单编号</div>
+                                <div class="info-value">2023060801</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">下单时间</div>
+                                <div class="info-value">2023-06-08 10:20</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-card">
+                            <div class="customer-info">
+                                <div class="customer-name">张先生</div>
+                                <div class="customer-phone">
+                                    <div class="phone-btn">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">车辆信息</div>
+                                <div class="info-value">宝马3系 2022款 B3M5P0</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">车牌号码</div>
+                                <div class="info-value">粤A·12345</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">服务地址</div>
+                                <div class="info-value">
+                                    <span>白云区云城东路500号</span>
+                                    <i class="fas fa-map-marked-alt" style="color: #1890ff; margin-left: 5px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-card">
+                            <h3 style="margin-bottom: 15px; font-size: 16px;">服务项目</h3>
+                            
+                            <div class="service-item">
+                                <div class="service-name">发动机积碳清洗</div>
+                                <div class="service-quantity">x1</div>
+                                <div class="service-price">¥380.00</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">客户备注</div>
+                                <div class="info-value" style="color: #666; font-weight: normal;">车辆行驶约5万公里，最近加速乏力</div>
+                            </div>
+                            
+                            <div class="total-row">
+                                <div>订单总额</div>
+                                <div style="color: #ff6b01;">¥380.00</div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-bar">
+                            <div class="action-button reject-btn">拒绝订单</div>
+                            <div class="action-button accept-btn">立即接单</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 服务管理页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="services-page">
+                        <div class="search-bar">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="search-input" placeholder="搜索服务项目">
+                        </div>
+                        
+                        <div class="tabs">
+                            <div class="tab active">全部</div>
+                            <div class="tab">检测</div>
+                            <div class="tab">保养</div>
+                            <div class="tab">维修</div>
+                            <div class="tab">救援</div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-img">
+                                <i class="fas fa-tools"></i>
+                                <div class="service-status status-active">已上架</div>
+                            </div>
+                            <div class="service-info">
+                                <div class="service-title">发动机积碳清洗</div>
+                                <div class="service-description">适用于行驶3万公里以上车辆，有效解决加速无力、怠速抖动等问题</div>
+                                <div class="service-meta">
+                                    <div class="service-duration">服务时长：约60分钟</div>
+                                    <div class="service-price-value">¥380起</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-img">
+                                <i class="fas fa-car"></i>
+                                <div class="service-status status-active">已上架</div>
+                            </div>
+                            <div class="service-info">
+                                <div class="service-title">四轮定位调整</div>
+                                <div class="service-description">解决方向盘跑偏、轮胎磨损不均等问题，提升驾驶安全性和舒适性</div>
+                                <div class="service-meta">
+                                    <div class="service-duration">服务时长：约45分钟</div>
+                                    <div class="service-price-value">¥220起</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-img">
+                                <i class="fas fa-oil-can"></i>
+                                <div class="service-status status-inactive">已下架</div>
+                            </div>
+                            <div class="service-info">
+                                <div class="service-title">全车检测保养</div>
+                                <div class="service-description">包含机油更换、滤芯更换、刹车系统检查、电路系统检测等全面保养</div>
+                                <div class="service-meta">
+                                    <div class="service-duration">服务时长：约90分钟</div>
+                                    <div class="service-price-value">¥520起</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="add-service">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-footer">
+                    <div class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单</span>
+                    </div>
+                    <div class="nav-item active">
+                        <i class="fas fa-cog"></i>
+                        <span>服务</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-user"></i>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 个人中心页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="profile-page">
+                        <div class="profile-header">
+                            <div class="profile-info">
+                                <div class="profile-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <div class="profile-name">车修大师汽修</div>
+                                    <div class="profile-type">主账号</div>
+                                    <div style="margin-top: 5px;">
+                                        <span style="background-color: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 10px; font-size: 12px;">
+                                            <i class="fas fa-star" style="color: #faad14;"></i> 4.8分
+                                        </span>
+                                        <span style="background-color: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-left: 5px;">
+                                            接单 328
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-edit">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-list">
+                            <div class="menu-item">
+                                <i class="fas fa-store menu-icon"></i>
+                                <div class="menu-label">店铺信息管理</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-certificate menu-icon"></i>
+                                <div class="menu-label">资质管理</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-user-friends menu-icon"></i>
+                                <div class="menu-label">子账号管理</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-list">
+                            <div class="menu-item">
+                                <i class="fas fa-wallet menu-icon"></i>
+                                <div class="menu-label">资金管理</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-star menu-icon"></i>
+                                <div class="menu-label">评价管理</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-chart-line menu-icon"></i>
+                                <div class="menu-label">数据统计</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-list">
+                            <div class="menu-item">
+                                <i class="fas fa-shield-alt menu-icon"></i>
+                                <div class="menu-label">账号安全</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-bell menu-icon"></i>
+                                <div class="menu-label">消息通知设置</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-question-circle menu-icon"></i>
+                                <div class="menu-label">帮助中心</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-info-circle menu-icon"></i>
+                                <div class="menu-label">关于我们</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item" style="color: #ff4d4f;">
+                                <i class="fas fa-sign-out-alt menu-icon" style="color: #ff4d4f;"></i>
+                                <div class="menu-label">退出登录</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-footer">
+                    <div class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>服务</span>
+                    </div>
+                    <div class="nav-item active">
+                        <i class="fas fa-user"></i>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 子账号管理页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="subaccount-page">
+                        <div class="sub-header">
+                            <div class="sub-title">子账号管理</div>
+                            <div class="add-sub-btn">
+                                <i class="fas fa-plus" style="margin-right: 5px;"></i>
+                                添加子账号
+                            </div>
+                        </div>
+                        
+                        <div class="subaccount-card">
+                            <div class="sub-info">
+                                <div class="sub-details">
+                                    <div class="sub-name">李四</div>
+                                    <div class="sub-phone">13800138001</div>
+                                </div>
+                                <div class="sub-type shop">店长</div>
+                            </div>
+                            <div class="sub-actions">
+                                <div class="sub-btn edit-btn">编辑</div>
+                                <div class="sub-btn disable-btn">禁用</div>
+                            </div>
+                        </div>
+                        
+                        <div class="subaccount-card">
+                            <div class="sub-info">
+                                <div class="sub-details">
+                                    <div class="sub-name">王五</div>
+                                    <div class="sub-phone">13900139001</div>
+                                </div>
+                                <div class="sub-type tech">技工</div>
+                            </div>
+                            <div class="sub-actions">
+                                <div class="sub-btn edit-btn">编辑</div>
+                                <div class="sub-btn disable-btn">禁用</div>
+                            </div>
+                        </div>
+                        
+                        <div class="subaccount-card">
+                            <div class="sub-info">
+                                <div class="sub-details">
+                                    <div class="sub-name">赵六</div>
+                                    <div class="sub-phone">13700137001</div>
+                                </div>
+                                <div class="sub-type service">客服</div>
+                            </div>
+                            <div class="sub-actions">
+                                <div class="sub-btn edit-btn">编辑</div>
+                                <div class="sub-btn disable-btn">禁用</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 技工管理页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="technicians-page">
+                        <div class="sub-header">
+                            <div class="sub-title">技工管理</div>
+                            <div class="add-sub-btn">
+                                <i class="fas fa-plus" style="margin-right: 5px;"></i>
+                                添加技工
+                            </div>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <div class="tech-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="tech-info">
+                                <div class="tech-status status-working">工作中</div>
+                                <div class="tech-name">王师傅</div>
+                                <div class="tech-skills">擅长：发动机维修、电路故障检测</div>
+                                <div class="tech-rating">
+                                    <div class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span>4.7分</span>
+                                </div>
+                                <div class="tech-orders">已完成订单：83单</div>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <div class="tech-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="tech-info">
+                                <div class="tech-status status-working">工作中</div>
+                                <div class="tech-name">张师傅</div>
+                                <div class="tech-skills">擅长：底盘调整、制动系统维修</div>
+                                <div class="tech-rating">
+                                    <div class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span>5.0分</span>
+                                </div>
+                                <div class="tech-orders">已完成订单：96单</div>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-card">
+                            <div class="tech-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="tech-info">
+                                <div class="tech-status status-unavailable">休息中</div>
+                                <div class="tech-name">李师傅</div>
+                                <div class="tech-skills">擅长：全车检测、保养维护</div>
+                                <div class="tech-rating">
+                                    <div class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <span>4.2分</span>
+                                </div>
+                                <div class="tech-orders">已完成订单：65单</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 消息中心页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="messages-page">
+                        <div class="message-tabs">
+                            <div class="message-tab active">订单通知
+                                <span class="unread-badge">3</span>
+                            </div>
+                            <div class="message-tab">系统消息
+                                <span class="unread-badge">2</span>
+                            </div>
+                            <div class="message-tab">客户消息</div>
+                        </div>
+                        
+                        <div class="message-item">
+                            <div class="message-icon">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-title">
+                                    <div>新订单提醒</div>
+                                    <div class="message-time">10:20</div>
+                                </div>
+                                <div class="message-preview">
+                                    您有一条新的发动机积碳清洗订单，请及时查看并接单处理。
+                                </div>
+                                <div class="message-status">
+                                    查看详情 <i class="fas fa-chevron-right" style="font-size: 12px; margin-left: 5px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="message-item">
+                            <div class="message-icon">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-title">
+                                    <div>订单状态变更</div>
+                                    <div class="message-time">9:45</div>
+                                </div>
+                                <div class="message-preview">
+                                    订单#2023060803已被客户确认完成，服务款项已结算到您的账户。
+                                </div>
+                                <div class="message-status">
+                                    查看详情 <i class="fas fa-chevron-right" style="font-size: 12px; margin-left: 5px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="message-item">
+                            <div class="message-icon">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-title">
+                                    <div>新订单提醒</div>
+                                    <div class="message-time">昨天 16:30</div>
+                                </div>
+                                <div class="message-preview">
+                                    您有一条新的四轮定位调整订单，请及时查看并接单处理。
+                                </div>
+                                <div class="message-status">
+                                    查看详情 <i class="fas fa-chevron-right" style="font-size: 12px; margin-left: 5px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="message-item">
+                            <div class="message-icon" style="background-color: #fff2e8; color: #fa8c16;">
+                                <i class="fas fa-comment-alt"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-title">
+                                    <div>客户评价</div>
+                                    <div class="message-time">昨天 15:20</div>
+                                </div>
+                                <div class="message-preview">
+                                    客户张先生对您的服务评价为5星，并留言"服务很专业，技工很耐心"。
+                                </div>
+                                <div class="message-status">
+                                    查看详情 <i class="fas fa-chevron-right" style="font-size: 12px; margin-left: 5px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 数据统计页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="stats-page">
+                        <div class="period-selector">
+                            <div class="period">日</div>
+                            <div class="period active">周</div>
+                            <div class="period">月</div>
+                            <div class="period">季</div>
+                            <div class="period">年</div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <div class="chart-title">营业额趋势</div>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-line" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-title">订单总量</div>
+                                <div class="stat-content">36</div>
+                                <div class="stat-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> 12% 同比上周
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">交易总额</div>
+                                <div class="stat-content">¥8,640</div>
+                                <div class="stat-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> 8% 同比上周
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">客单价</div>
+                                <div class="stat-content">¥240</div>
+                                <div class="stat-trend trend-down">
+                                    <i class="fas fa-arrow-down"></i> 3% 同比上周
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-title">新增客户</div>
+                                <div class="stat-content">15</div>
+                                <div class="stat-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> 20% 同比上周
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <div class="chart-title">热门服务排行</div>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-bar" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <div class="chart-title">评分统计</div>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-star" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 新订单提醒弹窗 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content" style="position: relative;">
+                    <div class="home-page" style="filter: blur(3px);">
+                        <div class="status-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h3>你好，张师傅</h3>
+                                    <p style="opacity: 0.8; font-size: 14px;">今天是周三，祝您生意兴隆</p>
+                                </div>
+                                <div style="position: relative;">
+                                    <i class="fas fa-bell" style="font-size: 24px;"></i>
+                                    <span style="position: absolute; top: -5px; right: -5px; background-color: #ff4d4f; width: 16px; height: 16px; border-radius: 50%; font-size: 12px; display: flex; justify-content: center; align-items: center;">3</span>
+                                </div>
+                            </div>
+                            
+                            <div class="status-toggle">
+                                <div>营业状态</div>
+                                <div class="toggle-btn">
+                                    <span>营业中</span>
+                                    <i class="fas fa-toggle-on" style="margin-left: 5px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="new-order-popup">
+                        <div class="popup-header">
+                            <i class="fas fa-bell" style="margin-right: 8px;"></i>
+                            新订单提醒
+                        </div>
+                        <div class="popup-content">
+                            <p style="text-align: center; font-size: 16px; margin-bottom: 15px;">您有一个新的订单需要处理</p>
+                            <div style="background-color: #f5f5f5; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                                <div style="font-weight: 500; margin-bottom: 5px;">四轮定位调整</div>
+                                <div style="font-size: 14px; color: #666;">
+                                    <div><i class="fas fa-map-marker-alt" style="width: 16px; margin-right: 5px; color: #999;"></i> 天河区天河路385号 (2.8km)</div>
+                                    <div><i class="far fa-clock" style="width: 16px; margin-right: 5px; color: #999;"></i> 今天 11:15</div>
+                                    <div><i class="fas fa-yen-sign" style="width: 16px; margin-right: 5px; color: #999;"></i> ¥220.00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="popup-actions">
+                            <button class="popup-btn">稍后处理</button>
+                            <button class="popup-btn confirm">立即查看</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-footer">
+                    <div class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>服务</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-user"></i>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+            
+                        <!-- 资金管理页面 -->
+                        <div class="phone-frame">
+                            <div class="phone-header">
+                                <div>9:41</div>
+                                <div>
+                                    <i class="fas fa-signal"></i>
+                                    <i class="fas fa-wifi"></i>
+                                    <i class="fas fa-battery-full"></i>
+                                </div>
+                            </div>
+                            <div class="phone-content">
+                                <div class="stats-page">
+                                    <div style="background-color: #1890ff; padding: 20px; color: white; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(24, 144, 255, 0.2);">
+                                        <div style="font-size: 14px; margin-bottom: 10px;">账户余额</div>
+                                        <div style="font-size: 28px; font-weight: 600; margin-bottom: 15px;">¥ 26,580.50</div>
+                                        <div style="display: flex; gap: 10px;">
+                                            <button style="background-color: white; color: #1890ff; border: none; border-radius: 20px; padding: 6px 15px; flex: 1; font-size: 14px;">
+                                                明细
+                                            </button>
+                                            <button style="background-color: white; color: #1890ff; border: none; border-radius: 20px; padding: 6px 15px; flex: 1; font-size: 14px;">
+                                                提现
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="stats-grid">
+                                        <div class="stat-card">
+                                            <div class="stat-title">今日收入</div>
+                                            <div class="stat-content">¥1,860</div>
+                                            <div class="stat-trend trend-up">
+                                                <i class="fas fa-arrow-up"></i> 12% 同比昨日
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-title">本周收入</div>
+                                            <div class="stat-content">¥8,640</div>
+                                            <div class="stat-trend trend-up">
+                                                <i class="fas fa-arrow-up"></i> 8% 同比上周
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-title">本月收入</div>
+                                            <div class="stat-content">¥32,450</div>
+                                            <div class="stat-trend trend-up">
+                                                <i class="fas fa-arrow-up"></i> 15% 同比上月
+                                            </div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-title">未结算金额</div>
+                                            <div class="stat-content">¥3,200</div>
+                                            <div style="font-size: 13px; color: #666; margin-top: 5px;">
+                                                预计3天内到账
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="section-title">
+                                        <div>最近交易</div>
+                                        <div class="section-more">查看全部 <i class="fas fa-chevron-right" style="font-size: 12px;"></i></div>
+                                    </div>
+                                    
+                                    <div style="background-color: white; border-radius: 10px; overflow: hidden; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                                        <div style="padding: 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0;">
+                                            <div>
+                                                <div style="font-weight: 500;">四轮定位调整</div>
+                                                <div style="font-size: 13px; color: #999; margin-top: 5px;">今天 11:15</div>
+                                            </div>
+                                            <div style="color: #52c41a; font-weight: 500;">+¥220.00</div>
+                                        </div>
+                                        
+                                        <div style="padding: 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0;">
+                                            <div>
+                                                <div style="font-weight: 500;">发动机积碳清洗</div>
+                                                <div style="font-size: 13px; color: #999; margin-top: 5px;">今天 10:30</div>
+                                            </div>
+                                            <div style="color: #52c41a; font-weight: 500;">+¥380.00</div>
+                                        </div>
+                                        
+                                        <div style="padding: 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0;">
+                                            <div>
+                                                <div style="font-weight: 500;">全车检测保养</div>
+                                                <div style="font-size: 13px; color: #999; margin-top: 5px;">今天 9:00</div>
+                                            </div>
+                                            <div style="color: #52c41a; font-weight: 500;">+¥520.00</div>
+                                        </div>
+                                        
+                                        <div style="padding: 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0;">
+                                            <div>
+                                                <div style="font-weight: 500;">平台服务费</div>
+                                                <div style="font-size: 13px; color: #999; margin-top: 5px;">今天 0:00</div>
+                                            </div>
+                                            <div style="color: #ff4d4f; font-weight: 500;">-¥112.00</div>
+                                        </div>
+                                        
+                                        <div style="padding: 15px; display: flex; justify-content: space-between;">
+                                            <div>
+                                                <div style="font-weight: 500;">提现到银行卡</div>
+                                                <div style="font-size: 13px; color: #999; margin-top: 5px;">昨天 15:30</div>
+                                            </div>
+                                            <div style="color: #ff4d4f; font-weight: 500;">-¥5,000.00</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 评价管理页面 -->
+                        <div class="phone-frame">
+                            <div class="phone-header">
+                                <div>9:41</div>
+                                <div>
+                                    <i class="fas fa-signal"></i>
+                                    <i class="fas fa-wifi"></i>
+                                    <i class="fas fa-battery-full"></i>
+                                </div>
+                            </div>
+                            <div class="phone-content">
+                                <div class="messages-page">
+                                    <div style="background-color: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                                            <div style="font-size: 16px; font-weight: 500;">综合评分</div>
+                                            <div style="color: #1890ff; font-size: 14px;">查看详情</div>
+                                        </div>
+                                        
+                                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                            <div style="font-size: 36px; font-weight: 600; color: #1890ff; margin-right: 15px;">4.8</div>
+                                            <div>
+                                                <div style="margin-bottom: 5px;">
+                                                    <i class="fas fa-star" style="color: #faad14;"></i>
+                                                    <i class="fas fa-star" style="color: #faad14;"></i>
+                                                    <i class="fas fa-star" style="color: #faad14;"></i>
+                                                    <i class="fas fa-star" style="color: #faad14;"></i>
+                                                    <i class="fas fa-star-half-alt" style="color: #faad14;"></i>
+                                                </div>
+                                                <div style="font-size: 14px; color: #666;">共 328 个评价</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <div style="flex: 1; text-align: center; padding: 0 5px;">
+                                                <div style="font-size: 18px; font-weight: 600; color: #52c41a;">4.9</div>
+                                                <div style="font-size: 13px; color: #666;">服务态度</div>
+                                            </div>
+                                            <div style="flex: 1; text-align: center; padding: 0 5px; border-left: 1px solid #f0f0f0; border-right: 1px solid #f0f0f0;">
+                                                <div style="font-size: 18px; font-weight: 600; color: #1890ff;">4.7</div>
+                                                <div style="font-size: 13px; color: #666;">技术水平</div>
+                                            </div>
+                                            <div style="flex: 1; text-align: center; padding: 0 5px;">
+                                                <div style="font-size: 18px; font-weight: 600; color: #722ed1;">4.8</div>
+                                                <div style="font-size: 13px; color: #666;">响应速度</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="section-title">
+                                        <div>最新评价</div>
+                                    </div>
+                                    
+                                    <div class="message-item">
+                                        <div class="message-icon" style="background-color: #e6f7ff;">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div class="message-content">
+                                            <div class="message-title">
+                                                <div>张先生</div>
+                                                <div class="message-time">今天 10:30</div>
+                                            </div>
+                                            <div style="margin-bottom: 5px;">
+                                                <i class="fas fa-star" style="color: #faad14;"></i>
+                                                <i class="fas fa-star" style="color: #faad14;"></i>
+                                                <i class="fas fa-star" style="color: #faad14;"></i>
+                                                <i class="fas fa-star" style="color: #faad14;"></i>
+                                                <i class="fas fa-star" style="color: #faad14;"></i>
+                                            </div>
+                                            <div class="message-preview">
+                                                服务很专业，技工很耐心，修理效果很好，发动机确实有明显改善，非常满意。
+                                            </div>
+                                            <div style="background-color: #f9f9f9; padding: 8px; border-radius: 4px; font-size: 13px; color: #666; margin-top: 5px;">
+                                                <span style="color: #1890ff;">服务项目：</span>发动机积碳清洗
+                                            </div>
+                                            <div class="message-status">
+                                                回复 <i class="fas fa-comment-dots" style="margin-left: 5px;"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="message-item">
+                                        <div class="message-icon" style="background-color: #e6f7ff;">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div class="message-content">
+                                            <div class="message-title">
+                                                <div>李先生</div>
+                                                <div class="message-time">昨天 16:45</div>
+                                            </div>
+                                            <div style="margin-bottom: 5px;">
+                                                <i class="fas fa-star" style="color: #faad14;"></i>
+                                                <i class="fas fa-star" style="color: #faad14;"></i>
+                                                <i class="fas fa-star" style="color: #faad14;"></i>
+                                                <i class="fas fa-star" style="color: #faad14;"></i>
+                                                <i class="far fa-star" style="color: #faad14;"></i>
+                                            </div>
+                                            <div class="message-preview">
+                                                服务态度很好，调整效果也不错，就是来得稍微晚了点，总体还是满意的。
+                                            </div>
+                                            <div style="background-color: #f9f9f9; padding: 8px; border-radius: 4px; font-size: 13px; color: #666; margin-top: 5px;">
+                                                <span style="color: #1890ff;">服务项目：</span>四轮定位调整
+                                            </div>
+                                            <div style="background-color: #f0f9ff; padding: 8px; border-radius: 4px; font-size: 13px; color: #1890ff; margin-top: 5px; border-left: 3px solid #1890ff;">
+                                                <span style="color: #333; font-weight: 500;">商家回复：</span>非常感谢您的评价，我们会继续改进服务时效性，欢迎您再次光临！
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 拒单原因选择弹窗 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content" style="position: relative;">
+                    <div class="order-detail-page" style="filter: blur(3px);">
+                        <!-- 模糊背景内容 -->
+                    </div>
+                    
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; background-color: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); overflow: hidden;">
+                        <div style="padding: 15px; border-bottom: 1px solid #f0f0f0; text-align: center; font-size: 18px; font-weight: 500;">
+                            拒单原因
+                        </div>
+                        <div style="padding: 15px;">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: flex; align-items: center; margin-bottom: 15px; padding: 10px; border: 1px solid #e8e8e8; border-radius: 8px;">
+                                    <input type="radio" name="reason" style="margin-right: 10px;">
+                                    <span>技工暂时不足</span>
+                                </label>
+                                <label style="display: flex; align-items: center; margin-bottom: 15px; padding: 10px; border: 1px solid #e8e8e8; border-radius: 8px;">
+                                    <input type="radio" name="reason" style="margin-right: 10px;">
+                                    <span>超出服务范围</span>
+                                </label>
+                                <label style="display: flex; align-items: center; margin-bottom: 15px; padding: 10px; border: 1px solid #e8e8e8; border-radius: 8px;">
+                                    <input type="radio" name="reason" style="margin-right: 10px;">
+                                    <span>需要的配件暂无库存</span>
+                                </label>
+                                <label style="display: flex; align-items: center; margin-bottom: 15px; padding: 10px; border: 1px solid #e8e8e8; border-radius: 8px;">
+                                    <input type="radio" name="reason" style="margin-right: 10px;">
+                                    <span>其他原因</span>
+                                </label>
+                                <textarea placeholder="请说明详细原因..." style="width: 100%; padding: 10px; border: 1px solid #e8e8e8; border-radius: 8px; height: 80px; margin-top: 10px; resize: none;"></textarea>
+                            </div>
+                        </div>
+                        <div style="display: flex; border-top: 1px solid #f0f0f0;">
+                            <button style="flex: 1; padding: 12px; border: none; background: none; font-size: 16px; color: #999;">
+                                取消
+                            </button>
+                            <button style="flex: 1; padding: 12px; border: none; background: none; font-size: 16px; color: #ff4d4f; font-weight: 500; border-left: 1px solid #f0f0f0;">
+                                确认拒单
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-footer">
+                    <div class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </div>
+                    <div class="nav-item active">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>订单</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>服务</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-user"></i>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 服务编辑页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div style="padding: 15px; background-color: #f5f7fa; height: 100%; overflow-y: auto;">
+                        <div style="margin-bottom: 15px; font-size: 18px; font-weight: 600;">
+                            编辑服务
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">服务名称</label>
+                                <input type="text" value="发动机积碳清洗" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">服务分类</label>
+                                <select style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px; background-color: white;">
+                                    <option>上门保养</option>
+                                    <option>配件更换</option>
+                                    <option>车辆检测</option>
+                                    <option>应急救援</option>
+                                </select>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">服务图片</label>
+                                <div style="height: 120px; background-color: #f0f0f0; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #999;">
+                                    <i class="fas fa-camera" style="font-size: 30px; margin-right: 10px;"></i>
+                                    <span>点击上传图片</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">服务描述</label>
+                                <textarea style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px; height: 100px; resize: none;">适用于行驶3万公里以上车辆，有效解决加速无力、怠速抖动等问题</textarea>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">服务时长</label>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="number" value="60" style="width: 80px; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px; text-align: center;">
+                                    <span style="margin: 0 10px;">分钟</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">基础价格</label>
+                                <div style="display: flex; align-items: center;">
+                                    <span style="margin-right: 10px;">¥</span>
+                                    <input type="number" value="380" style="flex: 1; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">适用车型</label>
+                                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 5px;">
+                                    <span style="padding: 6px 12px; background-color: #e6f7ff; border: 1px solid #91d5ff; border-radius: 4px; font-size: 14px; color: #1890ff;">
+                                        小型轿车 <i class="fas fa-times-circle" style="margin-left: 5px;"></i>
+                                    </span>
+                                    <span style="padding: 6px 12px; background-color: #e6f7ff; border: 1px solid #91d5ff; border-radius: 4px; font-size: 14px; color: #1890ff;">
+                                        中型轿车 <i class="fas fa-times-circle" style="margin-left: 5px;"></i>
+                                    </span>
+                                    <span style="padding: 6px 12px; background-color: #e6f7ff; border: 1px solid #91d5ff; border-radius: 4px; font-size: 14px; color: #1890ff;">
+                                        SUV <i class="fas fa-times-circle" style="margin-left: 5px;"></i>
+                                    </span>
+                                    <span style="padding: 6px 12px; background-color: #f5f5f5; border: 1px solid #d9d9d9; border-radius: 4px; font-size: 14px; color: #666;">
+                                        <i class="fas fa-plus" style="margin-right: 5px;"></i> 添加车型
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span style="font-weight: 500;">服务状态</span>
+                                    <div style="display: flex; align-items: center;">
+                                        <span style="margin-right: 10px; font-size: 14px; color: #52c41a;">已上架</span>
+                                        <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                            <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-top: 20px;">
+                            <button style="flex: 1; padding: 12px; border-radius: 8px; font-size: 16px; background-color: white; color: #666; border: 1px solid #d9d9d9;">
+                                取消
+                            </button>
+                            <button style="flex: 1; padding: 12px; border-radius: 8px; font-size: 16px; background-color: #1890ff; color: white; border: none;">
+                                保存
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 提现页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div style="padding: 15px; background-color: #f5f7fa; height: 100%; overflow-y: auto;">
+                        <div style="margin-bottom: 15px; font-size: 18px; font-weight: 600;">
+                            提现
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                                <div style="font-size: 15px; color: #666;">账户余额</div>
+                                <div style="font-size: 20px; font-weight: 600;">¥26,580.50</div>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">提现金额</label>
+                                <div style="position: relative;">
+                                    <span style="position: absolute; left: 15px; top: 12px; font-size: 18px; font-weight: 600;">¥</span>
+                                    <input type="text" placeholder="请输入提现金额" style="width: 100%; padding: 12px 15px 12px 35px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 18px; font-weight: 600;">
+                                </div>
+                                <div style="text-align: right; font-size: 14px; color: #1890ff; margin-top: 5px;">全部提现</div>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">提现方式</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <div style="flex: 1; padding: 10px; border: 2px solid #1890ff; border-radius: 8px; text-align: center; position: relative;">
+                                        <i class="fas fa-check-circle" style="position: absolute; top: -8px; right: -8px; color: #1890ff; background: white; border-radius: 50%; font-size: 20px;"></i>
+                                        <i class="fas fa-credit-card" style="font-size: 24px; color: #1890ff; margin-bottom: 5px;"></i>
+                                        <div style="font-size: 14px;">银行卡</div>
+                                    </div>
+                                    <div style="flex: 1; padding: 10px; border: 1px solid #d9d9d9; border-radius: 8px; text-align: center;">
+                                        <i class="fab fa-weixin" style="font-size: 24px; color: #07c160; margin-bottom: 5px;"></i>
+                                        <div style="font-size: 14px;">微信</div>
+                                    </div>
+                                    <div style="flex: 1; padding: 10px; border: 1px solid #d9d9d9; border-radius: 8px; text-align: center;">
+                                        <i class="fas fa-money-check-alt" style="font-size: 24px; color: #1677ff; margin-bottom: 5px;"></i>
+                                        <div style="font-size: 14px;">支付宝</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">到账银行卡</label>
+                                <div style="display: flex; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; align-items: center; justify-content: space-between;">
+                                    <div>
+                                        <div style="font-size: 16px;">招商银行 (6232)</div>
+                                        <div style="font-size: 14px; color: #999; margin-top: 5px;">张三</div>
+                                    </div>
+                                    <div style="color: #1890ff;">
+                                        更换
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="font-size: 14px; color: #999; margin-bottom: 10px;">
+                                <i class="fas fa-info-circle" style="margin-right: 5px;"></i>
+                                预计1-3个工作日内到账，实际到账时间以银行处理为准
+                            </div>
+                        </div>
+                        
+                        <button style="width: 100%; padding: 14px; background-color: #1890ff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500; margin-top: 20px;">
+                            确认提现
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 一键接单设置页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div style="padding: 15px; background-color: #f5f7fa; height: 100%; overflow-y: auto;">
+                        <div style="margin-bottom: 15px; font-size: 18px; font-weight: 600;">
+                            一键接单设置
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <div style="font-size: 16px; font-weight: 500;">开启一键接单</div>
+                                <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                    <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                </div>
+                            </div>
+                            
+                            <div style="font-size: 14px; color: #666; margin-bottom: 15px; line-height: 1.6;">
+                                开启后，系统将根据您设置的条件自动接受符合要求的订单，无需手动确认。
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="margin-bottom: 15px; font-weight: 500;">接单条件设置</div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                    <span>服务距离限制</span>
+                                    <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                        <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                    </div>
+                                </label>
+                                <div style="display: flex; align-items: center;">
+                                    <div style="flex: 1; height: 4px; background-color: #1890ff; border-radius: 2px; position: relative;">
+                                        <div style="position: absolute; width: 16px; height: 16px; background-color: white; border: 2px solid #1890ff; border-radius: 50%; top: -6px; left: 70%;"></div>
+                                    </div>
+                                    <div style="margin-left: 15px; font-size: 15px; font-weight: 500;">7km</div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                    <span>订单金额下限</span>
+                                    <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                        <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                    </div>
+                                </label>
+                                <div style="display: flex; align-items: center;">
+                                    <span style="margin-right: 10px;">¥</span>
+                                    <input type="number" value="100" style="width: 100px; padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 15px; text-align: center;">
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                    <span>自动接单服务类型</span>
+                                </label>
+                                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                    <div style="padding: 8px 12px; background-color: #e6f7ff; border: 1px solid #91d5ff; border-radius: 4px; font-size: 14px; color: #1890ff;">
+                                        保养 <i class="fas fa-check-circle" style="margin-left: 5px;"></i>
+                                    </div>
+                                    <div style="padding: 8px 12px; background-color: #e6f7ff; border: 1px solid #91d5ff; border-radius: 4px; font-size: 14px; color: #1890ff;">
+                                        检测 <i class="fas fa-check-circle" style="margin-left: 5px;"></i>
+                                    </div>
+                                    <div style="padding: 8px 12px; background-color: #f5f5f5; border: 1px solid #d9d9d9; border-radius: 4px; font-size: 14px; color: #666;">
+                                        维修
+                                    </div>
+                                    <div style="padding: 8px 12px; background-color: #f5f5f5; border: 1px solid #d9d9d9; border-radius: 4px; font-size: 14px; color: #666;">
+                                        救援
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                    <span>接单时间段</span>
+                                    <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                        <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                    </div>
+                                </label>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <select style="flex: 1; padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 15px;">
+                                        <option>8:00</option>
+                                    </select>
+                                    <span>至</span>
+                                    <select style="flex: 1; padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 15px;">
+                                        <option>20:00</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button style="width: 100%; padding: 14px; background-color: #1890ff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500; margin-top: 20px;">
+                            保存设置
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 资质管理页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div style="padding: 15px; background-color: #f5f7fa; height: 100%; overflow-y: auto;">
+                        <div style="margin-bottom: 15px; font-size: 18px; font-weight: 600;">
+                            资质管理
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <div style="font-size: 16px; font-weight: 500;">营业执照</div>
+                                <div style="padding: 3px 8px; background-color: #52c41a; color: white; border-radius: 4px; font-size: 12px;">已审核</div>
+                            </div>
+                            <div style="height: 120px; background-color: #f0f0f0; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #666; position: relative;">
+                                <img src="https://via.placeholder.com/300x200" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                <div style="position: absolute; bottom: 10px; right: 10px; width: 30px; height: 30px; background-color: rgba(0,0,0,0.5); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <div style="font-size: 16px; font-weight: 500;">技工资格证</div>
+                                <div style="padding: 3px 8px; background-color: #faad14; color: white; border-radius: 4px; font-size: 12px;">审核中</div>
+                            </div>
+                            <div style="height: 120px; background-color: #f0f0f0; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #666; position: relative;">
+                                <img src="https://via.placeholder.com/300x200" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                <div style="position: absolute; bottom: 10px; right: 10px; width: 30px; height: 30px; background-color: rgba(0,0,0,0.5); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <div style="font-size: 16px; font-weight: 500;">店铺门头照片</div>
+                                <div style="padding: 3px 8px; background-color: #ff4d4f; color: white; border-radius: 4px; font-size: 12px;">未上传</div>
+                            </div>
+                            <div style="height: 120px; background-color: #f0f0f0; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #666;">
+                                <i class="fas fa-upload" style="margin-right: 10px;"></i>
+                                <span>点击上传照片</span>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="font-size: 16px; font-weight: 500; margin-bottom: 10px;">资质审核说明</div>
+                            <div style="font-size: 14px; color: #666; line-height: 1.6;">
+                                <p>1. 所有证件必须真实有效，不得使用PS或其他方式伪造</p>
+                                <p>2. 图片必须清晰可辨，能够看清所有文字信息</p>
+                                <p>3. 技工资格证审核通过后才能接单服务</p>
+                                <p>4. 如有疑问，请联系客服：400-123-4567</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 店铺信息管理页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div style="padding: 15px; background-color: #f5f7fa; height: 100%; overflow-y: auto;">
+                        <div style="margin-bottom: 15px; font-size: 18px; font-weight: 600;">
+                            店铺信息管理
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="text-align: center; margin-bottom: 15px;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; background-color: #f0f0f0; margin: 0 auto; display: flex; justify-content: center; align-items: center; position: relative;">
+                                    <img src="https://via.placeholder.com/150" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                    <div style="position: absolute; bottom: 0; right: 0; width: 24px; height: 24px; background-color: #1890ff; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                                        <i class="fas fa-camera"></i>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 10px; font-size: 16px; font-weight: 500;">车修大师汽修</div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">店铺名称</label>
+                                <input type="text" value="车修大师汽修" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">联系电话</label>
+                                <input type="text" value="13800138000" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">经营范围 <span style="color: red;font-size: 12px;">* 多选</span></label>
+                                <select style="flex: 1; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;width: 100%;">
+                                    <option>上门保养</option>
+                                    <option>应急救援</option>
+                                    <option>配件更换</option>
+                                    <option>车辆检测</option>
+                                </select>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">店铺简介</label>
+                                <textarea style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px; height: 100px; resize: none;">专业汽车维修保养服务，拥有10年经验的技工团队，提供上门服务，让您省心省力。</textarea>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">店铺地址</label>
+                                <div style="position: relative;">
+                                    <input type="text" value="广州市天河区天河路385号" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                                    <i class="fas fa-map-marker-alt" style="position: absolute; right: 15px; top: 12px; color: #999;"></i>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">服务区域范围</label>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="number" value="10" style="width: 80px; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px; text-align: center;">
+                                    <span style="margin: 0 10px;">公里</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">营业时间</label>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <select style="flex: 1; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                                        <option>08:00</option>
+                                    </select>
+                                    <span>至</span>
+                                    <select style="flex: 1; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                                        <option>20:00</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="margin-bottom: 10px; font-weight: 500;">店铺环境照片</div>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px;">
+                                <div style="height: 80px; background-color: #f0f0f0; border-radius: 8px; position: relative;">
+                                    <img src="https://via.placeholder.com/150" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                    <div style="position: absolute; top: -5px; right: -5px; width: 20px; height: 20px; background-color: rgba(0,0,0,0.5); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px;">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                </div>
+                                <div style="height: 80px; background-color: #f0f0f0; border-radius: 8px; position: relative;">
+                                    <img src="https://via.placeholder.com/150" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                    <div style="position: absolute; top: -5px; right: -5px; width: 20px; height: 20px; background-color: rgba(0,0,0,0.5); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px;">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                </div>
+                                <div style="height: 80px; background-color: #f0f0f0; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #999;">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                            </div>
+                            <div style="font-size: 13px; color: #999;">
+                                最多可上传9张照片，建议上传店铺外观、内部环境、设备等
+                            </div>
+                        </div>
+                        
+                        <button style="width: 100%; padding: 14px; background-color: #1890ff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500; margin-top: 20px;">
+                            保存修改
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 子账号创建页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div style="padding: 15px; background-color: #f5f7fa; height: 100%; overflow-y: auto;">
+                        <div style="margin-bottom: 15px; font-size: 18px; font-weight: 600;">
+                            创建子账号
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">姓名</label>
+                                <input type="text" placeholder="请输入子账号姓名" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">手机号码</label>
+                                <input type="text" placeholder="请输入手机号码" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">初始密码</label>
+                                <input type="password" placeholder="请设置初始密码" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">账号类型</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <div style="flex: 1; padding: 12px; border: 2px solid #1890ff; border-radius: 8px; text-align: center; position: relative;">
+                                        <div style="position: absolute; top: -10px; right: -10px; width: 20px; height: 20px; background-color: #1890ff; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px;">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <i class="fas fa-user-tie" style="font-size: 24px; color: #1890ff; margin-bottom: 5px;"></i>
+                                        <div style="font-size: 14px;">店长</div>
+                                    </div>
+                                    <div style="flex: 1; padding: 12px; border: 1px solid #d9d9d9; border-radius: 8px; text-align: center;">
+                                        <i class="fas fa-user-cog" style="font-size: 24px; color: #722ed1; margin-bottom: 5px;"></i>
+                                        <div style="font-size: 14px;">技工</div>
+                                    </div>
+                                    <div style="flex: 1; padding: 12px; border: 1px solid #d9d9d9; border-radius: 8px; text-align: center;">
+                                        <i class="fas fa-headset" style="font-size: 24px; color: #faad14; margin-bottom: 5px;"></i>
+                                        <div style="font-size: 14px;">客服</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="margin-bottom: 10px; font-weight: 500;">权限设置</div>
+                            
+                            <div style="margin-bottom: 10px;">
+                                <label style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">
+                                    <span>订单管理</span>
+                                    <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                        <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div style="margin-bottom: 10px;">
+                                <label style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">
+                                    <span>服务管理</span>
+                                    <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                        <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div style="margin-bottom: 10px;">
+                                <label style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">
+                                    <span>技工管理</span>
+                                    <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                        <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div style="margin-bottom: 10px;">
+                                <label style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">
+                                    <span>消息管理</span>
+                                    <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                        <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div style="margin-bottom: 10px;">
+                                <label style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">
+                                    <span>数据统计</span>
+                                    <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                        <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div>
+                                <label style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+                                    <span>资金管理</span>
+                                    <div style="width: 44px; height: 22px; background-color: #f5f5f5; border-radius: 11px; position: relative; cursor: pointer;">
+                                        <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; left: 2px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>
+                                    </div>
+                                </label>
+                                <div style="font-size: 13px; color: #ff4d4f;">
+                                    <i class="fas fa-info-circle" style="margin-right: 5px;"></i>
+                                    资金管理权限仅主账号可用
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                    <span>设置账号有效期</span>
+                                    <div style="width: 44px; height: 22px; background-color: #f5f5f5; border-radius: 11px; position: relative; cursor: pointer;">
+                                        <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; left: 2px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button style="width: 100%; padding: 14px; background-color: #1890ff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500; margin-top: 20px;">
+                            创建子账号
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 设置页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div style="padding: 15px; background-color: #f5f7fa; height: 100%; overflow-y: auto;">
+                        <div style="margin-bottom: 15px; font-size: 18px; font-weight: 600;">
+                            设置
+                        </div>
+                        
+                        <div class="menu-list">
+                            <div class="menu-item">
+                                <i class="fas fa-shield-alt menu-icon"></i>
+                                <div class="menu-label">账号安全</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-bell menu-icon"></i>
+                                <div class="menu-label">消息通知设置</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-palette menu-icon"></i>
+                                <div class="menu-label">界面设置</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-list" style="margin-top: 15px;">
+                            <div class="menu-item">
+                                <i class="fas fa-globe menu-icon"></i>
+                                <div class="menu-label">语言设置</div>
+                                <div style="color: #999; font-size: 14px;">简体中文</div>
+                                <i class="fas fa-chevron-right menu-arrow" style="margin-left: 10px;"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-map-marker-alt menu-icon"></i>
+                                <div class="menu-label">定位服务</div>
+                                <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                    <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-moon menu-icon"></i>
+                                <div class="menu-label">深色模式</div>
+                                <div style="width: 44px; height: 22px; background-color: #f5f5f5; border-radius: 11px; position: relative; cursor: pointer;">
+                                    <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; left: 2px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-list" style="margin-top: 15px;">
+                            <div class="menu-item">
+                                <i class="fas fa-question-circle menu-icon"></i>
+                                <div class="menu-label">帮助中心</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-headset menu-icon"></i>
+                                <div class="menu-label">联系客服</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-info-circle menu-icon"></i>
+                                <i class="fas fa-info-circle menu-icon"></i>
+                                <div class="menu-label">关于我们</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-file-alt menu-icon"></i>
+                                <div class="menu-label">用户协议与隐私政策</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-list" style="margin-top: 15px;">
+                            <div class="menu-item">
+                                <i class="fas fa-trash-alt menu-icon" style="color: #ff4d4f;"></i>
+                                <div class="menu-label" style="color: #ff4d4f;">清除缓存</div>
+                            </div>
+                            <div class="menu-item" style="color: #ff4d4f;">
+                                <i class="fas fa-sign-out-alt menu-icon" style="color: #ff4d4f;"></i>
+                                <div class="menu-label">退出登录</div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 30px; color: #999; font-size: 14px;">
+                            <div>当前版本: v2.0.1</div>
+                            <div style="margin-top: 5px;">©2023 车修大师 版权所有</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 账号安全页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div style="padding: 15px; background-color: #f5f7fa; height: 100%; overflow-y: auto;">
+                        <div style="margin-bottom: 15px; font-size: 18px; font-weight: 600;">
+                            账号安全
+                        </div>
+                        
+                        <div class="menu-list">
+                            <div class="menu-item">
+                                <i class="fas fa-mobile-alt menu-icon"></i>
+                                <div class="menu-label">手机号码</div>
+                                <div style="color: #999; font-size: 14px;">138****8000</div>
+                                <i class="fas fa-chevron-right menu-arrow" style="margin-left: 10px;"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-key menu-icon"></i>
+                                <div class="menu-label">修改密码</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-unlock-alt menu-icon"></i>
+                                <div class="menu-label">安全验证</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-list" style="margin-top: 15px;">
+                            <div class="menu-item">
+                                <i class="fab fa-weixin menu-icon" style="color: #07c160;"></i>
+                                <div class="menu-label">微信账号关联</div>
+                                <div style="color: #52c41a; font-size: 14px;">已关联</div>
+                                <i class="fas fa-chevron-right menu-arrow" style="margin-left: 10px;"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-fingerprint menu-icon"></i>
+                                <div class="menu-label">指纹/面容登录</div>
+                                <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                    <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-list" style="margin-top: 15px;">
+                            <div class="menu-item">
+                                <i class="fas fa-history menu-icon"></i>
+                                <div class="menu-label">登录设备管理</div>
+                                <i class="fas fa-chevron-right menu-arrow"></i>
+                            </div>
+                            <div class="menu-item">
+                                <i class="fas fa-shield-alt menu-icon"></i>
+                                <div class="menu-label">异地登录提醒</div>
+                                <div style="width: 44px; height: 22px; background-color: #52c41a; border-radius: 11px; position: relative; cursor: pointer;">
+                                    <div style="position: absolute; width: 18px; height: 18px; background-color: white; border-radius: 50%; top: 2px; right: 2px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; background-color: white; border-radius: 10px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="font-size: 16px; font-weight: 500; margin-bottom: 10px;">安全提示</div>
+                            <div style="font-size: 14px; color: #666; line-height: 1.6;">
+                                <p>1. 请定期修改密码，避免使用简单密码</p>
+                                <p>2. 不要将账号密码告知他人</p>
+                                <p>3. 请勿在不安全的网络环境下登录账号</p>
+                                <p>4. 如发现账号异常，请立即联系客服</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 服务完成/上传照片页面 - 添加核销功能 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div style="padding: 15px; background-color: #f5f7fa; height: 100%; overflow-y: auto;">
+                        <div style="margin-bottom: 15px; font-size: 18px; font-weight: 600;">
+                            完成服务
+                        </div>
+                        
+                        <!-- 添加核销码区域 -->
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="font-size: 16px; font-weight: 500; margin-bottom: 15px;">验证订单核销码</div>
+                            
+                            <div style="display: flex; margin-bottom: 15px;">
+                                <input type="text" placeholder="请输入6位核销码" maxlength="6" style="flex: 1; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px 0 0 8px; font-size: 16px; text-align: center; letter-spacing: 5px;">
+                                <button style="background-color: #1890ff; color: white; border: none; border-radius: 0 8px 8px 0; padding: 0 15px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            </div>
+                            
+                            <div style="text-align: center; margin-bottom: 15px;">
+                                <span style="color: #999; font-size: 14px;">或</span>
+                            </div>
+                            
+                            <button style="width: 100%; padding: 12px; background-color: white; color: #1890ff; border: 1px solid #1890ff; border-radius: 8px; font-size: 16px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-qrcode" style="margin-right: 8px;"></i>
+                                扫描二维码核销
+                            </button>
+                            
+                            <div style="font-size: 13px; color: #999; margin-top: 10px; text-align: center;">
+                                <i class="fas fa-info-circle" style="margin-right: 5px;"></i>
+                                请扫描或输入客户提供的核销码以完成服务
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="font-size: 16px; font-weight: 500; margin-bottom: 15px;">服务照片上传</div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 15px;">
+                                请上传服务过程或结果照片，以便客户确认服务完成情况
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px;">
+                                <div style="height: 80px; background-color: #f0f0f0; border-radius: 8px; position: relative;">
+                                    <img src="https://via.placeholder.com/150" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                    <div style="position: absolute; top: -5px; right: -5px; width: 20px; height: 20px; background-color: rgba(0,0,0,0.5); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px;">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                </div>
+                                <div style="height: 80px; background-color: #f0f0f0; border-radius: 8px; position: relative;">
+                                    <img src="https://via.placeholder.com/150" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                    <div style="position: absolute; top: -5px; right: -5px; width: 20px; height: 20px; background-color: rgba(0,0,0,0.5); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px;">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                </div>
+                                <div style="height: 80px; background-color: #f0f0f0; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #999;">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">服务备注</label>
+                                <textarea placeholder="请输入服务过程中的情况说明..." style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px; height: 100px; resize: none;"></textarea>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">服务用时</label>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="number" value="55" style="width: 80px; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px; text-align: center;">
+                                    <span style="margin: 0 10px;">分钟</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <span style="font-weight: 500;">额外服务项目</span>
+                                    <div style="color: #1890ff; font-size: 14px;">
+                                        <i class="fas fa-plus" style="margin-right: 5px;"></i>
+                                        添加项目
+                                    </div>
+                                </label>
+                                <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0;">
+                                        <div>
+                                            <div style="font-weight: 500;">更换空气滤芯</div>
+                                            <div style="font-size: 14px; color: #999; margin-top: 5px;">标准配件</div>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <div style="color: #ff6b01; font-weight: 500;">¥120.00</div>
+                                            <div style="font-size: 14px; color: #999; margin-top: 5px;">x1</div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right; color: #ff4d4f; font-size: 14px;">
+                                        <i class="fas fa-trash-alt" style="margin-right: 5px;"></i>
+                                        删除
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div>原服务金额：</div>
+                                <div>¥380.00</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div>额外服务金额：</div>
+                                <div>¥120.00</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 600; margin-top: 15px; padding-top: 15px; border-top: 1px solid #f0f0f0;">
+                                <div>总计金额：</div>
+                                <div style="color: #ff6b01;">¥500.00</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 按钮状态变为可用 -->
+                        <button style="width: 100%; padding: 14px; background-color: #1890ff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500; margin-top: 20px;">
+                            确认完成服务
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 服务已完成页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div style="padding: 15px; background-color: #f5f7fa; height: 100%; overflow-y: auto;">
+                        <div style="text-align: center; padding: 30px 0;">
+                            <div style="width: 80px; height: 80px; background-color: #52c41a; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto; color: white; font-size: 40px;">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <h2 style="margin-top: 20px; font-size: 20px;">服务已完成</h2>
+                            <p style="color: #666; margin-top: 10px;">感谢您的辛勤服务</p>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="margin-bottom: 15px; font-weight: 500; font-size: 16px;">订单信息</div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div style="color: #666;">订单编号：</div>
+                                <div>2023060801</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div style="color: #666;">服务项目：</div>
+                                <div>发动机积碳清洗</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div style="color: #666;">服务技工：</div>
+                                <div>王师傅</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div style="color: #666;">服务时间：</div>
+                                <div>2023-06-08 10:30</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div style="color: #666;">实际用时：</div>
+                                <div>55分钟</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <div style="color: #666;">订单金额：</div>
+                                <div style="color: #ff6b01; font-weight: 500;">¥500.00</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-top: 30px;">
+                            <button style="flex: 1; padding: 14px; background-color: white; color: #1890ff; border: 1px solid #1890ff; border-radius: 8px; font-size: 16px; font-weight: 500;">
+                                返回首页
+                            </button>
+                            <button style="flex: 1; padding: 14px; background-color: #1890ff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500;">
+                                查看订单详情
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 完善资料页面 -->
+            <div class="phone-frame">
+                <div class="phone-header">
+                    <div>9:41</div>
+                    <div>
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div style="padding: 15px; background-color: #f5f7fa; height: 100%; overflow-y: auto;">
+                        <div style="margin-bottom: 20px; text-align: center;">
+                            <h2>完善店铺资料</h2>
+                            <p style="color: #666; font-size: 14px; margin-top: 5px;">请完善以下信息以便我们为您提供更好的服务</p>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="text-align: center; margin-bottom: 15px;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; background-color: #f0f0f0; margin: 0 auto; display: flex; justify-content: center; align-items: center; position: relative;">
+                                    <i class="fas fa-camera" style="font-size: 30px; color: #999;"></i>
+                                    <div style="position: absolute; bottom: 0; right: 0; width: 24px; height: 24px; background-color: #1890ff; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 10px; font-size: 14px; color: #666;">上传店铺LOGO</div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">店铺名称</label>
+                                <input type="text" placeholder="请输入店铺名称" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">店铺类型</label>
+                                <select style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px; background-color: white;">
+                                    <option>汽修厂</option>
+                                    <option>4S店</option>
+                                    <option>快修店</option>
+                                    <option>其他</option>
+                                </select>
+                            </div>
+
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">经营范围 <span style="color: red;font-size: 12px;">* 多选</span></label>
+                                <select style="flex: 1; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;width: 100%;">
+                                    <option>上门保养</option>
+                                    <option>应急救援</option>
+                                    <option>配件更换</option>
+                                    <option>车辆检测</option>
+                                </select>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">联系电话</label>
+                                <input type="text" placeholder="请输入联系电话" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">店铺地址</label>
+                                <div style="position: relative;">
+                                    <input type="text" placeholder="请选择店铺地址" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                                    <i class="fas fa-map-marker-alt" style="position: absolute; right: 15px; top: 12px; color: #999;"></i>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">详细地址</label>
+                                <input type="text" placeholder="请输入详细地址" style="width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px;">
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500;">服务范围</label>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="number" value="10" style="width: 80px; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 16px; text-align: center;">
+                                    <span style="margin: 0 10px;">公里</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 14px; color: #999; margin-bottom: 20px; line-height: 1.6;">
+                            提示：完善资料后，您还需要上传营业执照等资质证明，审核通过后即可开始接单。
+                        </div>
+                        
+                        <button style="width: 100%; padding: 14px; background-color: #1890ff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500;">
+                            提交信息
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宝驹后台管理系统</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        :root {
+            --sidebar-width: 240px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--neutral-800);
+            color: var(--neutral-100);
+            padding: var(--spacing-md);
+            box-sizing: border-box;
+        }
+
+        .logo {
+            padding: var(--spacing-lg) var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--neutral-700);
+        }
+
+        .logo img {
+            max-width: 160px;
+        }
+
+        .nav-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .nav-title {
+            color: var(--neutral-400);
+            font-size: var(--font-size-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-md);
+            color: var(--neutral-300);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-xs);
+            transition: all var(--transition-normal);
+        }
+
+        .nav-item:hover {
+            background-color: var(--neutral-700);
+            color: var(--neutral-100);
+        }
+
+        .nav-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .nav-item i {
+            margin-right: var(--spacing-sm);
+            font-size: var(--font-size-lg);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            height: 64px;
+            background-color: white;
+            border-bottom: 1px solid var(--neutral-200);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .iframe-container {
+            flex: 1;
+            padding: var(--spacing-lg);
+            background-color: var(--neutral-100);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: var(--radius-lg);
+            background-color: white;
+            box-shadow: var(--shadow-1);
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="../images/logo-merchant.svg" alt="宝驹后台管理系统">
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-title">用户管理</div>
+            <a href="pages/user-list.html" target="mainFrame" class="nav-item">
+                <i class="fas fa-users"></i>
+                用户列表
+            </a>
+            <a href="pages/user-verify.html" target="mainFrame" class="nav-item">
+                <i class="fas fa-user-check"></i>
+                实名认证审核
+            </a>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-title">商家管理</div>
+            <a href="pages/merchant-list.html" target="mainFrame" class="nav-item">
+                <i class="fas fa-store"></i>
+                商家列表
+            </a>
+            <a href="pages/merchant-verify.html" target="mainFrame" class="nav-item">
+                <i class="fas fa-certificate"></i>
+                资质审核
+            </a>
+            <a href="pages/merchant-settlement.html" target="mainFrame" class="nav-item">
+                <i class="fas fa-money-bill"></i>
+                结算管理
+            </a>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-title">订单管理</div>
+            <a href="pages/order-list.html" target="mainFrame" class="nav-item">
+                <i class="fas fa-list"></i>
+                订单列表
+            </a>
+            <a href="pages/order-refund.html" target="mainFrame" class="nav-item">
+                <i class="fas fa-undo"></i>
+                退款管理
+            </a>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-title">服务管理</div>
+            <a href="pages/service-category.html" target="mainFrame" class="nav-item">
+                <i class="fas fa-tags"></i>
+                服务分类
+            </a>
+            <a href="pages/service-standard.html" target="mainFrame" class="nav-item">
+                <i class="fas fa-clipboard-list"></i>
+                服务标准
+            </a>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-title">系统设置</div>
+            <a href="pages/system-config.html" target="mainFrame" class="nav-item">
+                <i class="fas fa-cog"></i>
+                基础配置
+            </a>
+            <a href="pages/system-log.html" target="mainFrame" class="nav-item">
+                <i class="fas fa-history"></i>
+                操作日志
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h2>宝驹后台管理系统</h2>
+        </div>
+        <div class="iframe-container">
+            <iframe name="mainFrame" src="pages/dashboard.html" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+</html>

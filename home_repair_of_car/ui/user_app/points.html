@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的积分 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .back-btn {
+            margin-right: var(--spacing-md);
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+            margin-right: var(--spacing-xl);
+        }
+
+        .points-card {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a54ff 100%);
+            color: white;
+            margin: var(--spacing-md);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-2);
+        }
+
+        .points-title {
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .points-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .points-actions {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .points-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.2);
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-size: var(--font-size-sm);
+        }
+
+        .section-title {
+            padding: var(--spacing-md);
+            font-weight: 600;
+            color: var(--neutral-800);
+        }
+
+        .points-list {
+            background: white;
+            margin: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .points-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .points-item:last-child {
+            border-bottom: none;
+        }
+
+        .points-desc {
+            flex: 1;
+        }
+
+        .points-name {
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .points-date {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-500);
+        }
+
+        .points-change {
+            font-weight: 500;
+        }
+
+        .points-add {
+            color: var(--success-color);
+        }
+
+        .points-minus {
+            color: var(--danger-color);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="profile.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">我的积分</h1>
+    </header>
+
+    <div class="points-card">
+        <div class="points-title">当前积分</div>
+        <div class="points-value">520</div>
+        <div class="points-actions">
+            <a href="#" class="points-btn">积分商城</a>
+            <a href="#" class="points-btn">兑换记录</a>
+        </div>
+    </div>
+
+    <div class="section-title">积分明细</div>
+    <div class="points-list">
+        <div class="points-item">
+            <div class="points-desc">
+                <div class="points-name">完成首次保养</div>
+                <div class="points-date">2024-01-15</div>
+            </div>
+            <div class="points-change points-add">+100</div>
+        </div>
+        <div class="points-item">
+            <div class="points-desc">
+                <div class="points-name">商品评价</div>
+                <div class="points-date">2024-01-10</div>
+            </div>
+            <div class="points-change points-add">+10</div>
+        </div>
+        <div class="points-item">
+            <div class="points-desc">
+                <div class="points-name">兑换优惠券</div>
+                <div class="points-date">2024-01-05</div>
+            </div>
+            <div class="points-change points-minus">-50</div>
+        </div>
+    </div>
+
+</body>
+</html>

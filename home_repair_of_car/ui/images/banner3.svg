@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="180" viewBox="0 0 800 180">
+    <defs>
+        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#1E40AF;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#3730A3;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="800" height="180" fill="url(#grad3)" />
+    <text x="40" y="60" fill="white" font-family="Arial" font-size="32" font-weight="bold">会员专享服务</text>
+    <text x="40" y="100" fill="rgba(255,255,255,0.8)" font-family="Arial" font-size="20">尊享VIP一对一服务</text>
+    <path d="M600 60 L650 60 L650 120 L600 120 Z" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none" />
+    <path d="M620 80 L680 80 L680 140 L620 140 Z" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none" />
+</svg>

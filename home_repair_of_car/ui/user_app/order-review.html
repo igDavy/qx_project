@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单评价 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+        }
+        
+        .review-container {
+            padding: var(--spacing-md);
+        }
+        
+        .review-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .service-info {
+            display: flex;
+            align-items: center;
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            background-color: var(--primary-color-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+        }
+        
+        .service-icon i {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+        
+        .service-detail {
+            flex: 1;
+        }
+        
+        .service-name {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .service-time {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+        }
+        
+        .rating-section {
+            padding: var(--spacing-md) 0;
+        }
+        
+        .rating-title {
+            font-weight: 500;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .star-rating {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .star-rating i {
+            font-size: 24px;
+            color: var(--neutral-300);
+            cursor: pointer;
+            transition: color var(--transition-normal) var(--transition-timing);
+        }
+        
+        .star-rating i.active {
+            color: var(--warning-color);
+        }
+        
+        .review-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: var(--spacing-md);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-sm);
+            resize: none;
+        }
+        
+        .review-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .photo-upload {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .upload-title {
+            font-weight: 500;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .upload-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-sm);
+        }
+        
+        .upload-item {
+            aspect-ratio: 1;
+            border-radius: var(--border-radius);
+            border: 1px dashed var(--neutral-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-item i {
+            font-size: 24px;
+            color: var(--neutral-400);
+        }
+        
+        .upload-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .upload-item .delete-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: var(--spacing-md);
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color var(--transition-normal) var(--transition-timing);
+        }
+        
+        .submit-btn:hover {
+            background-color: #1a54ff;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <h1 class="header-title">订单评价</h1>
+    </header>
+    
+    <div class="review-container">
+        <div class="review-card">
+            <div class="service-info">
+                <div class="service-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="service-detail">
+                    <div class="service-name">常规保养套餐</div>
+                    <div class="service-time">2024-01-20 14:30</div>
+                </div>
+            </div>
+            
+            <div class="rating-section">
+                <h3 class="rating-title">服务评分</h3>
+                <div class="star-rating" id="serviceRating">
+                    <i class="fas fa-star active"></i>
+                    <i class="fas fa-star active"></i>
+                    <i class="fas fa-star active"></i>
+                    <i class="fas fa-star active"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            
+            <div class="rating-section">
+                <h3 class="rating-title">技师评分</h3>
+                <div class="star-rating" id="technicianRating">
+                    <i class="fas fa-star active"></i>
+                    <i class="fas fa-star active"></i>
+                    <i class="fas fa-star active"></i>
+                    <i class="fas fa-star active"></i>
+                    <i class="fas fa-star active"></i>
+                </div>
+            </div>
+            
+            <textarea class="review-textarea" placeholder="请描述您对本次服务的评价，您的建议是我们持续改进的动力"></textarea>
+            
+            <div class="photo-upload">
+                <h3 class="upload-title">上传照片</h3>
+                <div class="upload-grid">
+                    <div class="upload-item">
+                        <img src="../images/service-photos/maintenance-1.jpg" alt="维修照片">
+                        <div class="delete-btn">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    <div class="upload-item">
+                        <img src="../images/service-photos/maintenance-2.jpg" alt="维修照片">
+                        <div class="delete-btn">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    <div class="upload-item">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="submit-btn">提交评价</button>
+        </div>
+    </div>
+</body>
+</html>

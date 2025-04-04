@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的订单 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px; /* 为底部导航留出空间 */
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .header-title {
+            font-weight: 600;
+            font-size: var(--font-size-lg);
+        }
+        
+        .order-tabs {
+            display: flex;
+            background-color: white;
+            border-bottom: 1px solid var(--neutral-200);
+            position: sticky;
+            top: 56px;
+            z-index: 99;
+        }
+        
+        .order-tab {
+            flex: 1;
+            text-align: center;
+            padding: var(--spacing-md) 0;
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .order-tab.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .order-tab.active::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            right: 25%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .order-list {
+            padding: var(--spacing-md);
+        }
+        
+        .order-card {
+            display: block;
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-1);
+            border: 1px solid var(--neutral-200);
+            transition: all var(--transition-normal) var(--transition-spring);
+            text-decoration: none;
+            color: inherit;
+            padding: var(--spacing-md);
+            position: relative;
+            z-index: 1;
+        }
+
+        .order-card:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: var(--shadow-2), var(--shadow-glow);
+            border-color: var(--primary-color);
+        }
+        
+        .order-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-image: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity var(--transition-normal) var(--transition-timing);
+        }
+        
+        .order-card:hover::before {
+            opacity: 1;
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .order-number {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+        
+        .order-status {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background-image: var(--gradient-warning);
+            color: white;
+        }
+        
+        .status-in-progress {
+            background-image: var(--gradient-primary);
+            color: white;
+        }
+        
+        .status-completed {
+            background-image: var(--gradient-success);
+            color: white;
+        }
+        
+        .status-cancelled {
+            background-image: var(--gradient-danger);
+            color: white;
+        }
+        
+        .order-content {
+            padding: var(--spacing-md);
+        }
+        
+        .service-item {
+            display: flex;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .service-img {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--border-radius-lg);
+            object-fit: cover;
+            margin-right: var(--spacing-md);
+            box-shadow: var(--shadow-2);
+            transition: transform var(--transition-normal) var(--transition-spring);
+        }
+        
+        .order-card:hover .service-img {
+            transform: scale(1.05);
+        }
+        
+        .service-info {
+            flex: 1;
+        }
+        
+        .service-name {
+            font-weight: 500;
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-xs);
+            color: var(--neutral-900);
+        }
+        
+        .service-desc {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .service-price {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-top: 1px solid var(--neutral-200);
+            background-color: var(--neutral-50);
+        }
+        
+        .order-total {
+            font-size: var(--font-size-sm);
+        }
+        
+        .total-amount {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .action-btn {
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--neutral-300);
+            background-color: white;
+            color: var(--neutral-700);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1a54ff;
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xxl) var(--spacing-lg);
+            text-align: center;
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            color: var(--neutral-400);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .empty-text {
+            color: var(--neutral-600);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-xs) 0;
+            color: var(--neutral-600);
+            font-size: var(--font-size-xs);
+            transition: color var(--transition-normal) var(--transition-timing);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <h1 class="header-title">我的订单</h1>
+        <i class="fas fa-search"></i>
+    </header>
+    
+    <div class="order-tabs">
+        <div class="order-tab active">全部</div>
+        <div class="order-tab">待付款</div>
+        <div class="order-tab">进行中</div>
+        <div class="order-tab">已完成</div>
+        <div class="order-tab">已取消</div>
+    </div>
+    
+    <div class="order-list">
+        <!-- 订单卡片 1 -->
+        <a href="order-detail.html" class="order-card" data-status="in-progress">
+            <div class="order-header">
+                <div class="order-number">订单号: 2023061501</div>
+                <div class="order-status status-in-progress">进行中</div>
+            </div>
+            <div class="order-content">
+                <div class="service-item">
+                    <img src="../images/car-maintenance.svg" alt="服务图片" class="service-img">
+                    <div class="service-info">
+                        <div class="service-name">常规保养套餐</div>
+                        <div class="service-desc">机油更换 + 机滤更换 + 多项检测</div>
+                        <div class="service-price">¥399</div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-footer">
+                <div class="order-total">总计: <span class="total-amount">¥399</span></div>
+                <div class="order-actions">
+                    <button class="action-btn btn-outline">联系客服</button>
+                    <button class="action-btn btn-primary">查看详情</button>
+                </div>
+            </div>
+        </a>
+        
+        <!-- 订单卡片 2 -->
+        <a href="order-detail.html" class="order-card" data-status="completed">
+            <div class="order-header">
+                <div class="order-number">订单号: 2023060801</div>
+                <div class="order-status status-completed">已完成</div>
+            </div>
+            <div class="order-content">
+                <div class="service-item">
+                    <img src="../images/promotion-tire.svg" alt="服务图片" class="service-img">
+                    <div class="service-info">
+                        <div class="service-name">轮胎更换服务</div>
+                        <div class="service-desc">4条轮胎更换 + 动平衡调整</div>
+                        <div class="service-price">¥2,400</div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-footer">
+                <div class="order-total">总计: <span class="total-amount">¥2,400</span></div>
+                <div class="order-actions">
+                    <button class="action-btn btn-outline" onclick="window.location.href='order-review.html'">评价</button>
+                    <button class="action-btn btn-primary">再次购买</button>
+                </div>
+            </div>
+        </a>
+        
+        <!-- 订单卡片 3 -->
+        <a href="order-detail.html" class="order-card" data-status="pending">
+            <div class="order-header">
+                <div class="order-number">订单号: 2023052201</div>
+                <div class="order-status status-pending">待付款</div>
+            </div>
+            <div class="order-content">
+                <div class="service-item">
+                    <img src="../images/engine-service.svg" alt="服务图片" class="service-img">
+                    <div class="service-info">
+                        <div class="service-name">空调系统检测</div>
+                        <div class="service-desc">空调系统全面检测 + 冷媒更换</div>
+                        <div class="service-price">¥280</div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-footer">
+                <div class="order-total">总计: <span class="total-amount">¥280</span></div>
+                <div class="order-actions">
+                    <button class="action-btn btn-outline">取消订单</button>
+                    <button class="action-btn btn-primary" onclick="window.location.href='payment.html?orderId=2023052201&amount=280'">去支付</button>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <!-- 底部导航 -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fas fa-wrench nav-icon"></i>
+            <span>服务</span>
+        </a>
+        <a href="orders.html" class="nav-item active">
+            <i class="fas fa-list-alt nav-icon"></i>
+            <span>订单</span>
+        </a>
+        <a href="messages.html" class="nav-item">
+            <i class="fas fa-comments nav-icon"></i>
+            <span>消息</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+</body>

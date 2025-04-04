@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技能展示 - 宝驹商家端</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            padding: var(--spacing-xs);
+            cursor: pointer;
+            color: var(--neutral-800);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color var(--transition-normal) var(--transition-timing);
+        }
+
+        .btn-icon:hover {
+            color: var(--secondary-color);
+        }
+        
+        .skills-tabs {
+            display: flex;
+            background-color: white;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            overflow-x: auto;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+            scrollbar-width: none;
+            position: sticky;
+            top: 56px;
+            z-index: 99;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .skills-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .skills-tab {
+            white-space: nowrap;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            color: var(--neutral-600);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .skills-tab.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .skills-container {
+            padding: var(--spacing-lg);
+        }
+        
+        .skills-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .skills-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .skills-title {
+            font-weight: 600;
+            color: var(--neutral-800);
+        }
+        
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .skill-tag {
+            background-color: var(--neutral-100);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+        
+        .case-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .case-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .case-content {
+            padding: var(--spacing-md);
+        }
+        
+        .case-title {
+            font-weight: 600;
+            color: var(--neutral-800);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .case-description {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .case-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+        
+        .btn-outline {
+            padding: var(--spacing-xs) var(--spacing-md);
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            background: none;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: var(--shadow-2);
+            border-top: 1px solid var(--neutral-200);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+        }
+        
+        .nav-item.active {
+            color: var(--secondary-color);
+        }
+        
+        .nav-item i {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-xs);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-left">
+            <button class="btn-icon" onclick="window.history.back()"><i class="fas fa-arrow-left"></i></button>
+            <h2>技能展示</h2>
+        </div>
+        <button class="btn-outline" onclick="window.location.href='skill-edit.html'">编辑技能</button>
+    </header>
+    
+    <div class="skills-tabs">
+        <a href="#" class="skills-tab active">专业技能</a>
+        <a href="#" class="skills-tab">服务案例</a>
+        <a href="#" class="skills-tab">客户评价</a>
+    </div>
+    
+    <div class="skills-container">
+        <div class="skills-card">
+            <div class="skills-header">
+                <span class="skills-title">发动机维修</span>
+                <span class="skill-level">高级技师</span>
+            </div>
+            <div class="skills-tags">
+                <span class="skill-tag">发动机大修</span>
+                <span class="skill-tag">电控系统</span>
+                <span class="skill-tag">故障诊断</span>
+                <span class="skill-tag">性能调校</span>
+            </div>
+            <p class="skill-description">专注发动机维修15年，擅长各类发动机故障诊断与维修，尤其在电控系统调校方面经验丰富。</p>
+        </div>
+        
+        <div class="case-card">
+            <img src="../images/engine-repair.svg" alt="发动机维修案例" class="case-image">
+            <div class="case-content">
+                <h3 class="case-title">奥迪A6发动机故障修复</h3>
+                <p class="case-description">车辆故障：发动机抖动、怠速不稳、加速无力。通过专业诊断发现为喷油嘴故障，更换喷油嘴并清洗进气道后，发动机恢复正常工作状态。</p>
+                <div class="case-info">
+                    <span>完成时间：2024-03-10</span>
+                    <span>客户评分：4.9</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

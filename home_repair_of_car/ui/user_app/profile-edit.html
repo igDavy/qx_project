@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑个人资料 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: var(--spacing-xl);
+        }
+
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+        }
+
+        .save-btn {
+            color: var(--primary-color);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .save-btn:active {
+            opacity: 0.8;
+        }
+
+        .edit-form {
+            background-color: white;
+            margin: var(--spacing-lg) 0;
+        }
+
+        .form-group {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 1px solid var(--neutral-200);
+            display: flex;
+            align-items: center;
+            min-height: 60px;
+        }
+
+        .form-group:last-child {
+            border-bottom: none;
+        }
+
+        .form-label {
+            width: 80px;
+            color: var(--neutral-900);
+            font-weight: 500;
+        }
+
+        .form-control {
+            flex: 1;
+            border: none;
+            background: none;
+            text-align: right;
+            font-size: var(--font-size-md);
+            color: var(--neutral-700);
+            outline: none;
+        }
+
+        .avatar-upload {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .avatar-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .gender-select {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-left: auto;
+        }
+
+        .gender-option {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            background-color: var(--neutral-100);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+
+        .gender-option.active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .arrow-right {
+            color: var(--neutral-400);
+            margin-left: var(--spacing-sm);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            width: 90%;
+            max-width: 320px;
+            padding: var(--spacing-lg);
+        }
+
+        .modal-title {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            font-weight: 600;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: var(--spacing-md);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+
+        .modal-btn.cancel {
+            background-color: var(--neutral-200);
+            color: var(--neutral-700);
+        }
+
+        .modal-btn.confirm {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .modal-btn:active {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="profile.html" class="back-btn">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <span class="header-title">编辑个人资料</span>
+        <span class="save-btn" onclick="saveProfile()">保存</span>
+    </header>
+
+    <div class="edit-form">
+        <div class="form-group avatar-upload" onclick="uploadAvatar()">
+            <span class="form-label">头像</span>
+            <div style="display: flex; align-items: center;">
+                <img src="../images/default-avatar.svg" alt="用户头像" class="avatar-img" id="avatarPreview">
+                <i class="fas fa-chevron-right arrow-right"></i>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="form-label">昵称</span>
+            <input type="text" class="form-control" id="nickname" placeholder="请输入昵称" maxlength="20">
+        </div>
+
+        <div class="form-group">
+            <span class="form-label">性别</span>
+            <div class="gender-select">
+                <div class="gender-option active" onclick="selectGender('male')" id="maleOption">男</div>
+                <div class="gender-option" onclick="selectGender('female')" id="femaleOption">女</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="form-label">手机号</span>
+            <input type="tel" class="form-control" id="phone" placeholder="请输入手机号" pattern="[0-9]{11}" maxlength="11">
+        </div>
+    </div>
+
+    <!-- 确认保存弹窗 -->
+    <div class="modal" id="saveModal">
+        <div class="modal-content">
+            <h3 class="modal-title">确认保存修改？</h3>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeModal()">取消</button>
+                <button class="modal-btn confirm" onclick="confirmSave()">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedGender = 'male';
+        let avatarFile = null;
+
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.getElementById('maleOption').classList.toggle('active', gender === 'male');
+            document.getElementById('femaleOption').classList.toggle('active', gender === 'female');
+        }
+
+        function uploadAvatar() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    avatarFile = file;
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('avatarPreview').src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        function saveProfile() {
+            const nickname = document.getElementById('nickname').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            // 表单验证
+            if (!nickname) {
+                alert('请输入昵称');
+                return;
+            }
+
+            if (phone && !/^1[3-9]\d{9}$/.test(phone)) {
+                alert('请输入正确的手机号码');
+                return;
+            }
+
+            // 显示确认弹窗
+            document.getElementById('saveModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('saveModal').classList.remove('active');
+        }
+
+        function confirmSave() {
+            // 这里添加保存个人资料的逻辑
+            // 可以使用 FormData 上传头像文件和其他表单数据
+            const formData = new FormData();
+            if (avatarFile) {
+                formData.append('avatar', avatarFile);
+            }
+            formData.append('nickname', document.getElementById('nickname').value.trim());
+            formData.append('gender', selectedGender);
+            formData.append('phone', document.getElementById('phone').value.trim());
+
+            // 模拟保存成功
+            setTimeout(() => {
+                alert('保存成功');
+                window.location.href = 'profile.html';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

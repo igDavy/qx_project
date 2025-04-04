@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>操作日志 - 宝驹后台管理系统</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        .page-container {
+            padding: var(--spacing-lg);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            background-color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        th {
+            background-color: var(--neutral-100);
+            font-weight: 600;
+            color: var(--neutral-700);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            padding: var(--spacing-md);
+            background-color: white;
+            border-top: 1px solid var(--neutral-200);
+        }
+
+        .page-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            background-color: white;
+            margin: 0 2px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .page-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .page-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .operation-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-sm);
+        }
+
+        .type-create {
+            background-color: var(--success-color-light);
+            color: var(--success-color);
+        }
+
+        .type-update {
+            background-color: var(--primary-color-light);
+            color: var(--primary-color);
+        }
+
+        .type-delete {
+            background-color: var(--danger-color-light);
+            color: var(--danger-color);
+        }
+
+        .operation-detail {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="搜索操作人或操作内容">
+            <select class="search-input">
+                <option value="">所有操作类型</option>
+                <option value="create">新增</option>
+                <option value="update">修改</option>
+                <option value="delete">删除</option>
+            </select>
+            <input type="date" class="search-input">
+            <button class="action-btn">搜索</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>操作ID</th>
+                        <th>操作类型</th>
+                        <th>操作人</th>
+                        <th>操作模块</th>
+                        <th>操作内容</th>
+                        <th>IP地址</th>
+                        <th>操作时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1001</td>
+                        <td><span class="operation-type type-create">新增</span></td>
+                        <td>admin</td>
+                        <td>服务分类</td>
+                        <td class="operation-detail">新增服务分类：紧急救援</td>
+                        <td>192.168.1.100</td>
+                        <td>2023-06-15 10:30:15</td>
+                    </tr>
+                    <tr>
+                        <td>1002</td>
+                        <td><span class="operation-type type-update">修改</span></td>
+                        <td>manager</td>
+                        <td>基础配置</td>
+                        <td class="operation-detail">修改平台服务费率：5% → 6%</td>
+                        <td>192.168.1.101</td>
+                        <td>2023-06-15 11:20:30</td>
+                    </tr>
+                    <tr>
+                        <td>1003</td>
+                        <td><span class="operation-type type-delete">删除</span></td>
+                        <td>admin</td>
+                        <td>服务标准</td>
+                        <td class="operation-detail">删除服务标准：临时维修规范</td>
+                        <td>192.168.1.102</td>
+                        <td>2023-06-15 14:15:45</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button class="page-btn">上一页</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">下一页</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

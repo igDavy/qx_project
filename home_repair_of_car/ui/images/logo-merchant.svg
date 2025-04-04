@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- 背景 -->
+    <rect width="800" height="200" fill="#ffffff"/>
+    
+    <!-- 图标部分 -->
+    <circle cx="120" cy="100" r="60" fill="#2962ff"/>
+    <path d="M90 80 L150 80 L150 120 L90 120 Z" fill="#ffffff"/>
+    <path d="M100 70 L140 70 L140 90 L100 90 Z" fill="#ffffff" transform="rotate(45 120 100)"/>
+    
+    <!-- 文字部分 -->
+    <text x="220" y="115" font-family="Arial" font-size="48" font-weight="bold" fill="#495057">宝驹商家端</text>
+    
+    <!-- 装饰线条 -->
+    <path d="M220 130 L600 130" stroke="#2962ff" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="610" cy="130" r="2" fill="#2962ff"/>
+    <circle cx="620" cy="130" r="2" fill="#2962ff"/>
+</svg>

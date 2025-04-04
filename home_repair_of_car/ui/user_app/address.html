@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地址管理 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .address-section {
+            padding: var(--spacing-md) var(--spacing-lg);
+        }
+        
+        .address-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .address-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .address-info {
+            flex: 1;
+        }
+        
+        .address-name {
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .address-phone {
+            color: var(--neutral-500);
+            font-size: 14px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .address-detail {
+            color: var(--neutral-700);
+            line-height: 1.5;
+        }
+        
+        .address-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            color: var(--neutral-500);
+        }
+        
+        .default-tag {
+            display: inline-block;
+            padding: 2px var(--spacing-sm);
+            background-color: var(--primary-color-light);
+            color: var(--primary-color);
+            border-radius: var(--border-radius-sm);
+            font-size: 12px;
+            margin-left: var(--spacing-sm);
+        }
+        
+        .add-address {
+            position: fixed;
+            bottom: calc(70px + var(--spacing-lg));
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-color);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-2);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="profile.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">地址管理</h1>
+        <div style="width: 24px;"></div>
+    </header>
+
+    <main class="address-section">
+        <div class="address-card">
+            <div class="address-header">
+                <div class="address-info">
+                    <div class="address-name">
+                        张三
+                        <span class="default-tag">默认</span>
+                    </div>
+                    <div class="address-phone">138****8888</div>
+                    <div class="address-detail">广东省深圳市南山区科技园南区科技南十二路2号金蝶软件园B栋</div>
+                </div>
+                <div class="address-actions">
+                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="address-card">
+            <div class="address-header">
+                <div class="address-info">
+                    <div class="address-name">李四</div>
+                    <div class="address-phone">139****9999</div>
+                    <div class="address-detail">广东省深圳市福田区深南大道1000号大中华国际交易广场</div>
+                </div>
+                <div class="address-actions">
+                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+
+        <button class="add-address">
+            <i class="fas fa-plus"></i>
+            <span>新增地址</span>
+        </button>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fas fa-wrench nav-icon"></i>
+            <span>服务</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-list-alt nav-icon"></i>
+            <span>订单</span>
+        </a>
+        <a href="messages.html" class="nav-item">
+            <i class="fas fa-comments nav-icon"></i>
+            <span>消息</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+</body>
+</html>

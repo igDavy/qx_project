@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6d00" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#e65100" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="600" fill="url(#bg-gradient)"/>
+  
+  <!-- 技师团队剪影 -->
+  <g transform="translate(150, 150)">
+    <!-- 技师1 -->
+    <path d="M0,300 L60,300 L60,180 C60,150 90,130 120,130 L120,80 C120,50 100,30 70,30 C40,30 20,50 20,80 L20,130 C50,130 80,150 80,180 L80,300 L140,300" fill="none" stroke="#ffffff" stroke-width="8"/>
+    <circle cx="70" cy="30" r="30" fill="#ffffff"/>
+    
+    <!-- 技师2 -->
+    <path d="M200,300 L260,300 L260,180 C260,150 290,130 320,130 L320,80 C320,50 300,30 270,30 C240,30 220,50 220,80 L220,130 C250,130 280,150 280,180 L280,300 L340,300" fill="none" stroke="#ffffff" stroke-width="8" transform="translate(100, 0)"/>
+    <circle cx="270" cy="30" r="30" fill="#ffffff" transform="translate(100, 0)"/>
+    
+    <!-- 技师3 -->
+    <path d="M200,300 L260,300 L260,180 C260,150 290,130 320,130 L320,80 C320,50 300,30 270,30 C240,30 220,50 220,80 L220,130 C250,130 280,150 280,180 L280,300 L340,300" fill="none" stroke="#ffffff" stroke-width="8" transform="translate(200, 0)"/>
+    <circle cx="270" cy="30" r="30" fill="#ffffff" transform="translate(200, 0)"/>
+  </g>
+  
+  <!-- 工具图标 -->
+  <g transform="translate(800, 200)">
+    <circle cx="100" cy="100" r="80" fill="#ffffff" fill-opacity="0.2"/>
+    <path d="M70,70 L130,130 M70,130 L130,70" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
+    <path d="M100,50 L100,150" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="100" cy="100" r="30" fill="#ffffff" fill-opacity="0.3"/>
+  </g>
+  
+  <!-- 文字 -->
+  <text x="600" y="150" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="#ffffff" text-anchor="middle">专业技师团队</text>
+  <text x="600" y="220" font-family="Arial, sans-serif" font-size="30" fill="#ffffff" text-anchor="middle">多年经验，精准诊断，快速解决</text>
+</svg>

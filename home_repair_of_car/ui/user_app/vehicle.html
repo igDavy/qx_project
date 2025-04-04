@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的车辆 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px; /* 为底部导航留出空间 */
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .vehicle-list {
+            padding: var(--spacing-md) var(--spacing-lg);
+        }
+        
+        .vehicle-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-1);
+            border: 1px solid var(--neutral-200);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .vehicle-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-2);
+            border-color: var(--primary-color);
+        }
+        
+        .vehicle-header {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .vehicle-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(41, 98, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+        
+        .vehicle-name {
+            flex: 1;
+        }
+        
+        .vehicle-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .vehicle-plate {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+        }
+        
+        .vehicle-status {
+            background-color: rgba(41, 98, 255, 0.1);
+            color: var(--primary-color);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+        }
+        
+        .vehicle-info {
+            padding: var(--spacing-md);
+        }
+        
+        .info-item {
+            display: flex;
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-sm);
+        }
+        
+        .info-label {
+            width: 80px;
+            color: var(--neutral-600);
+        }
+        
+        .info-value {
+            flex: 1;
+            color: var(--neutral-800);
+        }
+        
+        .vehicle-actions {
+            display: flex;
+            padding: var(--spacing-md);
+            border-top: 1px solid var(--neutral-200);
+            gap: var(--spacing-md);
+        }
+        
+        .action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .btn-primary-light {
+            background-color: rgba(41, 98, 255, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .btn-primary-light:hover {
+            background-color: rgba(41, 98, 255, 0.2);
+        }
+        
+        .btn-danger-light {
+            background-color: rgba(211, 47, 47, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .btn-danger-light:hover {
+            background-color: rgba(211, 47, 47, 0.2);
+        }
+        
+        .add-vehicle-btn {
+            position: fixed;
+            bottom: 80px;
+            right: var(--spacing-lg);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-3);
+            font-size: 24px;
+            transition: all var(--transition-normal) var(--transition-bounce);
+            z-index: 90;
+        }
+        
+        .add-vehicle-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xxl) var(--spacing-lg);
+            text-align: center;
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            color: var(--neutral-400);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .empty-text {
+            color: var(--neutral-600);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            border-top: 1px solid var(--neutral-200);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--neutral-600);
+            font-size: var(--font-size-xs);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: var(--spacing-xs);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <h2>我的车辆</h2>
+        <div>
+            <i class="fas fa-ellipsis-v"></i>
+        </div>
+    </header>
+    
+    <div class="vehicle-list">
+        <div class="vehicle-card">
+            <div class="vehicle-header">
+                <div class="vehicle-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="vehicle-name">
+                    <h3 class="vehicle-title">奥迪 A6L</h3>
+                    <div class="vehicle-plate">京A12345</div>
+                </div>
+                <div class="vehicle-status">默认车辆</div>
+            </div>
+            <div class="vehicle-info">
+                <div class="info-item">
+                    <div class="info-label">车型年份</div>
+                    <div class="info-value">2020年</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">发动机</div>
+                    <div class="info-value">2.0T</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">行驶里程</div>
+                    <div class="info-value">35,280公里</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">上次保养</div>
+                    <div class="info-value">2023-05-15</div>
+                </div>
+            </div>
+            <div class="vehicle-actions">
+                <div class="action-btn btn-primary-light">
+                    <i class="fas fa-edit"></i>&nbsp;编辑信息
+                </div>
+                <div class="action-btn btn-primary-light">
+                    <i class="fas fa-history"></i>&nbsp;保养记录
+                </div>
+                <div class="action-btn btn-danger-light">
+                    <i class="fas fa-trash"></i>&nbsp;删除
+                </div>
+            </div>
+        </div>
+        
+        <div class="vehicle-card">
+            <div class="vehicle-header">
+                <div class="vehicle-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="vehicle-name">
+                    <h3 class="vehicle-title">大众 途观L</h3>
+                    <div class="vehicle-plate">京B54321</div>
+                </div>
+            </div>
+            <div class="vehicle-info">
+                <div class="info-item">
+                    <div class="info-label">车型年份</div>
+                    <div class="info-value">2019年</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">发动机</div>
+                    <div class="info-value">1.8T</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">行驶里程</div>
+                    <div class="info-value">42,150公里</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">上次保养</div>
+                    <div class="info-value">2023-03-22</div>
+                </div>
+            </div>
+            <div class="vehicle-actions">
+                <div class="action-btn btn-primary-light">
+                    <i class="fas fa-edit"></i>&nbsp;编辑信息
+                </div>
+                <div class="action-btn btn-primary-light">
+                    <i class="fas fa-history"></i>&nbsp;保养记录
+                </div>
+                <div class="action-btn btn-danger-light">
+                    <i class="fas fa-trash"></i>&nbsp;删除
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <a href="vehicle-manage.html" class="add-vehicle-btn">
+        <i class="fas fa-plus"></i>
+    </a>
+    
+    <script>
+        // 为车辆卡片添加点击效果
+        const vehicleCards = document.querySelectorAll('.vehicle-card');
+        
+        vehicleCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // 如果点击的是操作按钮，则不触发卡片点击事件
+                if (e.target.closest('.action-btn')) {
+                    return;
+                }
+                
+                // 模拟跳转到车辆详情页
+                alert('即将跳转到车辆详情页');
+            });
+        });
+        
+        // 为操作按钮添加点击事件
+        const actionBtns = document.querySelectorAll('.action-btn');
+        
+        actionBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const action = btn.textContent.trim();
+                
+                if (action.includes('编辑')) {
+                    alert('即将编辑车辆信息');
+                } else if (action.includes('保养')) {
+                    alert('即将查看保养记录');
+                } else if (action.includes('删除')) {
+                    if (confirm('确定要删除这辆车吗？')) {
+                        // 模拟删除操作
+                        btn.closest('.vehicle-card').style.opacity = '0';
+                        setTimeout(() => {
+                            btn.closest('.vehicle-card').style.display = 'none';
+                        }, 300);
+                    }
+                }
+                
+                e.stopPropagation();
+            });
+        });
+        
+        // 添加车辆按钮点击事件已通过href处理
+    </script>
+</body>
+</html>

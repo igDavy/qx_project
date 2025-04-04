@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资质提交 - 宝驹商家端</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .back-btn {
+            margin-right: var(--spacing-md);
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+        
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+            margin-right: var(--spacing-xl);
+        }
+
+        .qualification-form {
+            background-color: white;
+            margin: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            font-weight: 500;
+            color: var(--neutral-800);
+        }
+
+        .form-required {
+            color: var(--error-color);
+            margin-left: var(--spacing-xs);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--neutral-300);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+
+        .upload-area:hover {
+            border-color: var(--secondary-color);
+            background-color: var(--neutral-50);
+        }
+
+        .upload-icon {
+            font-size: 32px;
+            color: var(--neutral-500);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .upload-text {
+            color: var(--neutral-600);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .upload-hint {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-500);
+        }
+
+        .preview-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            margin-top: var(--spacing-md);
+            border-radius: var(--border-radius);
+            display: none;
+        }
+
+        .form-tips {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            margin-top: var(--spacing-xs);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: var(--spacing-md);
+            font-size: var(--font-size-md);
+            margin-top: var(--spacing-xl);
+            background-color: var(--secondary-color);
+        }
+
+        .submit-btn:hover {
+            background-color: var(--secondary-color-dark);
+        }
+
+        .status-card {
+            background-color: white;
+            margin: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-1);
+            display: none;
+        }
+
+        .status-icon {
+            font-size: 48px;
+            color: var(--warning-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .status-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            color: var(--neutral-800);
+        }
+
+        .status-desc {
+            color: var(--neutral-600);
+            margin-bottom: var(--spacing-lg);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="#" onclick="goBack()" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">资质提交</h1>
+    </header>
+
+    <form class="qualification-form" id="qualificationForm">
+        <div class="form-group">
+            <label class="form-label">
+                营业执照
+                <span class="form-required">*</span>
+            </label>
+            <div class="upload-area" id="businessLicenseUpload">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <div class="upload-text">点击或拖拽上传营业执照</div>
+                <div class="upload-hint">支持 jpg、png 格式，大小不超过 5MB</div>
+                <img src="" alt="营业执照预览" class="preview-image" id="businessLicensePreview">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">
+                法人身份证正面
+                <span class="form-required">*</span>
+            </label>
+            <div class="upload-area" id="idCardFrontUpload">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <div class="upload-text">点击或拖拽上传身份证正面照片</div>
+                <div class="upload-hint">支持 jpg、png 格式，大小不超过 5MB</div>
+                <img src="" alt="身份证正面预览" class="preview-image" id="idCardFrontPreview">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">
+                法人身份证反面
+                <span class="form-required">*</span>
+            </label>
+            <div class="upload-area" id="idCardBackUpload">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <div class="upload-text">点击或拖拽上传身份证反面照片</div>
+                <div class="upload-hint">支持 jpg、png 格式，大小不超过 5MB</div>
+                <img src="" alt="身份证反面预览" class="preview-image" id="idCardBackPreview">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">
+                店铺门头照片
+                <span class="form-required">*</span>
+            </label>
+            <div class="upload-area" id="shopFrontUpload">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <div class="upload-text">点击或拖拽上传店铺门头照片</div>
+                <div class="upload-hint">支持 jpg、png 格式，大小不超过 5MB</div>
+                <img src="" alt="店铺门头照片预览" class="preview-image" id="shopFrontPreview">
+            </div>
+            <div class="form-tips">请确保照片清晰完整地展示店铺招牌</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary submit-btn">提交审核</button>
+    </form>
+
+    <div class="status-card" id="statusCard">
+        <i class="fas fa-clock status-icon"></i>
+        <div class="status-title">等待审核</div>
+        <div class="status-desc">您的资质材料已提交成功，我们将在1-3个工作日内完成审核</div>
+        <button class="btn btn-outline" onclick="goBack()">返回首页</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        // 处理文件上传和预览
+        function handleFileUpload(uploadAreaId, previewId) {
+            const uploadArea = document.getElementById(uploadAreaId);
+            const preview = document.getElementById(previewId);
+            
+            uploadArea.addEventListener('click', () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/jpeg,image/png';
+                input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        if (file.size > 5 * 1024 * 1024) {
+                            alert('文件大小不能超过 5MB');
+                            return;
+                        }
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            preview.src = e.target.result;
+                            preview.style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                input.click();
+            });
+
+            // 处理拖拽上传
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = 'var(--secondary-color)';
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = 'var(--neutral-300)';
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = 'var(--neutral-300)';
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('文件大小不能超过 5MB');
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // 初始化所有上传区域
+        handleFileUpload('businessLicenseUpload', 'businessLicensePreview');
+        handleFileUpload('idCardFrontUpload', 'idCardFrontPreview');
+        handleFileUpload('idCardBackUpload', 'idCardBackPreview');
+        handleFileUpload('shopFrontUpload', 'shopFrontPreview');
+
+        // 处理表单提交
+        document.getElementById('qualificationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // 验证是否所有必填图片都已上传
+            const previews = document.querySelectorAll('.preview-image');
+            let allUploaded = true;
+            previews.forEach(preview => {
+                if (!preview.src) {
+                    allUploaded = false;
+                }
+            });
+
+            if (!allUploaded) {
+                alert('请上传所有必需的资质材料');
+                return;
+            }
+
+            // 隐藏表单，显示状态卡片
+            document.getElementById('qualificationForm').style.display = 'none';
+            document.getElementById('statusCard').style.display = 'block';
+
+            // TODO: 在这里添加实际的表单提交逻辑
+        });
+    </script>
+</body>
+</html>

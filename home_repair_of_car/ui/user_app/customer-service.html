@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系客服 - 汽修宝</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .back-btn {
+            margin-right: var(--spacing-md);
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+            margin-right: var(--spacing-xl);
+        }
+
+        .service-card {
+            background: white;
+            margin: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+            overflow: hidden;
+        }
+
+        .service-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a54ff 100%);
+            color: white;
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .service-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .service-subtitle {
+            font-size: var(--font-size-sm);
+            opacity: 0.8;
+        }
+
+        .service-options {
+            padding: var(--spacing-md);
+        }
+
+        .service-option {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .service-option:last-child {
+            border-bottom: none;
+        }
+
+        .option-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            font-size: 24px;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-title {
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .option-desc {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+
+        .faq-section {
+            margin: var(--spacing-md);
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--neutral-800);
+        }
+
+        .faq-list {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+            overflow: hidden;
+        }
+
+        .faq-item {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+            color: var(--neutral-800);
+        }
+
+        .faq-answer {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="profile.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">联系客服</h1>
+    </header>
+
+    <div class="service-card">
+        <div class="service-header">
+            <div class="service-title">24小时在线客服</div>
+            <div class="service-subtitle">专业客服团队为您解答各类问题</div>
+        </div>
+
+        <div class="service-options">
+            <a href="#" class="service-option">
+                <div class="option-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="option-content">
+                    <div class="option-title">在线咨询</div>
+                    <div class="option-desc">点击开始在线对话</div>
+                </div>
+            </a>
+
+            <a href="tel:400-888-8888" class="service-option">
+                <div class="option-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div class="option-content">
+                    <div class="option-title">电话咨询</div>
+                    <div class="option-desc">400-888-8888</div>
+                </div>
+            </a>
+
+            <a href="#" class="service-option">
+                <div class="option-icon">
+                    <i class="fab fa-weixin"></i>
+                </div>
+                <div class="option-content">
+                    <div class="option-title">微信客服</div>
+                    <div class="option-desc">扫码添加客服微信</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="faq-section">
+        <div class="section-title">常见问题</div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">如何申请退款？</div>
+                <div class="faq-answer">在订单详情页面点击"申请退款"按钮，填写退款原因并提交申请，客服会在24小时内处理您的退款请求。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">如何修改订单信息？</div>
+                <div class="faq-answer">订单支付前可在订单详情页面修改信息，如已支付请联系在线客服协助处理。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">服务完成后如何评价？</div>
+                <div class="faq-answer">服务完成后，您可以在订单详情页面对服务质量、服务态度等方面进行评价。</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

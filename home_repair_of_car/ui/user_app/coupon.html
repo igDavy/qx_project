@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>优惠券 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .back-btn {
+            margin-right: var(--spacing-md);
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+            margin-right: var(--spacing-xl);
+        }
+
+        .coupon-tabs {
+            display: flex;
+            background: white;
+            margin-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .tab-item {
+            flex: 1;
+            text-align: center;
+            padding: var(--spacing-md);
+            color: var(--neutral-600);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .tab-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background-color: var(--primary-color);
+            border-radius: 1px;
+        }
+
+        .coupon-list {
+            padding: var(--spacing-md);
+        }
+
+        .coupon-card {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+            display: flex;
+            overflow: hidden;
+        }
+
+        .coupon-left {
+            background: var(--primary-color);
+            color: white;
+            padding: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 120px;
+        }
+
+        .coupon-amount {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .coupon-type {
+            font-size: var(--font-size-sm);
+        }
+
+        .coupon-right {
+            flex: 1;
+            padding: var(--spacing-md);
+            position: relative;
+        }
+
+        .coupon-title {
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .coupon-validity {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .coupon-desc {
+            color: var(--neutral-500);
+            font-size: var(--font-size-xs);
+        }
+
+        .coupon-status {
+            position: absolute;
+            right: var(--spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+        }
+
+        .coupon-expired {
+            color: var(--neutral-400);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="profile.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">优惠券</h1>
+    </header>
+
+    <div class="coupon-tabs">
+        <div class="tab-item active">可使用</div>
+        <div class="tab-item">已使用</div>
+        <div class="tab-item">已过期</div>
+    </div>
+
+    <div class="coupon-list">
+        <div class="coupon-card">
+            <div class="coupon-left">
+                <div class="coupon-amount">¥50</div>
+                <div class="coupon-type">满300可用</div>
+            </div>
+            <div class="coupon-right">
+                <div class="coupon-title">新用户专享券</div>
+                <div class="coupon-validity">有效期至：2024-12-31</div>
+                <div class="coupon-desc">适用于所有保养服务</div>
+                <div class="coupon-status">立即使用</div>
+            </div>
+        </div>
+
+        <div class="coupon-card">
+            <div class="coupon-left">
+                <div class="coupon-amount">¥30</div>
+                <div class="coupon-type">无门槛</div>
+            </div>
+            <div class="coupon-right">
+                <div class="coupon-title">会员专享券</div>
+                <div class="coupon-validity">有效期至：2024-12-31</div>
+                <div class="coupon-desc">适用于轮胎服务</div>
+                <div class="coupon-status">立即使用</div>
+            </div>
+        </div>
+
+        <div class="coupon-card">
+            <div class="coupon-left">
+                <div class="coupon-amount">¥100</div>
+                <div class="coupon-type">满500可用</div>
+            </div>
+            <div class="coupon-right">
+                <div class="coupon-title">节日特惠券</div>
+                <div class="coupon-validity">有效期至：2024-12-31</div>
+                <div class="coupon-desc">适用于发动机维修</div>
+                <div class="coupon-status">立即使用</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

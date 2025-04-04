@@ -1,0 +1,3610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宝驹汽车维修APP原型设计</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            padding: 20px;
+            overscroll-behavior: contain; /* 防止页面滑动到边缘时的回弹效果 */
+            overflow-x: hidden; /* 禁止整个页面水平滑动 */
+        }
+
+        /* 设计系统 */
+        :root {
+            --primary-color: #1890ff;
+            --secondary-color: #52c41a;
+            --danger-color: #ff4d4f;
+            --warning-color: #faad14;
+            --text-primary: #262626;
+            --text-secondary: #8c8c8c;
+            --border-radius: 8px;
+        }
+
+        /* 原型容器 */
+        .prototype-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+            overflow-x: hidden; /* 禁止整个容器水平滑动 */
+        }
+
+        /* 手机框架 */
+        .phone-frame {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            height: 600px;
+            overflow-x: hidden; /* 禁止水平方向超出 */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            touch-action: pan-y; /* 只允许垂直方向的触摸操作 */
+            -ms-touch-action: pan-y;
+            -webkit-touch-callout: none; /* 禁止长按弹出菜单 */
+            -webkit-user-select: none; /* 禁止选择文本 */
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* 手机内容区 - 可滚动 */
+        .phone-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden; /* 禁止水平滑动 */
+            padding-bottom: 60px; /* 为底部导航栏留出空间 */
+            -webkit-overflow-scrolling: touch; /* 平滑滚动 */
+            scrollbar-width: thin; /* 细滚动条 */
+        }
+
+        /* 自定义滚动条样式 */
+        .phone-content::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .phone-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .phone-content::-webkit-scrollbar-thumb {
+            background: #d9d9d9;
+            border-radius: 10px;
+        }
+
+        .phone-content::-webkit-scrollbar-thumb:hover {
+            background: #c1c1c1;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* 导航栏 */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        /* 底部标签栏 - 固定在底部 */
+        .tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+            z-index: 10; /* 确保在内容之上 */
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        /* 首页组件 */
+        .location-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .search-bar {
+            background: #f5f5f5;
+            border-radius: var(--border-radius);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 15px 0;
+        }
+
+        .service-item {
+            background: #f8f8f8;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            text-align: center;
+        }
+
+        /* 店铺列表组件 */
+        .shop-card {
+            display: flex;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            gap: 10px;
+        }
+
+        .shop-image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--border-radius);
+            background: #f0f0f0;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* 标签样式 */
+        .tag {
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #f0f0f0;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* 评分组件 */
+        .rating {
+            color: var(--warning-color);
+            font-size: 12px;
+        }
+
+        /* 订单状态标签 */
+        .status-tag {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .status-pending {
+            background: #fff7e6;
+            color: var(--warning-color);
+        }
+
+        .status-processing {
+            background: #e6f7ff;
+            color: var(--primary-color);
+        }
+
+        .status-completed {
+            background: #f6ffed;
+            color: var(--secondary-color);
+        }
+
+        /* 头像组件 */
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f0f0;
+        }
+
+        /* 列表组件 */
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        /* 表单组件 */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d9d9d9;
+            border-radius: var(--border-radius);
+        }
+
+        /* 加载状态 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .loading::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f0f0f0;
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .service-item-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .option-group {
+            margin-bottom: 20px;
+        }
+
+        .option-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .option-item {
+            padding: 8px 15px;
+            border: 1px solid #d9d9d9;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .option-item.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: #e6f7ff;
+        }
+
+        .service-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .payment-info {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .method-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .method-item.active {
+            color: var(--primary-color);
+        }
+
+        .stars {
+            color: #faad14;
+        }
+
+        .stars i.active {
+            color: #faad14;
+        }
+
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .upload-section {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .upload-btn {
+            width: 80px;
+            height: 80px;
+            border: 1px dashed #d9d9d9;
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 15px 0;
+        }
+
+        .car-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .car-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .car-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .scan-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+            background: #f8f8f8;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+
+        .maintenance-timeline {
+            padding: 15px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-left: 2px solid var(--primary-color);
+            margin-left: 15px;
+        }
+
+        .timeline-date {
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .map-container {
+            position: relative;
+            height: 100%;
+        }
+
+        .map-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .address-panel {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .technician-card {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+
+        .technician-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #f0f0f0;
+        }
+
+        .certificate-list {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 15px 0;
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #d9d9d9;
+            border-radius: var(--border-radius);
+            padding: 0 10px;
+        }
+
+        .country-code {
+            color: var(--text-secondary);
+            padding-right: 10px;
+            border-right: 1px solid #d9d9d9;
+        }
+
+        .input-group .input {
+            border: none;
+            flex: 1;
+        }
+
+        .agreement-check {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .verification-code {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+
+        .code-input {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #d9d9d9;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .settings-list {
+            padding: 15px;
+        }
+
+        .settings-group {
+            margin-bottom: 20px;
+        }
+
+        .settings-group h4 {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 1px;
+        }
+
+        .item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .message-tabs {
+            display: flex;
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            color: var(--text-secondary);
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .message-list {
+            padding: 15px;
+        }
+
+        .message-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .message-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .message-item.unread::before {
+            content: "";
+            display: block;
+            width: 8px;
+            height: 8px;
+            background: var(--danger-color);
+            border-radius: 50%;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+        }
+
+        .search-container {
+            padding: 10px 15px;
+            background: #fff;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #f5f5f5;
+            border-radius: var(--border-radius);
+            padding: 8px 12px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            margin-left: 10px;
+            flex: 1;
+            outline: none;
+        }
+
+        .filter-tabs {
+            display: flex;
+            padding: 10px 15px;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            color: var(--text-secondary);
+            font-size: 14px;
+            gap: 5px;
+        }
+
+        .filter-item.active {
+            color: var(--primary-color);
+        }
+
+        .shop-list {
+            padding: 10px 15px;
+            background: #f5f5f5;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .shop-card {
+            display: flex;
+            background: #fff;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .shop-image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--border-radius);
+            background: #f0f0f0;
+            margin-right: 15px;
+        }
+
+        .shop-info {
+            flex: 1;
+        }
+
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .distance {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .shop-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 5px 0;
+        }
+
+        .shop-desc {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-top: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .filter-panel {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            z-index: 100;
+            padding: 15px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .option-item {
+            padding: 8px 15px;
+            border: 1px solid #d9d9d9;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+        }
+
+        .option-item.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: #e6f7ff;
+        }
+
+        .price-range {
+            margin-top: 15px;
+        }
+
+        .range-slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .price-values {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .filter-actions button {
+            flex: 1;
+        }
+
+        .sort-popup {
+            position: absolute;
+            top: 125px;
+            left: 25%;
+            right: 0;
+            background: white;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .sort-option {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 125px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 99;
+        }
+
+        .order-status {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        .status-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .order-timeline {
+            padding: 15px;
+            background: white;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .timeline-item:not(:last-child)::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 7px;
+            bottom: -15px;
+            width: 1px;
+            background: #e8e8e8;
+        }
+
+        .timeline-item.completed .dot {
+            background: var(--primary-color);
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #d9d9d9;
+        }
+
+        .order-info {
+            padding: 0 15px;
+            margin-bottom: 80px;
+        }
+
+        .info-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .address-detail, .vehicle-info {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .price-detail {
+            margin-top: 10px;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .price-item.total {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+            font-weight: bold;
+        }
+
+        .phone-frame {
+            position: relative;
+        }
+        .order-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: white;
+            display: flex;
+            gap: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+
+        .order-actions button {
+            flex: 1;
+        }
+
+        .service-map {
+            position: relative;
+        }
+
+        .car-marker, .user-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .car-marker {
+            top: 40%;
+            left: 30%;
+            color: var(--primary-color);
+        }
+
+        .user-marker {
+            bottom: 30%;
+            right: 30%;
+            color: #ff4d4f;
+        }
+
+        .service-panel {
+            background: white;
+            border-radius: 20px 20px 0 0;
+            margin-top: -20px;
+            padding: 20px;
+            position: relative;
+            height: 280px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .technician-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status {
+            font-size: 12px;
+            color: var(--primary-color);
+            background: #e6f7ff;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .call-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            color: var(--primary-color);
+            margin-left: auto;
+        }
+
+        .eta-info {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .service-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .service-actions button {
+            flex: 1;
+        }
+
+        .coupon-tabs {
+            display: flex;
+        }
+
+        .coupon-tabs .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid transparent;
+        }
+
+        .coupon-tabs .tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .coupon-list {
+            padding: 15px;
+        }
+
+        .coupon-item {
+            display: flex;
+            background: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .coupon-left {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-width: 100px;
+        }
+
+        .coupon-left::after {
+            content: "";
+            position: absolute;
+            right: -8px;
+            height: 100%;
+            width: 16px;
+            background-image: radial-gradient(circle at 0 50%, transparent 8px, white 9px);
+            background-size: 16px 16px;
+            background-repeat: repeat-y;
+        }
+
+        .coupon-value {
+            display: flex;
+            align-items: baseline;
+        }
+
+        .value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .coupon-condition {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .coupon-right {
+            padding: 15px;
+            flex: 1;
+        }
+
+        .coupon-date {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin: 5px 0 10px 0;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .coupon-tag {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ff4d4f;
+            color: white;
+            padding: 2px 8px;
+            font-size: 12px;
+            border-bottom-left-radius: 8px;
+        }
+
+        .help-section {
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .faq-list {
+            background: white;
+            border-radius: var(--border-radius);
+            margin-top: 10px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            padding: 0 15px 15px 15px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .guide-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .guide-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            gap: 10px;
+        }
+
+        .guide-item i {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: var(--border-radius);
+            margin-top: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            padding: 15px;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .contact-item i {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .small {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .date-selector {
+            padding: 15px;
+            background: white;
+        }
+
+        .month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .date-cell {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .date-cell.selected {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .date-cell.disabled {
+            color: #d9d9d9;
+            cursor: not-allowed;
+        }
+
+        .time-selector {
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .time-slot {
+            padding: 10px;
+            border: 1px solid #d9d9d9;
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .time-slot.selected {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: #e6f7ff;
+        }
+
+        .time-slot.disabled {
+            color: #d9d9d9;
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .phone-frame{
+            position: relative;
+        }
+
+        .time-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+
+        .order-confirm {
+            padding: 15px;
+            margin-bottom: 70px;
+        }
+
+        .confirm-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .edit-link {
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+
+        .address-card, .time-card, .vehicle-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .service-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .service-price {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .coupon-card {
+            color: #ff4d4f;
+        }
+
+        .remark-input {
+            width: 100%;
+            border: 1px solid #d9d9d9;
+            border-radius: var(--border-radius);
+            padding: 10px;
+            min-height: 60px;
+            resize: none;
+        }
+
+        .price-summary {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .price-row.total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+            font-weight: bold;
+        }
+
+        .phone-frame{
+            position: relative;
+        }
+
+        .confirm-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+
+        .highlight-price {
+            color: var(--primary-color);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .result-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 0 30px;
+            text-align: center;
+        }
+
+        .result-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .result-icon.success {
+            background: #f6ffed;
+            color: var(--secondary-color);
+        }
+
+        .result-icon.error {
+            background: #fff2f0;
+            color: var(--danger-color);
+        }
+
+        .order-tips {
+            margin: 30px 0;
+            color: var(--text-secondary);
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .result-actions button {
+            flex: 1;
+        }
+
+        .cancel-content {
+            padding: 15px;
+        }
+
+        .warning-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff7e6;
+            color: #fa8c16;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+        }
+
+        .reason-list {
+            margin: 15px 0;
+        }
+
+        .reason-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .other-reason {
+            margin-top: 15px;
+        }
+
+        .cancel-fee {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .fee-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .cancel-notice {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin: 15px 0;
+        }
+
+        .cancel-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .cancel-actions button {
+            flex: 1;
+        }
+
+        .arrival-content {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .arrival-icon {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin: 20px 0;
+        }
+
+        .technician-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .technician-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #f0f0f0;
+        }
+
+        .license {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .verify-section, .service-overview {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .overview-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .arrival-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .arrival-actions button {
+            flex: 1;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* 导航栏 */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center; margin-bottom: 20px;">宝驹汽车维修 - 用户端APP原型设计</h2>
+    <div class="prototype-container">
+        <!-- 注册页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>注册账号</h3>
+                <span></span>
+            </div>
+            <div style="padding: 20px;">
+                <div class="form-group">
+                    <label>手机号码</label>
+                    <div class="input-group">
+                        <span class="country-code">+86</span>
+                        <input type="tel" class="input" placeholder="请输入手机号码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>验证码</label>
+                    <div class="input-group">
+                        <input type="text" class="input" placeholder="请输入验证码">
+                        <button class="btn btn-outline">获取验证码</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>设置密码</label>
+                    <div class="input-group">
+                        <input type="password" class="input" placeholder="请设置6-20位登录密码">
+                        <i class="fas fa-eye-slash"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>确认密码</label>
+                    <div class="input-group">
+                        <input type="password" class="input" placeholder="请再次输入密码">
+                        <i class="fas fa-eye-slash"></i>
+                    </div>
+                </div>
+                <div class="agreement-check">
+                    <input type="checkbox" id="agreement">
+                    <div style="display: flex; align-items: center; flex-wrap: nowrap; white-space: nowrap;">
+                        <label for="agreement">我已阅读并同意</label>
+                        <a href="#" style="color: var(--primary-color);">《用户协议》</a>和
+                        <a href="#" style="color: var(--primary-color);">《隐私政策》</a>
+                    </div>
+                </div>
+                <button class="btn" style="width: 100%; margin-top: 20px;">注册</button>
+            </div>
+        </div>
+
+        <!-- 登录页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div style="text-align: center; padding: 40px 0;">
+                <i class="fas fa-car" style="font-size: 48px; color: var(--primary-color);"></i>
+                <h2 style="margin: 20px 0;">宝驹</h2>
+            </div>
+            <div class="form-group">
+                <input type="tel" class="input" placeholder="请输入手机号">
+            </div>
+            <div class="form-group">
+                <input type="password" class="input" placeholder="请输入密码">
+            </div>
+            <button class="btn" style="width: 100%;">登录</button>
+            <div style="text-align: center; margin-top: 20px;">
+                <span style="color: var(--text-secondary);">其他登录方式</span>
+                <div style="margin-top: 20px;">
+                    <i class="fab fa-weixin" style="font-size: 24px; color: #07c160;"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 首页 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="location-bar">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>北京市朝阳区</span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <span>搜索维修店铺</span>
+            </div>
+            <div class="service-grid">
+                <div class="service-item">
+                    <i class="fas fa-tools" style="font-size: 24px; color: var(--primary-color);"></i>
+                    <p style="margin-top: 8px;">车辆检测</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-oil-can" style="font-size: 24px; color: var(--secondary-color);"></i>
+                    <p style="margin-top: 8px;">上门保养</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-car-battery" style="font-size: 24px; color: var(--warning-color);"></i>
+                    <p style="margin-top: 8px;">配件更换</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-ambulance" style="font-size: 24px; color: var(--danger-color);"></i>
+                    <p style="margin-top: 8px;">应急救援</p>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 15px 0;">
+                <h3>附近店铺</h3>
+                <a href="#" style="color: var(--primary-color); font-size: 14px; text-decoration: none; display: flex; align-items: center;">
+                    <span>更多店铺</span>
+                    <i class="fas fa-angle-right" style="margin-left: 5px;"></i>
+                </a>
+            </div>
+            <div class="shop-card">
+                <div class="shop-image">
+                    <img src="../qixiu.png" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div style="flex: 1;">
+                    <h4>阳光汽修</h4>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>4.5</span>
+                    </div>
+                    <div style="margin-top: 5px;">
+                        <span class="tag">上门保养</span>
+                        <span class="tag">车辆检测</span>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <span style="color: var(--text-secondary);">500m</span>
+                    <div style="margin-top: 5px;">
+                        <span style="color: var(--text-secondary);">已服务 1280</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-bar">
+                <div class="tab-item active">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </div>
+                <div class="tab-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>订单</span>
+                </div>
+                <div class="tab-item">
+                    <i class="fas fa-user"></i>
+                    <span>我的</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 订单列表页 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <h3>我的订单</h3>
+            </div>
+            <div style="display: flex; justify-content: space-around; padding: 10px 0; border-bottom: 1px solid #f0f0f0;">
+                <span class="active">全部</span>
+                <span>待付款</span>
+                <span>待服务</span>
+                <span>已完成</span>
+            </div>
+            <div class="list-item">
+                <div>
+                    <h4>常规保养套餐</h4>
+                    <p style="color: var(--text-secondary); font-size: 12px;">阳光汽修</p>
+                    <span class="status-tag status-pending">待付款</span>
+                </div>
+                <div style="text-align: right;">
+                    <p style="color: var(--text-primary);">¥388</p>
+                    <button class="btn btn-outline" style="margin-top: 5px;">去付款</button>
+                </div>
+            </div>
+            <div class="list-item">
+                <div>
+                    <h4>发动机检测</h4>
+                    <p style="color: var(--text-secondary); font-size: 12px;">宝驹快修</p>
+                    <span class="status-tag status-completed">已完成</span>
+                </div>
+                <div style="text-align: right;">
+                    <p style="color: var(--text-primary);">¥199</p>
+                    <button class="btn btn-outline" style="margin-top: 5px;">评价</button>
+                </div>
+            </div>
+            <div class="tab-bar">
+                <div class="tab-item">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </div>
+                <div class="tab-item active">
+                    <i class="fas fa-file-alt"></i>
+                    <span>订单</span>
+                </div>
+                <div class="tab-item">
+                    <i class="fas fa-user"></i>
+                    <span>我的</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 个人中心页 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div style="padding: 20px 0; text-align: center;">
+                <div class="avatar" style="margin: 0 auto;"></div>
+                <h3 style="margin-top: 10px;">用户昵称</h3>
+                <p style="color: var(--text-secondary);">普通会员</p>
+            </div>
+            <div class="list-item">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-car"></i>
+                    <span>我的车辆</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="list-item">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-history"></i>
+                    <span>保养记录</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="list-item">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-heart"></i>
+                    <span>收藏店铺</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="list-item">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-cog"></i>
+                    <span>设置</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="tab-bar">
+                <div class="tab-item">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </div>
+                <div class="tab-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>订单</span>
+                </div>
+                <div class="tab-item active">
+                    <i class="fas fa-user"></i>
+                    <span>我的</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 店铺详情页 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>店铺详情</h3>
+                <i class="far fa-heart"></i>
+            </div>
+            <div style="position: relative;">
+                <img src="../qixiu.png" style="width: 100%; height: 200px; object-fit: cover; background: #f0f0f0;">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                    <h3 style="color: white;">阳光汽修</h3>
+                    <div class="rating" style="margin-top: 5px;">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span style="color: white;">4.5 (1280次评价)</span>
+                    </div>
+                </div>
+            </div>
+            <div style="padding: 15px;">
+                <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                    <div style="flex: 1; text-align: center;">
+                        <p style="font-size: 20px; font-weight: bold;">1280</p>
+                        <p style="color: var(--text-secondary); font-size: 12px;">累计服务</p>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <p style="font-size: 20px; font-weight: bold;">98%</p>
+                        <p style="color: var(--text-secondary); font-size: 12px;">好评率</p>
+                    </div>
+                    <div style="flex: 1; text-align: center;">
+                        <p style="font-size: 20px; font-weight: bold;">500m</p>
+                        <p style="color: var(--text-secondary); font-size: 12px;">距离</p>
+                    </div>
+                </div>
+                <div class="section">
+                    <h4>服务项目</h4>
+                    <div class="service-list">
+                        <div class="service-item-detail">
+                            <div>
+                                <h5>常规保养套餐</h5>
+                                <p style="color: var(--text-secondary); font-size: 12px;">机油+机滤+工时费</p>
+                                <p style="color: var(--primary-color);">¥388起</p>
+                            </div>
+                            <button class="btn btn-outline">选择</button>
+                        </div>
+                        <div class="service-item-detail">
+                            <div>
+                                <h5>发动机检测</h5>
+                                <p style="color: var(--text-secondary); font-size: 12px;">电脑检测+故障诊断</p>
+                                <p style="color: var(--primary-color);">¥199起</p>
+                            </div>
+                            <button class="btn btn-outline">选择</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 服务选择页 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>选择服务</h3>
+                <span></span>
+            </div>
+            <div style="padding: 15px;">
+                <h4>常规保养套餐</h4>
+                <div class="service-options">
+                    <div class="option-group">
+                        <h5>选择车型</h5>
+                        <div class="option-list">
+                            <div class="option-item active">小型轿车</div>
+                            <div class="option-item">中型轿车</div>
+                            <div class="option-item">SUV</div>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <h5>机油品质</h5>
+                        <div class="option-list">
+                            <div class="option-item active">全合成 5W-40</div>
+                            <div class="option-item">半合成 5W-30</div>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <h5>附加服务</h5>
+                        <div class="option-list">
+                            <div class="option-item">空气滤清器 +¥50</div>
+                            <div class="option-item">空调滤清器 +¥80</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-footer">
+                    <div>
+                        <p>总计</p>
+                        <p style="color: var(--primary-color); font-size: 20px; font-weight: bold;">¥388</p>
+                    </div>
+                    <button class="btn">立即预约</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 支付订单页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <div class="left">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                <div class="title">确认支付</div>
+                <div class="right"></div>
+            </div>
+            
+            <div class="phone-content">
+                <div style="padding: 15px;">
+                    <!-- 订单信息 -->
+                    <div class="up-card">
+                        <div class="up-card-title">订单信息</div>
+                        <div class="service-item" style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span>服务项目</span>
+                            <span>常规保养套餐</span>
+                        </div>
+                        <div class="service-item" style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span>服务时间</span>
+                            <span>2024-06-28 14:30</span>
+                        </div>
+                        <div class="service-item" style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span>服务地点</span>
+                            <span>北京市朝阳区建国路88号</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 重要提示 - 退款政策 -->
+                    <div style="background: #FFF7E6; border-radius: 12px; padding: 15px; margin: 15px 0; border-left: 4px solid #FF9900;">
+                        <div style="display: flex; align-items: flex-start; gap: 10px;">
+                            <i class="fas fa-exclamation-circle" style="color: #FF9900; margin-top: 2px;"></i>
+                            <div>
+                                <h4 style="margin: 0 0 8px 0; color: #FF9900; font-size: 15px;">退款政策</h4>
+                                <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #666;">
+                                    1. 预约时间前24小时内取消，收取订单金额的10%作为违约金<br>
+                                    2. <strong style="color: #FF9900;">技工出发后取消订单，需要支付技工交通费</strong>（最低30元）<br>
+                                    3. 服务开始后取消，按照已完成工作比例收费
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 价格明细 -->
+                    <div class="up-card">
+                        <div class="up-card-title">价格明细</div>
+                        <div class="price-item" style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span>基础保养</span>
+                            <span>¥328</span>
+                        </div>
+                        <div class="price-item" style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span>机油滤芯</span>
+                            <span>¥60</span>
+                        </div>
+                        <div class="price-item" style="display: flex; justify-content: space-between; padding: 8px 0; color: #FF9900;">
+                            <span>优惠券</span>
+                            <span>-¥50</span>
+                        </div>
+                        <div class="price-item" style="display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid #f0f0f0; margin-top: 8px; font-weight: bold;">
+                            <span>实付金额</span>
+                            <span style="color: var(--primary-color); font-size: 18px;">¥338</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 支付方式 -->
+                    <div class="payment-method">
+                        <h4 style="margin: 15px 0;">支付方式</h4>
+                        <div class="method-item active" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(7, 193, 96, 0.1); transition: all 0.3s; padding: 18px; margin-bottom: 12px;">
+                            <i class="fab fa-weixin" style="color: #07c160; font-size: 24px; margin-right: 15px;"></i>
+                            <span style="flex: 1; font-weight: 500;">微信支付</span>
+                            <i class="fas fa-check-circle" style="color: #07c160;"></i>
+                        </div>
+                        <div class="method-item" style="border-radius: 12px; transition: all 0.3s; padding: 18px; margin-bottom: 12px;">
+                            <i class="fab fa-alipay" style="color: #1677ff; font-size: 24px; margin-right: 15px;"></i>
+                            <span style="flex: 1; font-weight: 500;">支付宝</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 同意条款 -->
+                    <div style="display: flex; align-items: center; margin: 20px 0; gap: 8px;">
+                        <input type="checkbox" id="agree" checked style="width: 18px; height: 18px;">
+                        <label for="agree" style="font-size: 14px; display: flex; align-items: center; flex-wrap: nowrap; white-space: nowrap;">
+                            我已阅读并同意<a href="#" style="color: var(--primary-color);">《服务协议》</a>和<a href="#" style="color: var(--primary-color);">《退款政策》</a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 底部支付按钮 -->
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: white; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <p style="color: var(--text-secondary); font-size: 13px; margin: 0;">实付金额</p>
+                    <p style="color: var(--primary-color); font-size: 22px; font-weight: bold; margin: 0;">¥338</p>
+                </div>
+                <button class="btn btn-success" style="padding: 12px 25px; font-size: 16px;">确认支付</button>
+            </div>
+        </div>
+
+        <!-- 评价页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>服务评价</h3>
+                <span></span>
+            </div>
+            <div style="padding: 15px;">
+                <div class="rating-section">
+                    <h4>服务评分</h4>
+                    <div class="rating-item">
+                        <span>服务质量</span>
+                        <div class="stars">
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="rating-item">
+                        <span>技工专业度</span>
+                        <div class="stars">
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                        </div>
+                    </div>
+                    <div class="rating-item">
+                        <span>服务态度</span>
+                        <div class="stars">
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-section">
+                    <h4>评价内容</h4>
+                    <textarea class="input" placeholder="请描述您的服务体验..." rows="4"></textarea>
+                    <div class="tag-group">
+                        <span class="tag active">技工专业</span>
+                        <span class="tag">服务周到</span>
+                        <span class="tag">准时到达</span>
+                        <span class="tag">价格合理</span>
+                    </div>
+                    <div class="upload-section">
+                        <div class="upload-btn">
+                            <i class="fas fa-camera"></i>
+                            <span>添加图片</span>
+                        </div>
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox">
+                        <span>匿名评价</span>
+                    </label>
+                </div>
+                <button class="btn" style="width: 100%;">提交评价</button>
+            </div>
+        </div>
+
+         <!-- 车辆管理页面 -->
+         <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>我的车辆</h3>
+                <i class="fas fa-plus"></i>
+            </div>
+            <div style="padding: 15px;">
+                <div class="car-list">
+                    <div class="car-item active">
+                        <div class="car-info">
+                            <i class="fas fa-car" style="font-size: 24px;"></i>
+                            <div>
+                                <h4>奥迪 A6L</h4>
+                                <p style="color: var(--text-secondary);">京A12345 · 2020款 2.0T</p>
+                            </div>
+                        </div>
+                        <div class="car-actions">
+                            <span class="tag">默认</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="car-item">
+                        <div class="car-info">
+                            <i class="fas fa-car" style="font-size: 24px;"></i>
+                            <div>
+                                <h4>宝马 3系</h4>
+                                <p style="color: var(--text-secondary);">京B67890 · 2021款 2.0T</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 添加/编辑车辆页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>添加车辆</h3>
+                <span></span>
+            </div>
+            <div style="padding: 15px;">
+                <div class="scan-card">
+                    <i class="fas fa-camera"></i>
+                    <p>扫描行驶证</p>
+                </div>
+                <div class="form-group">
+                    <label>车牌号码</label>
+                    <input type="text" class="input" placeholder="请输入车牌号码">
+                </div>
+                <div class="form-group">
+                    <label>品牌车型</label>
+                    <div class="input" style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-secondary);">请选择品牌车型</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>车辆颜色</label>
+                    <input type="text" class="input" placeholder="请输入车辆颜色">
+                </div>
+                <div class="form-group">
+                    <label>购车日期</label>
+                    <input type="date" class="input">
+                </div>
+                <div class="form-group">
+                    <label>行驶里程</label>
+                    <input type="number" class="input" placeholder="请输入行驶里程">
+                </div>
+                <button class="btn" style="width: 100%;">保存</button>
+            </div>
+        </div>
+
+        <!-- 保养记录页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>保养记录</h3>
+                <span></span>
+            </div>
+            <div class="car-selector">
+                <div class="selected-car">
+                    <span>奥迪 A6L</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            <div class="maintenance-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        <span>2024</span>
+                        <span>03-15</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>常规保养</h4>
+                        <p>里程：35,000km</p>
+                        <p>更换机油、机滤、空气滤清器</p>
+                        <p style="color: var(--text-secondary);">阳光汽修</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">
+                        <span>2023</span>
+                        <span>12-20</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>深度保养</h4>
+                        <p>里程：30,000km</p>
+                        <p>更换变速箱油、制动液、防冻液</p>
+                        <p style="color: var(--text-secondary);">宝驹快修</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 售后/退款申请页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>退款申请</h3>
+                <span></span>
+            </div>
+            <div style="padding: 15px;">
+                <div class="refund-info">
+                    <h4>订单信息</h4>
+                    <div class="info-item">
+                        <span>服务项目</span>
+                        <span>常规保养套餐</span>
+                    </div>
+                    <div class="info-item">
+                        <span>订单金额</span>
+                        <span>¥388</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>退款原因</label>
+                    <select class="input">
+                        <option>请选择退款原因</option>
+                        <option>服务未完成</option>
+                        <option>服务质量不满意</option>
+                        <option>商家服务态度差</option>
+                        <option>其他原因</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>问题描述</label>
+                    <textarea class="input" rows="4" placeholder="请详细描述您遇到的问题..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>上传凭证</label>
+                    <div class="upload-group">
+                        <div class="upload-btn">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="upload-preview">
+                            <img src="../qixiu.png" style="width: 100%; height: 100%; object-fit: cover;">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 12px;">最多上传9张图片</p>
+                </div>
+                <button class="btn" style="width: 100%;">提交申请</button>
+            </div>
+        </div>
+
+        <!-- 地址选择页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>选择服务地址</h3>
+                <span></span>
+            </div>
+            <div class="map-container">
+                <!-- 地图占位 -->
+                <div style="height: 300px; background: #f0f0f0; position: relative;">
+                    <div class="map-center">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                </div>
+                <div class="address-panel">
+                    <div class="current-location">
+                        <i class="fas fa-location-arrow"></i>
+                        <span>当前位置</span>
+                    </div>
+                    <div class="address-detail">
+                        <h4>北京市朝阳区三里屯街道</h4>
+                        <p style="color: var(--text-secondary);">三里屯SOHO A座</p>
+                    </div>
+                    <button class="btn" style="width: 100%;">确认地址</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 技工信息页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>技工信息</h3>
+                <span></span>
+            </div>
+            <div style="padding: 15px;">
+                <div class="technician-card">
+                    <img src="placeholder.jpg" class="technician-avatar">
+                    <div class="technician-info">
+                        <h4>张师傅</h4>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9</span>
+                            <span style="color: var(--text-secondary);">| 服务1280次</span>
+                        </div>
+                        <div class="tag-group">
+                            <span class="tag">发动机专家</span>
+                            <span class="tag">10年经验</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <h4>技能证书</h4>
+                    <div class="certificate-list">
+                        <img src="../qixiu.png" style="width: 100px; height: 70px; object-fit: cover;">
+                        <img src="../qixiu.png" style="width: 100px; height: 70px; object-fit: cover;"> 
+                    </div>
+                </div>
+                <div class="section">
+                    <h4>用户评价</h4>
+                    <div class="review-list">
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="user-info">
+                                    <img src="placeholder.jpg" class="avatar" style="width: 30px; height: 30px;">
+                                    <span>用户***123</span>
+                                </div>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>5.0</span>
+                                </div>
+                            </div>
+                            <p>技工很专业，服务很周到，修车速度快，很满意！</p>
+                            <p style="color: var(--text-secondary); font-size: 12px;">2024-03-15</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 验证码页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>验证手机号</h3>
+                <span></span>
+            </div>
+            <div style="padding: 20px;">
+                <p>验证码已发送至</p>
+                <h3 style="margin: 10px 0;">+86 138****8888</h3>
+                <div class="verification-code">
+                    <input type="text" maxlength="1" class="code-input">
+                    <input type="text" maxlength="1" class="code-input">
+                    <input type="text" maxlength="1" class="code-input">
+                    <input type="text" maxlength="1" class="code-input">
+                    <input type="text" maxlength="1" class="code-input">
+                    <input type="text" maxlength="1" class="code-input">
+                </div>
+                <p style="text-align: center; margin: 20px 0;">
+                    <span style="color: var(--text-secondary);">重新发送</span>
+                    <span style="color: var(--primary-color);">59s</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- 设置页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>设置</h3>
+                <span></span>
+            </div>
+            <div class="settings-list">
+                <div class="settings-group">
+                    <h4>账号安全</h4>
+                    <div class="settings-item">
+                        <div class="item-left">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>手机号码</span>
+                        </div>
+                        <div class="item-right">
+                            <span>138****8888</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="settings-item">
+                        <div class="item-left">
+                            <i class="fas fa-lock"></i>
+                            <span>修改密码</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h4>消息通知</h4>
+                    <div class="settings-item">
+                        <div class="item-left">
+                            <i class="fas fa-bell"></i>
+                            <span>推送通知</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <div class="item-left">
+                            <i class="fas fa-volume-up"></i>
+                            <span>声音</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h4>其他设置</h4>
+                    <div class="settings-item">
+                        <div class="item-left">
+                            <i class="fas fa-question-circle"></i>
+                            <span>帮助中心</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="settings-item">
+                        <div class="item-left">
+                            <i class="fas fa-info-circle"></i>
+                            <span>关于我们</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                    <div class="settings-item">
+                        <div class="item-left">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>隐私政策</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                <button class="btn btn-danger" style="width: 100%; margin-top: 30px;">退出登录</button>
+            </div>
+        </div>
+
+        <!-- 消息中心页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>消息中心</h3>
+                <span></span>
+            </div>
+            <div class="message-tabs">
+                <div class="tab active">系统通知</div>
+                <div class="tab">订单消息</div>
+                <div class="tab">活动消息</div>
+            </div>
+            <div class="message-list">
+                <div class="message-item unread">
+                    <div class="message-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-header">
+                            <h4>订单完成提醒</h4>
+                            <span>10:30</span>
+                        </div>
+                        <p>您的保养服务已完成，请及时评价！</p>
+                    </div>
+                </div>
+                <div class="message-item">
+                    <div class="message-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-header">
+                            <h4>优惠活动</h4>
+                            <span>昨天</span>
+                        </div>
+                        <p>新用户专享，首次保养立减50元！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 店铺列表页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>附近店铺</h3>
+                <i class="fas fa-filter"></i>
+            </div>
+            
+            <!-- 搜索栏 -->
+            <div class="search-container">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="搜索店铺名称或服务">
+                </div>
+            </div>
+            
+            <!-- 筛选条件 -->
+            <div class="filter-tabs">
+                <div class="filter-item active">
+                    <span>综合排序</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item">
+                    <span>距离</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item">
+                    <span>评分</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-item">
+                    <span>筛选</span>
+                    <i class="fas fa-sliders-h"></i>
+                </div>
+            </div>
+            
+            <!-- 店铺列表 -->
+            <div class="shop-list">
+                <div class="shop-card">
+                    <div class="shop-image">
+                        <img src="../qixiu.png" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="shop-info">
+                        <div class="shop-header">
+                            <h4>阳光汽修</h4>
+                            <span class="distance">500m</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.5 (1280)</span>
+                        </div>
+                        <div class="shop-tags">
+                            <span class="tag">上门保养</span>
+                            <span class="tag">车辆检测</span>
+                            <span class="tag">应急救援</span>
+                        </div>
+                        <p class="shop-desc">专业汽车维修保养，拥有10年维修经验的技工团队</p>
+                    </div>
+                </div>
+                
+                <div class="shop-card">
+                    <div class="shop-image">
+                        <img src="../qixiu.png" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="shop-info">
+                        <div class="shop-header">
+                            <h4>宝驹快修</h4>
+                            <span class="distance">1.2km</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>4.9 (856)</span>
+                        </div>
+                        <div class="shop-tags">
+                            <span class="tag">上门保养</span>
+                            <span class="tag">抢险救援</span>
+                        </div>
+                        <p class="shop-desc">豪车维修专家，提供高端汽车专业保养服务</p>
+                    </div>
+                </div>
+                
+                <div class="shop-card">
+                    <div class="shop-image">
+                        <img src="../qixiu.png" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="shop-info">
+                        <div class="shop-header">
+                            <h4>车到家</h4>
+                            <span class="distance">2.5km</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>4.0 (632)</span>
+                        </div>
+                        <div class="shop-tags">
+                            <span class="tag">上门救援</span>
+                            <span class="tag">电瓶服务</span>
+                            <span class="tag">紧急修理</span>
+                        </div>
+                        <p class="shop-desc">24小时紧急救援，快速响应，解决路上突发故障</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 筛选展开面板 -->
+            <div class="filter-panel" style="display: none;">
+                <div class="filter-section">
+                    <h4>服务类型</h4>
+                    <div class="filter-options">
+                        <div class="option-item">车辆检测</div>
+                        <div class="option-item active">保养套餐</div>
+                        <div class="option-item">应急救援</div>
+                        <div class="option-item">应急救援</div>
+                        <div class="option-item">轮胎服务</div>
+                        <div class="option-item">汽车美容</div>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h4>价格区间</h4>
+                    <div class="price-range">
+                        <input type="range" min="0" max="1000" value="500" class="range-slider">
+                        <div class="price-values">
+                            <span>¥0</span>
+                            <span>¥500</span>
+                            <span>¥1000+</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h4>其他筛选</h4>
+                    <div class="filter-options">
+                        <div class="option-item active">技工持证</div>
+                        <div class="option-item">支持预约</div>
+                        <div class="option-item">免费检测</div>
+                        <div class="option-item">支持分期</div>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="btn btn-outline">重置</button>
+                    <button class="btn">确定</button>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- 订单详情页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>订单详情</h3>
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div class="order-status">
+                <div class="status-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>服务已完成</h3>
+                <p>感谢您使用宝驹服务，期待再次为您服务</p>
+            </div>
+            <div class="order-timeline">
+                <div class="timeline-item completed">
+                    <div class="dot"></div>
+                    <div>
+                        <h4>订单已完成</h4>
+                        <p>2024-03-20 16:30</p>
+                    </div>
+                </div>
+                <div class="timeline-item completed">
+                    <div class="dot"></div>
+                    <div>
+                        <h4>技工正在服务</h4>
+                        <p>2024-03-20 15:15</p>
+                    </div>
+                </div>
+                <div class="timeline-item completed">
+                    <div class="dot"></div>
+                    <div>
+                        <h4>技工已到达</h4>
+                        <p>2024-03-20 15:00</p>
+                    </div>
+                </div>
+                <div class="timeline-item completed">
+                    <div class="dot"></div>
+                    <div>
+                        <h4>技工出发前往</h4>
+                        <p>2024-03-20 14:30</p>
+                    </div>
+                </div>
+                <div class="timeline-item completed">
+                    <div class="dot"></div>
+                    <div>
+                        <h4>订单已支付</h4>
+                        <p>2024-03-20 14:15</p>
+                    </div>
+                </div>
+            </div>
+            <div class="order-info">
+                <div class="info-section">
+                    <h4>订单信息</h4>
+                    <div class="info-item">
+                        <span>订单编号</span>
+                        <span>2024032012345678</span>
+                    </div>
+                    <div class="info-item">
+                        <span>下单时间</span>
+                        <span>2024-03-20 14:15</span>
+                    </div>
+                    <div class="info-item">
+                        <span>服务时间</span>
+                        <span>2024-03-20 15:00</span>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h4>服务信息</h4>
+                    <div class="service-item">
+                        <div>
+                            <h5>常规保养套餐</h5>
+                            <p>小型轿车 / 全合成机油 5W-40</p>
+                        </div>
+                        <div>
+                            <span>¥388</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h4>服务地址</h4>
+                    <div class="address-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h5>北京市朝阳区三里屯</h5>
+                            <p>三里屯SOHO A座</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h4>车辆信息</h4>
+                    <div class="vehicle-info">
+                        <i class="fas fa-car"></i>
+                        <div>
+                            <h5>奥迪 A6L</h5>
+                            <p>京A12345 · 2020款 2.0T</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h4>支付信息</h4>
+                    <div class="price-detail">
+                        <div class="price-item">
+                            <span>服务金额</span>
+                            <span>¥388.00</span>
+                        </div>
+                        <div class="price-item">
+                            <span>优惠券</span>
+                            <span>-¥50.00</span>
+                        </div>
+                        <div class="price-item total">
+                            <span>实付金额</span>
+                            <span>¥338.00</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 添加核销二维码区域 -->
+                <div class="verification-code" style="display: block;background-color: white; margin: 15px; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <h4 style="margin-bottom: 10px; font-size: 16px; color: #333;">出示二维码给技师验证</h4>
+                    <div style="width: 180px; height: 180px; background-color: #f0f0f0; margin: 0 auto 15px; display: flex; justify-content: center; align-items: center; position: relative;">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=ORD2024032012345678" style="width: 100%; height: 100%;">
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">
+                        <span style="font-size: 20px; font-weight: 600; letter-spacing: 5px; color: #333;">859632</span>
+                        <button style="background: none; border: none; margin-left: 10px; color: #1890ff;">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <p style="font-size: 12px; color: #999;">技师可通过扫描二维码或输入验证码核销订单</p>
+                </div>
+            </div>
+            <div class="order-actions">
+                <button class="btn btn-outline">再次预约</button>
+                <button class="btn">评价服务</button>
+            </div>
+        </div>
+
+        <!-- 服务进行中页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>服务进行中</h3>
+                <span></span>
+            </div>
+            <div class="service-map">
+                <!-- 地图占位 -->
+                <div style="height: 300px; background: #f0f0f0; position: relative;">
+                    <div class="car-marker">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="user-marker">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="service-panel">
+                <div class="technician-info">
+                    <img src="placeholder.jpg" class="technician-avatar" style="width: 50px; height: 50px;">
+                    <div>
+                        <h4>张师傅 <span class="status">正在前往</span></h4>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9 | 奥迪专修技工</span>
+                        </div>
+                    </div>
+                    <button class="call-btn">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                </div>
+                <div class="eta-info">
+                    <div>
+                        <p>预计到达时间</p>
+                        <h3>15分钟后</h3>
+                    </div>
+                    <div>
+                        <p>距离您</p>
+                        <h3>3.5公里</h3>
+                    </div>
+                </div>
+                <div class="service-actions">
+                    <button class="btn btn-outline">取消服务</button>
+                    <button class="btn">联系客服</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 优惠券页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>我的优惠券</h3>
+                <span></span>
+            </div>
+            <div class="coupon-tabs">
+                <div class="tab active">可使用</div>
+                <div class="tab">已使用</div>
+                <div class="tab">已过期</div>
+            </div>
+            <div class="coupon-list">
+                <div class="coupon-item">
+                    <div class="coupon-left">
+                        <div class="coupon-value">
+                            <span>¥</span>
+                            <span class="value">50</span>
+                        </div>
+                        <div class="coupon-condition">
+                            <span>满300元可用</span>
+                        </div>
+                    </div>
+                    <div class="coupon-right">
+                        <h4>新用户专享券</h4>
+                        <p>适用于保养套餐</p>
+                        <p class="coupon-date">有效期至: 2024-04-20</p>
+                        <button class="btn btn-sm">立即使用</button>
+                    </div>
+                    <div class="coupon-tag">新人</div>
+                </div>
+                <div class="coupon-item">
+                    <div class="coupon-left">
+                        <div class="coupon-value">
+                            <span>¥</span>
+                            <span class="value">20</span>
+                        </div>
+                        <div class="coupon-condition">
+                            <span>无门槛使用</span>
+                        </div>
+                    </div>
+                    <div class="coupon-right">
+                        <h4>感恩回馈券</h4>
+                        <p>适用于全部服务</p>
+                        <p class="coupon-date">有效期至: 2024-03-30</p>
+                        <button class="btn btn-sm">立即使用</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 帮助中心页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>帮助中心</h3>
+                <span></span>
+            </div>
+            <div class="search-container">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="搜索问题">
+                </div>
+            </div>
+            <div class="help-section">
+                <h4>常见问题</h4>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h5>如何预约上门维修服务？</h5>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer" style="display: none;">
+                            <p>1. 在首页选择服务类型或直接进入店铺列表</p>
+                            <p>2. 选择合适的店铺并进入店铺详情页</p>
+                            <p>3. 选择服务项目并点击"立即预约"</p>
+                            <p>4. 确认服务地址和时间后完成支付即可</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h5>如何申请退款？</h5>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h5>技工没有按时到达怎么办？</h5>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="help-section">
+                <h4>服务指南</h4>
+                <div class="guide-list">
+                    <div class="guide-item">
+                        <i class="fas fa-tools"></i>
+                        <span>服务流程</span>
+                    </div>
+                    <div class="guide-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>服务保障</span>
+                    </div>
+                    <div class="guide-item">
+                        <i class="fas fa-undo"></i>
+                        <span>退款规则</span>
+                    </div>
+                    <div class="guide-item">
+                        <i class="fas fa-tags"></i>
+                        <span>优惠说明</span>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-section">
+                <h4>联系我们</h4>
+                <div class="contact-card">
+                    <div class="contact-item">
+                        <i class="fas fa-headset"></i>
+                        <div>
+                            <h5>客服热线</h5>
+                            <p>400-123-4567</p>
+                            <p class="small">工作时间: 9:00-21:00</p>
+                        </div>
+                        <button class="call-btn">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 预约时间选择页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>选择服务时间</h3>
+                <span></span>
+            </div>
+            <div class="date-selector">
+                <div class="month-header">
+                    <i class="fas fa-chevron-left"></i>
+                    <h4>2024年3月</h4>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="weekdays">
+                    <span>日</span>
+                    <span>一</span>
+                    <span>二</span>
+                    <span>三</span>
+                    <span>四</span>
+                    <span>五</span>
+                    <span>六</span>
+                </div>
+                <div class="calendar-grid">
+                    <div class="date-cell disabled">27</div>
+                    <div class="date-cell disabled">28</div>
+                    <div class="date-cell disabled">29</div>
+                    <div class="date-cell">1</div>
+                    <div class="date-cell">2</div>
+                    <div class="date-cell">3</div>
+                    <div class="date-cell">4</div>
+                    <!-- 第二行 -->
+                    <div class="date-cell">5</div>
+                    <div class="date-cell">6</div>
+                    <div class="date-cell">7</div>
+                    <div class="date-cell">8</div>
+                    <div class="date-cell">9</div>
+                    <div class="date-cell">10</div>
+                    <div class="date-cell">11</div>
+                    <!-- 第三行 -->
+                    <div class="date-cell">12</div>
+                    <div class="date-cell">13</div>
+                    <div class="date-cell">14</div>
+                    <div class="date-cell">15</div>
+                    <div class="date-cell">16</div>
+                    <div class="date-cell">17</div>
+                    <div class="date-cell">18</div>
+                    <!-- 第四行 -->
+                    <div class="date-cell">19</div>
+                    <div class="date-cell selected">20</div>
+                    <div class="date-cell">21</div>
+                    <div class="date-cell">22</div>
+                    <div class="date-cell">23</div>
+                    <div class="date-cell">24</div>
+                    <div class="date-cell">25</div>
+                </div>
+            </div>
+            <div class="time-selector">
+                <h4>选择时间段</h4>
+                <div class="time-slots">
+                    <div class="time-slot">08:00-10:00</div>
+                    <div class="time-slot">10:00-12:00</div>
+                    <div class="time-slot">12:00-14:00</div>
+                    <div class="time-slot selected">14:00-16:00</div>
+                    <div class="time-slot">16:00-18:00</div>
+                    <div class="time-slot disabled">18:00-20:00</div>
+                </div>
+            </div>
+            <div class="time-footer">
+                <button class="btn">确认预约</button>
+            </div>
+        </div>
+
+        <!-- 订单确认页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>确认订单</h3>
+                <span></span>
+            </div>
+            <div class="order-confirm">
+                <div class="confirm-section">
+                    <div class="section-header">
+                        <h4>服务地址</h4>
+                        <span class="edit-link">修改</span>
+                    </div>
+                    <div class="address-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h5>北京市朝阳区三里屯</h5>
+                            <p>三里屯SOHO A座</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="confirm-section">
+                    <div class="section-header">
+                        <h4>服务时间</h4>
+                        <span class="edit-link">修改</span>
+                    </div>
+                    <div class="time-card">
+                        <i class="fas fa-clock"></i>
+                        <span>2024-03-20 14:00-16:00</span>
+                    </div>
+                </div>
+                <div class="confirm-section">
+                    <div class="section-header">
+                        <h4>车辆信息</h4>
+                        <span class="edit-link">修改</span>
+                    </div>
+                    <div class="vehicle-card">
+                        <i class="fas fa-car"></i>
+                        <div>
+                            <h5>奥迪 A6L</h5>
+                            <p>京A12345 · 2020款 2.0T</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="confirm-section">
+                    <div class="section-header">
+                        <h4>服务项目</h4>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-info">
+                            <h5>常规保养套餐</h5>
+                            <p>小型轿车 / 全合成机油 5W-40</p>
+                        </div>
+                        <span class="service-price">¥388</span>
+                    </div>
+                </div>
+                <div class="confirm-section">
+                    <div class="section-header">
+                        <h4>优惠券</h4>
+                        <span class="edit-link">选择优惠券 <i class="fas fa-chevron-right"></i></span>
+                    </div>
+                    <div class="coupon-card">
+                        <span>新用户专享 ¥50</span>
+                    </div>
+                </div>
+                <div class="confirm-section">
+                    <div class="section-header">
+                        <h4>订单备注</h4>
+                    </div>
+                    <textarea class="remark-input" placeholder="您可以填写额外需求或注意事项..."></textarea>
+                </div>
+                <div class="price-summary">
+                    <div class="price-row">
+                        <span>服务费用</span>
+                        <span>¥388.00</span>
+                    </div>
+                    <div class="price-row">
+                        <span>优惠券</span>
+                        <span>-¥50.00</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>实付金额</span>
+                        <span>¥338.00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="confirm-footer">
+                <div class="price-display">
+                    <span>实付：</span>
+                    <span class="highlight-price">¥338.00</span>
+                </div>
+                <button class="btn">立即支付</button>
+            </div>
+        </div>
+
+        <!-- 支付结果页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="result-container">
+                <div class="result-icon success">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3>支付成功</h3>
+                <p>订单金额: ¥338.00</p>
+                <div class="order-tips">
+                    <p>技工将在预约时间前联系您</p>
+                    <p>可在"我的订单"中查看订单详情</p>
+                </div>
+                <div class="result-actions">
+                    <button class="btn btn-outline">查看订单</button>
+                    <button class="btn">返回首页</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 取消订单页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>取消订单</h3>
+                <span></span>
+            </div>
+            <div class="cancel-content">
+                <div class="warning-box">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>技工已出发前往服务地点，取消订单将收取¥50交通费</p>
+                </div>
+                <div class="cancel-section">
+                    <h4>取消原因</h4>
+                    <div class="reason-list">
+                        <div class="reason-item">
+                            <input type="radio" id="reason1" name="reason">
+                            <label for="reason1">临时有事，改时间</label>
+                        </div>
+                        <div class="reason-item">
+                            <input type="radio" id="reason2" name="reason">
+                            <label for="reason2">等待时间太长</label>
+                        </div>
+                        <div class="reason-item">
+                            <input type="radio" id="reason3" name="reason">
+                            <label for="reason3">价格不合适</label>
+                        </div>
+                        <div class="reason-item">
+                            <input type="radio" id="reason4" name="reason">
+                            <label for="reason4">选错服务/车型</label>
+                        </div>
+                        <div class="reason-item">
+                            <input type="radio" id="reason5" name="reason">
+                            <label for="reason5">其他原因</label>
+                        </div>
+                    </div>
+                    <div class="other-reason">
+                        <textarea placeholder="请填写取消原因..."></textarea>
+                    </div>
+                </div>
+                <div class="cancel-fee">
+                    <div class="fee-info">
+                        <span>交通费</span>
+                        <span>¥50.00</span>
+                    </div>
+                    <div class="fee-info">
+                        <span>退款金额</span>
+                        <span>¥288.00</span>
+                    </div>
+                </div>
+                <div class="cancel-notice">
+                    <p>提交后，系统将从订单金额中扣除交通费，余额将退回至支付账户</p>
+                </div>
+                <div class="cancel-actions">
+                    <button class="btn btn-outline">暂不取消</button>
+                    <button class="btn btn-danger">确认取消</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 技工到达确认页面 -->
+        <div class="phone-frame">
+            <div class="status-bar">
+                <span>9:41</span>
+                <div>
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h3>技工已到达</h3>
+                <span></span>
+            </div>
+            <div class="arrival-content">
+                <div class="arrival-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <h3>张师傅已到达服务地点</h3>
+                <div class="technician-card">
+                    <img src="placeholder.jpg" class="technician-avatar">
+                    <div class="technician-info">
+                        <h4>张师傅</h4>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9 | 奥迪专修技工</span>
+                        </div>
+                        <div class="license">
+                            <i class="fas fa-id-card"></i>
+                            <span>技工编号: T20240315</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="verify-section">
+                    <h4>安全验证</h4>
+                    <p>请确认技工身份与系统显示一致</p>
+                    <p>技工将出示工作证件以供核验</p>
+                </div>
+                <div class="service-overview">
+                    <h4>服务概览</h4>
+                    <div class="overview-item">
+                        <i class="fas fa-tools"></i>
+                        <div>
+                            <h5>常规保养套餐</h5>
+                            <p>小型轿车 / 全合成机油 5W-40</p>
+                        </div>
+                    </div>
+                    <div class="overview-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h5>预计服务时长</h5>
+                            <p>约60分钟</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="arrival-actions">
+                    <button class="btn btn-outline">联系技工</button>
+                    <button class="btn">确认开始服务</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 当DOM加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取所有的phone-frame元素
+            const phoneFrames = document.querySelectorAll('.phone-frame');
+            
+            // 遍历每个phone-frame
+            phoneFrames.forEach(frame => {
+                // 排除已经有phone-content的frame
+                if (frame.querySelector('.phone-content')) return;
+                
+                // 创建phone-content容器
+                const phoneContent = document.createElement('div');
+                phoneContent.className = 'phone-content';
+                
+                // 取出状态栏和导航栏
+                const statusBar = frame.querySelector('.status-bar');
+                const navBar = frame.querySelector('.nav-bar');
+                const tabBar = frame.querySelector('.tab-bar');
+                
+                // 临时存储其他所有子元素
+                const otherElements = [];
+                
+                // 过滤掉状态栏、导航栏和标签栏，保存其他元素
+                Array.from(frame.children).forEach(child => {
+                    if (child !== statusBar && child !== navBar && child !== tabBar) {
+                        otherElements.push(child);
+                    }
+                });
+                
+                // 清空frame中除了状态栏和导航栏外的元素
+                otherElements.forEach(el => el.remove());
+                
+                // 将其他元素添加到phone-content中
+                otherElements.forEach(el => {
+                    phoneContent.appendChild(el);
+                });
+                
+                // 如果存在状态栏和导航栏，插入到它们之后；否则直接插入到frame的开头
+                if (navBar) {
+                    frame.insertBefore(phoneContent, navBar.nextSibling);
+                } else if (statusBar) {
+                    frame.insertBefore(phoneContent, statusBar.nextSibling);
+                } else {
+                    frame.prepend(phoneContent);
+                }
+            });
+
+            // 阻止所有phone-frame元素的水平滑动
+            phoneFrames.forEach(frame => {
+                frame.addEventListener('touchmove', function(e) {
+                    // 获取触摸事件的方向
+                    if (!this._touchStartX) return;
+                    const touchEndX = e.touches[0].clientX;
+                    const diffX = Math.abs(touchEndX - this._touchStartX);
+                    const touchEndY = e.touches[0].clientY;
+                    const diffY = Math.abs(touchEndY - this._touchStartY);
+                    
+                    // 如果水平移动距离大于垂直移动，则判定为水平滑动，阻止默认行为
+                    if (diffX > diffY) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                frame.addEventListener('touchstart', function(e) {
+                    this._touchStartX = e.touches[0].clientX;
+                    this._touchStartY = e.touches[0].clientY;
+                });
+                
+                frame.addEventListener('touchend', function() {
+                    this._touchStartX = null;
+                    this._touchStartY = null;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

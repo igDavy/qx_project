@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单管理 - 汽修宝商家端</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px; /* 为底部导航留出空间 */
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: var(--shadow-2);
+            border-top: 1px solid var(--neutral-200);
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .nav-item.active {
+            color: var(--secondary-color);
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .order-tabs {
+            display: flex;
+            background-color: white;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            overflow-x: auto;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+            scrollbar-width: none;
+            position: sticky;
+            top: 56px; /* 头部导航栏高度 */
+            z-index: 99;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .order-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .order-tab {
+            white-space: nowrap;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            color: var(--neutral-600);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .order-tab.active {
+            background-image: var(--gradient-secondary);
+            color: white;
+            box-shadow: var(--shadow-1);
+            transform: translateY(-1px);
+        }
+        
+        .search-bar {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            align-items: center;
+            margin: var(--spacing-md) var(--spacing-lg);
+            box-shadow: var(--shadow-1);
+            border: 1px solid var(--neutral-200);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(255, 109, 0, 0.1);
+        }
+        
+        .search-bar i {
+            color: var(--neutral-500);
+            margin-right: var(--spacing-sm);
+        }
+        
+        .search-input {
+            border: none;
+            background: none;
+            flex: 1;
+            font-size: var(--font-size-md);
+            outline: none;
+        }
+        
+        .order-list {
+            padding: 0 var(--spacing-lg);
+        }
+        
+        .order-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+            border: 1px solid var(--neutral-200);
+            transition: all var(--transition-normal) var(--transition-timing);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+        }
+
+        .chat-link {
+            position: absolute;
+            right: var(--spacing-md);
+            bottom: var(--spacing-md);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: var(--shadow-1);
+            transition: all var(--transition-normal) var(--transition-timing);
+            z-index: 2;
+        }
+
+        .chat-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-2);
+        }
+        
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-2);
+            border-color: var(--secondary-color);
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+            align-items: center;
+        }
+        
+        .order-id {
+            font-weight: 600;
+        }
+        
+        .order-status {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .order-status i {
+            font-size: var(--font-size-sm);
+        }
+        
+        .status-new {
+            background-color: rgba(41, 98, 255, 0.1);
+            color: var(--secondary-color);
+        }
+        
+        .status-in-progress {
+            background-color: rgba(255, 109, 0, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .status-completed {
+            background-color: rgba(103, 194, 58, 0.1);
+            color: var(--success-color);
+        }
+        
+        .status-cancelled {
+            background-color: rgba(245, 108, 108, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .order-content {
+            padding: var(--spacing-md);
+            padding-bottom: calc(var(--spacing-md) + 36px);
+        }
+        
+        .order-service {
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .order-info {
+            display: flex;
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+        
+        .order-info i {
+            width: 20px;
+            margin-right: var(--spacing-xs);
+            color: var(--secondary-color);
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md);
+            border-top: 1px solid var(--neutral-200);
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: var(--spacing-sm);
+            text-align: center;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e65100;
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--neutral-300);
+            color: var(--neutral-700);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--secondary-color);
+            color: var(--secondary-color);
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xxl) var(--spacing-lg);
+            text-align: center;
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            color: var(--neutral-400);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .empty-text {
+            color: var(--neutral-600);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+
+    </style>
+</head>
+<body>
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="orders.html" class="nav-item active">
+            <i class="fas fa-list-alt nav-icon"></i>
+            <span>订单</span>
+        </a>
+        <a href="services.html" class="nav-item">
+            <i class="fas fa-tools nav-icon"></i>
+            <span>服务</span>
+        </a>
+        <a href="parts.html" class="nav-item">
+            <i class="fas fa-cog nav-icon"></i>
+            <span>配件</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+    <header class="app-header">
+        <h2>订单管理</h2>
+        <div>
+            <i class="fas fa-filter"></i>
+        </div>
+    </header>
+    
+    <div class="order-tabs">
+        <div class="order-tab active">全部</div>
+        <div class="order-tab">新订单</div>
+        <div class="order-tab">服务中</div>
+        <div class="order-tab">已完成</div>
+        <div class="order-tab">已取消</div>
+    </div>
+    
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" class="search-input" placeholder="搜索订单号、客户名称">
+    </div>
+    
+    <div class="order-list" id="orderList"></div>
+
+    <script>
+        // 模拟订单数据
+        const orders = [
+            { id: '2023072501', status: 'new', customerName: '张先生', service: '发动机维修', time: '2023-07-25 14:30' },
+            { id: '2023072502', status: 'in-progress', customerName: '李女士', service: '轮胎更换', time: '2023-07-25 15:00' },
+            { id: '2023072503', status: 'completed', customerName: '王先生', service: '空调检修', time: '2023-07-25 16:30' }
+        ];
+
+        // 渲染订单列表
+        function renderOrders() {
+            const orderList = document.getElementById('orderList');
+            if (orders.length === 0) {
+                orderList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-clipboard-list empty-icon"></i>
+                        <div class="empty-text">暂无订单</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            orderList.innerHTML = orders.map(order => `
+                <a href="order-detail.html?id=${order.id}" class="order-card">
+                    <div class="order-header">
+                        <span class="order-id">订单号：${order.id}</span>
+                        <span class="order-status status-${order.status}">
+                            <i class="fas fa-${getStatusIcon(order.status)}"></i>
+                            ${getStatusText(order.status)}
+                        </span>
+                    </div>
+                    <div class="order-content">
+                        <div class="order-service">${order.service}</div>
+                        <div class="order-info">
+                            <i class="fas fa-user"></i>
+                            <span>客户：${order.customerName}</span>
+                        </div>
+                        <div class="order-info">
+                            <i class="fas fa-clock"></i>
+                            <span>时间：${order.time}</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+
+            // 添加聊天按钮点击事件
+            document.querySelectorAll('.chat-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.location.href = this.href;
+                });
+            });
+
+            // 添加订单卡片点击事件
+            document.querySelectorAll('.order-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const orderId = this.querySelector('.order-id').textContent.split('：')[1];
+                    window.location.href = `order-detail.html?id=${orderId}`;
+                });
+            });
+        }
+
+        // 获取状态图标
+        function getStatusIcon(status) {
+            const icons = {
+                'new': 'bell',
+                'in-progress': 'clock',
+                'completed': 'check-circle',
+                'cancelled': 'times-circle'
+            };
+            return icons[status] || 'question-circle';
+        }
+
+        // 获取状态文本
+        function getStatusText(status) {
+            const texts = {
+                'new': '新订单',
+                'in-progress': '进行中',
+                'completed': '已完成',
+                'cancelled': '已取消'
+            };
+            return texts[status] || '未知状态';
+        }
+
+        // 页面加载时渲染订单列表
+        window.addEventListener('load', renderOrders);
+    </script>
+</body>
+</html>

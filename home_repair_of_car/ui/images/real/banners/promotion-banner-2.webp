@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6d00" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#e65100" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="300" fill="url(#bg-gradient)"/>
+  
+  <!-- 轮胎图形 -->
+  <g transform="translate(400, 150)">
+    <circle cx="0" cy="0" r="80" fill="#333333"/>
+    <circle cx="0" cy="0" r="70" fill="#222222"/>
+    <circle cx="0" cy="0" r="40" fill="#444444"/>
+    <circle cx="0" cy="0" r="30" fill="#555555"/>
+    <circle cx="0" cy="0" r="15" fill="#666666"/>
+    
+    <!-- 轮胎花纹 -->
+    <path d="M0,-70 L0,-40 M40,-58 L23,-33 M69,-10 L40,-5 M58,40 L33,23 M10,69 L5,40 M-40,58 L-23,33 M-69,10 L-40,5 M-58,-40 L-33,-23" stroke="#111111" stroke-width="5"/>
+  </g>
+  
+  <!-- 工具图标 -->
+  <g transform="translate(120, 150)">
+    <circle cx="0" cy="0" r="50" fill="#ffffff" fill-opacity="0.2"/>
+    <path d="M-25,-25 L25,25 M-25,25 L25,-25" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="15" fill="#ffffff" fill-opacity="0.4"/>
+  </g>
+  
+  <!-- 文字 -->
+  <text x="300" y="80" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="#ffffff" text-anchor="middle">轮胎更换优惠</text>
+  <text x="300" y="130" font-family="Arial, sans-serif" font-size="24" fill="#ffffff" text-anchor="middle">品牌轮胎+免费安装</text>
+  <text x="300" y="230" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#ffffff" text-anchor="middle">8折起</text>
+  <text x="300" y="270" font-family="Arial, sans-serif" font-size="18" fill="#ffffff" text-anchor="middle">限时优惠 · 即日起至本月底</text>
+</svg>

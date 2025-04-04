@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技师管理 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+        }
+        
+        .add-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .technician-list {
+            padding: var(--spacing-md) var(--spacing-lg);
+        }
+        
+        .technician-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .technician-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .technician-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .technician-info {
+            flex: 1;
+        }
+        
+        .technician-name {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .technician-specialty {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+        }
+        
+        .account-status {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background-color: rgba(0, 200, 83, 0.1);
+            color: var(--success-color);
+        }
+        
+        .status-inactive {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--error-color);
+        }
+        
+        .technician-stats {
+            display: flex;
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--neutral-200);
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+        
+        .stat-value {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+        
+        .technician-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--neutral-300);
+            color: var(--neutral-700);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <h1 class="header-title">技师管理</h1>
+        <button class="add-btn" onclick="window.location.href='technician-edit.html'">
+            <i class="fas fa-plus"></i>
+            <span>添加技师</span>
+        </button>
+    </header>
+    
+    <div class="technician-list">
+        <div class="technician-card">
+            <div class="technician-header">
+                <img src="../images/real/avatars/technician-avatar.svg" alt="技师头像" class="technician-avatar">
+                <div class="technician-info">
+                    <div class="technician-name">张师傅</div>
+                    <div class="technician-specialty">专长：发动机维修、电路故障</div>
+                </div>
+                <span class="account-status status-active">已开通账号</span>
+            </div>
+            <div class="technician-stats">
+                <div class="stat-item">
+                    <div class="stat-value">4.9</div>
+                    <div class="stat-label">评分</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">89</div>
+                    <div class="stat-label">订单数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">98%</div>
+                    <div class="stat-label">好评率</div>
+                </div>
+            </div>
+            <div class="technician-actions">
+                <button class="action-btn btn-primary" onclick="window.location.href='technician-edit.html?id=1'">编辑信息</button>
+                <button class="action-btn btn-outline">重置密码</button>
+            </div>
+        </div>
+        
+        <div class="technician-card">
+            <div class="technician-header">
+                <img src="../images/real/avatars/technician-avatar.svg" alt="技师头像" class="technician-avatar">
+                <div class="technician-info">
+                    <div class="technician-name">李师傅</div>
+                    <div class="technician-specialty">专长：底盘维修、刹车系统</div>
+                </div>
+                <span class="account-status status-inactive">未开通账号</span>
+            </div>
+            <div class="technician-stats">
+                <div class="stat-item">
+                    <div class="stat-value">4.8</div>
+                    <div class="stat-label">评分</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">56</div>
+                    <div class="stat-label">订单数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">95%</div>
+                    <div class="stat-label">好评率</div>
+                </div>
+            </div>
+            <div class="technician-actions">
+                <button class="action-btn btn-primary">开通账号</button>
+                <button class="action-btn btn-outline" onclick="window.location.href='technician-edit.html?id=2'">编辑信息</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消息中心 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px; /* 为底部导航留出空间 */
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .header-title {
+            font-weight: 600;
+            font-size: var(--font-size-lg);
+        }
+        
+        .message-tabs {
+            display: flex;
+            background-color: white;
+            border-bottom: 1px solid var(--neutral-200);
+            position: sticky;
+            top: 56px;
+            z-index: 99;
+        }
+        
+        .message-tab {
+            flex: 1;
+            text-align: center;
+            padding: var(--spacing-md) 0;
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .message-tab.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .message-tab.active::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            right: 25%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .message-list {
+            padding: var(--spacing-md);
+        }
+
+        .message-item {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: flex-start;
+            box-shadow: var(--shadow-1);
+            transition: transform 0.2s ease;
+        }
+
+        .message-item:active {
+            transform: scale(0.98);
+        }
+
+        .message-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            color: var(--primary-color);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            flex: 1;
+        }
+
+        .message-title {
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .message-time {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-500);
+        }
+
+        .message-text {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            line-height: 1.5;
+        }
+
+        .message-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-xs);
+            margin-left: var(--spacing-xs);
+            background-color: var(--primary-color-light);
+            color: var(--primary-color);
+        }
+        
+        .message-card {
+            display: block;
+            background-color: #fff;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-1);
+            border: 1px solid var(--neutral-200);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .message-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-2);
+            border-color: var(--primary-color);
+        }
+        
+        .message-card.unread {
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .message-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .message-title {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .message-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .icon-system {
+            background-color: rgba(41, 98, 255, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .icon-service {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--success-color);
+        }
+        
+        .icon-promotion {
+            background-color: rgba(255, 109, 0, 0.1);
+            color: var(--secondary-color);
+        }
+        
+        .message-time {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-500);
+        }
+        
+        .message-content {
+            padding: var(--spacing-md);
+        }
+        
+        .message-text {
+            color: var(--neutral-700);
+            font-size: var(--font-size-sm);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .message-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-sm);
+        }
+        
+        .action-btn {
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--neutral-300);
+            background-color: white;
+            color: var(--neutral-700);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1a54ff;
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xxl) var(--spacing-lg);
+            text-align: center;
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            color: var(--neutral-400);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .empty-text {
+            color: var(--neutral-600);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-xs) 0;
+            color: var(--neutral-600);
+            font-size: var(--font-size-xs);
+            transition: color var(--transition-normal) var(--transition-timing);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+        
+        .unread-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--danger-color);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <h1 class="header-title">消息中心</h1>
+        <i class="fas fa-check-double"></i>
+    </header>
+    
+    <div class="message-tabs">
+        <div class="message-tab active">全部</div>
+        <div class="message-tab">系统通知</div>
+        <div class="message-tab">服务消息</div>
+        <div class="message-tab">活动推送</div>
+    </div>
+    
+    <div class="message-list">
+        <a href="chat.html" class="message-card">
+            <div class="message-header">
+                <div class="message-title">
+                    <i class="fas fa-comments"></i>
+                    车友汽修服务中心
+                    <span class="message-tag">订单号：2024020512345</span>
+                </div>
+                <div class="message-time">14:30</div>
+            </div>
+            <div class="message-content">
+                <div class="message-text">您好，我的车最近启动时有异响，想咨询一下。</div>
+            </div>
+        </a>
+
+        <!-- 消息卡片 1 - 未读 -->
+        <a href="#" class="message-card unread">
+            <div class="message-header">
+                <div class="message-title">
+                    <div class="message-icon icon-system">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <span>系统通知</span>
+                </div>
+                <div class="message-time">10分钟前</div>
+            </div>
+            <div class="message-content">
+                <div class="message-text">尊敬的用户，您的车辆保养提醒已开启，系统将在您的爱车需要保养时提前通知您。</div>
+                <div class="message-actions">
+                    <button class="action-btn btn-outline">忽略</button>
+                    <button class="action-btn btn-primary">查看详情</button>
+                </div>
+            </div>
+        </a>
+        
+        <!-- 消息卡片 2 - 未读 -->
+        <a href="#" class="message-card unread">
+            <div class="message-header">
+                <div class="message-title">
+                    <div class="message-icon icon-service">
+                        <i class="fas fa-wrench"></i>
+                    </div>
+                    <span>服务消息</span>
+                </div>
+                <div class="message-time">2小时前</div>
+            </div>
+            <div class="message-content">
+                <div class="message-text">您的订单 #2023061501 已开始服务，车友汽修正在为您的爱车进行常规保养，预计2小时内完成。</div>
+                <div class="message-actions">
+                    <button class="action-btn btn-outline">联系商家</button>
+                    <button class="action-btn btn-primary">查看订单</button>
+                </div>
+            </div>
+        </a>
+        
+        <!-- 消息卡片 3 -->
+        <a href="#" class="message-card">
+            <div class="message-header">
+                <div class="message-title">
+                    <div class="message-icon icon-promotion">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <span>活动推送</span>
+                </div>
+                <div class="message-time">昨天</div>
+            </div>
+            <div class="message-content">
+                <div class="message-text">夏季空调检测活动开始啦！即日起至6月30日，空调系统检测服务享受8折优惠，让您的爱车清凉一夏。</div>
+                <div class="message-actions">
+                    <button class="action-btn btn-outline">不感兴趣</button>
+                    <button class="action-btn btn-primary">立即预约</button>
+                </div>
+            </div>
+        </a>
+        
+        <!-- 消息卡片 4 -->
+        <a href="#" class="message-card">
+            <div class="message-header">
+                <div class="message-title">
+                    <div class="message-icon icon-system">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <span>系统通知</span>
+                </div>
+                <div class="message-time">3天前</div>
+            </div>
+            <div class="message-content">
+                <div class="message-text">尊敬的用户，您的账户已成功注册，感谢您选择宝驹。我们将为您提供专业的汽车维修保养服务。</div>
+                <div class="message-actions">
+                    <button class="action-btn btn-outline">我知道了</button>
+                    <button class="action-btn btn-primary">完善信息</button>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <!-- 底部导航 -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fas fa-tools nav-icon"></i>
+            <span>服务</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-clipboard-list nav-icon"></i>
+            <span>订单</span>
+        </a>
+        <a href="messages.html" class="nav-item active">
+            <i class="fas fa-comment-alt nav-icon"></i>
+            <span>消息</span>
+            <span class="unread-badge"></span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fas fa-tools"></i>
+            <span>服务</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-list-alt"></i>
+            <span>订单</span>
+        </a>
+        <a href="messages.html" class="nav-item active">
+            <i class="fas fa-comments"></i>
+            <span>消息</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+</body>
+</html>

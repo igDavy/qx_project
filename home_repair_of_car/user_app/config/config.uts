@@ -1,0 +1,21 @@
+type configType {
+	title_name: string,
+	timeout: number,
+	baseUrl: baseUrlType,
+	httpSuccessCodes: Array<number>
+}
+
+type baseUrlType {
+	dev: string,
+	pro: string,
+}
+
+export default <configType> {
+	title_name: '宝驹',
+	timeout: 10000,
+	baseUrl: {
+		dev: 'dev',
+		pro: 'pro'
+	},
+	httpSuccessCodes: [200, 201, 202, 203, 204, 205, 206],
+}

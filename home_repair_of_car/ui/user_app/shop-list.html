@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>门店列表 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .back-btn {
+            margin-right: var(--spacing-md);
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+            margin-right: var(--spacing-xl);
+        }
+
+        .search-bar {
+            background-color: white;
+            margin: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow-1);
+        }
+
+        .search-bar i {
+            color: var(--neutral-500);
+            margin-right: var(--spacing-sm);
+        }
+
+        .search-input {
+            border: none;
+            background: none;
+            flex: 1;
+            font-size: var(--font-size-md);
+            outline: none;
+        }
+
+        .filter-bar {
+            display: flex;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background-color: white;
+            border-bottom: 1px solid var(--neutral-200);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-xs) var(--spacing-md);
+            margin-right: var(--spacing-sm);
+            border-radius: var(--border-radius-full);
+            background-color: var(--neutral-100);
+            color: var(--neutral-600);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+
+        .filter-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .filter-item i {
+            margin-left: var(--spacing-xs);
+            font-size: 12px;
+        }
+
+        .filter-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 16px;
+            height: 16px;
+            padding: 0 4px;
+            margin-left: 4px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: var(--border-radius-full);
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1;
+        }
+
+        .filter-panel {
+            background-color: white;
+            padding: var(--spacing-lg);
+            position: fixed;
+            top: 0;
+            right: -100%;
+            bottom: 0;
+            width: 85%;
+            max-width: 380px;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            box-shadow: -8px 0 24px rgba(0, 0, 0, 0.15);
+            border-radius: var(--border-radius-lg) 0 0 var(--border-radius-lg);
+            opacity: 0;
+            transform: translateX(20px);
+        }
+
+        .filter-panel.show {
+            right: 0;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .filter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .filter-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .filter-section {
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+        }
+
+        .filter-section:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: calc(-1 * var(--spacing-md));
+            left: calc(-1 * var(--spacing-lg));
+            right: calc(-1 * var(--spacing-lg));
+            height: 1px;
+            background-color: var(--neutral-200);
+        }
+
+        .filter-section-title {
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--neutral-800);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        .filter-option {
+            background-color: var(--neutral-100);
+            border: 2px solid transparent;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--border-radius-full);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-option:hover {
+            background-color: var(--neutral-200);
+            transform: translateY(-1px);
+        }
+
+        .filter-option.active {
+            background-color: var(--primary-color-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .filter-option.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, var(--primary-color-light) 0%, transparent 70%);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .filter-action-btn {
+            flex: 1;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            font-size: var(--font-size-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-action-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background-color: currentColor;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.6s, opacity 0.6s;
+        }
+
+        .filter-action-btn:active::after {
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 0.2;
+        }
+
+        .filter-action-btn.reset {
+            background-color: var(--neutral-100);
+            border: 2px solid var(--neutral-300);
+            color: var(--neutral-700);
+        }
+
+        .filter-action-btn.reset:hover {
+            background-color: var(--neutral-200);
+            border-color: var(--neutral-400);
+        }
+
+        .filter-action-btn.confirm {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(var(--primary-color-rgb), 0.3);
+        }
+
+        .filter-action-btn.confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(var(--primary-color-rgb), 0.4);
+        }
+
+        .shop-list {
+            padding: var(--spacing-md);
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        @media screen and (min-width: 640px) {
+            .shop-list {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: var(--spacing-lg);
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            .shop-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .shop-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-1);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 1px solid var(--neutral-200);
+        }
+
+        .shop-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-2);
+        }
+
+        .shop-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .shop-card:hover .shop-image {
+            transform: scale(1.05);
+        }
+
+        .shop-info {
+            padding: var(--spacing-md);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+        }
+
+        .shop-name {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .shop-rating {
+            color: var(--secondary-color);
+            font-weight: 600;
+            font-size: var(--font-size-lg);
+            white-space: nowrap;
+        }
+
+        .shop-tags {
+            display: flex;
+            gap: var(--spacing-xs);
+            flex-wrap: wrap;
+            margin: var(--spacing-xs) 0;
+        }
+
+        .shop-tag {
+            background-color: var(--primary-color-light);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-full);
+            font-size: var(--font-size-sm);
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .shop-tag:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .shop-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            color: var(--neutral-500);
+            font-size: var(--font-size-sm);
+            margin-top: auto;
+        }
+
+        .shop-stats span {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .shop-stats i {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="home.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">附近门店</h1>
+    </header>
+
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" class="search-input" placeholder="搜索门店名称、服务项目">
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-item active">综合排序 <i class="fas fa-chevron-down"></i></div>
+        <div class="filter-item">筛选 <i class="fas fa-filter"></i></div>
+    </div>
+
+    <div class="filter-panel" id="filterPanel">
+        <div class="filter-section">
+            <div class="filter-section-title">综合排序</div>
+            <div class="filter-options">
+                <div class="filter-option active" data-type="sort" data-value="distance">距离优先</div>
+                <div class="filter-option" data-type="sort" data-value="rating">评分最高</div>
+                <div class="filter-option" data-type="sort" data-value="orders">累计安装</div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-section-title">门店类型</div>
+            <div class="filter-options">
+                <div class="filter-option active" data-type="shop" data-value="factory">工场店</div>
+                <div class="filter-option" data-type="shop" data-value="beauty">美容中心</div>
+                <div class="filter-option" data-type="shop" data-value="brand">品牌店</div>
+                <div class="filter-option" data-type="shop" data-value="certified">合作认证</div>
+                <div class="filter-option" data-type="shop" data-value="partner">合作店</div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-section-title">门店服务</div>
+            <div class="filter-options">
+                <div class="filter-option" data-type="service" data-value="new-energy">新能源专修</div>
+                <div class="filter-option" data-type="service" data-value="live">施工现场直播</div>
+                <div class="filter-option" data-type="service" data-value="ar">AR全景</div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-section-title">服务类型</div>
+            <div class="filter-options">
+                <div class="filter-option" data-type="type" data-value="maintenance">全车保养</div>
+                <div class="filter-option" data-type="type" data-value="chassis">底盘维修</div>
+                <div class="filter-option" data-type="type" data-value="brake">刹车系统</div>
+                <div class="filter-option" data-type="type" data-value="diagnostic">电脑诊断</div>
+                <div class="filter-option" data-type="type" data-value="new-energy-repair">新能源维修</div>
+            </div>
+        </div>
+
+        <div class="filter-actions">
+            <div class="filter-action-btn reset">重置</div>
+            <div class="filter-action-btn confirm">确认</div>
+        </div>
+    </div>
+
+    <div class="shop-list">
+        <a href="shop-detail.html" class="shop-card">
+            <img src="https://cdn.pixabay.com/photo/2016/11/29/13/21/auto-1869757_1280.jpg" alt="途虎养车金融城店" class="shop-image">
+            <div class="shop-info">
+                <div class="shop-header">
+                    <div class="shop-name">途虎养车工场店（达川达川大道店）</div>
+                    <div class="shop-rating">
+                        <i class="fas fa-star"></i>
+                        4.99
+                    </div>
+                </div>
+                <div class="shop-tags">
+                    <span class="shop-tag">免费检测</span>
+                    <span class="shop-tag">技术认证</span>
+                    <span class="shop-tag">全车保养</span>
+                </div>
+                <div class="shop-stats">
+                    <span><i class="far fa-clock"></i> 08:30-21:00</span>
+                    <span><i class="fas fa-shopping-cart"></i> 2,345单</span>
+                    <span><i class="fas fa-map-marker-alt"></i> 0.57km</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="shop-detail.html" class="shop-card">
+            <img src="https://cdn.pixabay.com/photo/2016/11/18/17/20/auto-1835945_1280.jpg" alt="途虎养车高新区店" class="shop-image">
+            <div class="shop-info">
+                <div class="shop-header">
+                    <div class="shop-name">途虎养车工场店（达州南外启悦府店）</div>
+                    <div class="shop-rating">
+                        <i class="fas fa-star"></i>
+                        4.98
+                    </div>
+                </div>
+                <div class="shop-tags">
+                    <span class="shop-tag">底盘维修</span>
+                    <span class="shop-tag">刹车系统</span>
+                    <span class="shop-tag">24小时服务</span>
+                </div>
+                <div class="shop-stats">
+                    <span><i class="far fa-clock"></i> 08:00-20:30</span>
+                    <span><i class="fas fa-shopping-cart"></i> 1,892单</span>
+                    <span><i class="fas fa-map-marker-alt"></i> 1.72km</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="shop-detail.html" class="shop-card">
+            <img src="https://cdn.pixabay.com/photo/2016/11/18/17/20/auto-1835946_1280.jpg" alt="途虎养车天府新区店" class="shop-image">
+            <div class="shop-info">
+                <div class="shop-header">
+                    <div class="shop-name">途虎养车工场店（达州滨河东路店）</div>
+                    <div class="shop-rating">
+                        <i class="fas fa-star"></i>
+                        4.98
+                    </div>
+                </div>
+                <div class="shop-tags">
+                    <span class="shop-tag">全车检测</span>
+                    <span class="shop-tag">电脑诊断</span>
+                    <span class="shop-tag">保养维修</span>
+                </div>
+                <div class="shop-stats">
+                    <span><i class="far fa-clock"></i> 09:00-21:30</span>
+                    <span><i class="fas fa-shopping-cart"></i> 1,567单</span>
+                    <span><i class="fas fa-map-marker-alt"></i> 2.44km</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</body>
+</html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterItems = document.querySelectorAll('.filter-item');
+        const filterPanel = document.querySelector('#filterPanel');
+        const filterOverlay = document.createElement('div');
+        filterOverlay.className = 'filter-overlay';
+        document.body.appendChild(filterOverlay);
+
+        // 筛选状态管理
+        const filterState = {
+            sort: 'distance',
+            shop: 'factory',
+            service: [],
+            type: []
+        };
+
+        // 为筛选按钮添加点击事件
+        filterItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                filterItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                filterPanel.classList.add('show');
+                filterOverlay.classList.add('show');
+            });
+        });
+
+        // 点击遮罩层关闭面板
+        filterOverlay.addEventListener('click', function() {
+            filterPanel.classList.remove('show');
+            filterOverlay.classList.remove('show');
+        });
+
+        // 为筛选选项添加点击事件
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const type = this.dataset.type;
+                const value = this.dataset.value;
+                
+                if (type === 'sort' || type === 'shop') {
+                    // 单选逻辑
+                    const parent = this.closest('.filter-options');
+                    parent.querySelectorAll('.filter-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    filterState[type] = value;
+                } else {
+                    // 多选逻辑
+                    this.classList.toggle('active');
+                    if (this.classList.contains('active')) {
+                        if (!filterState[type].includes(value)) {
+                            filterState[type].push(value);
+                        }
+                    } else {
+                        filterState[type] = filterState[type].filter(v => v !== value);
+                    }
+                }
+
+                // 更新筛选按钮文本
+                updateFilterButtonText();
+            });
+        });
+
+        // 更新筛选按钮文本
+        function updateFilterButtonText() {
+            const filterCount = filterState.service.length + filterState.type.length;
+            const filterButton = filterItems[1];
+            filterButton.innerHTML = `筛选 ${filterCount > 0 ? `<span class="filter-count">${filterCount}</span>` : ''} <i class="fas fa-filter"></i>`;
+        }
+
+        // 重置按钮事件
+        document.querySelector('.filter-action-btn.reset').addEventListener('click', function() {
+            filterState.sort = 'distance';
+            filterState.shop = 'factory';
+            filterState.service = [];
+            filterState.type = [];
+
+            document.querySelectorAll('.filter-option').forEach(opt => {
+                const type = opt.dataset.type;
+                const value = opt.dataset.value;
+                
+                if ((type === 'sort' && value === 'distance') || 
+                    (type === 'shop' && value === 'factory')) {
+                    opt.classList.add('active');
+                } else {
+                    opt.classList.remove('active');
+                }
+            });
+
+            updateFilterButtonText();
+        });
+
+        // 确认按钮事件
+        document.querySelector('.filter-action-btn.confirm').addEventListener('click', function() {
+            filterPanel.classList.remove('show');
+            filterOverlay.classList.remove('show');
+            
+            // 这里可以添加筛选逻辑，根据filterState更新列表
+            console.log('应用筛选:', filterState);
+        });
+    });
+</script>
+</body>

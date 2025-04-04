@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px; /* 为底部导航留出空间 */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .location-selector {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .location-selector:active {
+            transform: scale(0.97);
+        }
+        
+        .search-bar {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            align-items: center;
+            margin: var(--spacing-md) var(--spacing-lg);
+            box-shadow: var(--shadow-1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--neutral-200);
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.1);
+        }
+        
+        .search-bar i {
+            color: var(--neutral-500);
+            margin-right: var(--spacing-sm);
+        }
+        
+        .search-input {
+            border: none;
+            background: none;
+            flex: 1;
+            font-size: var(--font-size-md);
+            outline: none;
+            color: var(--neutral-800);
+        }
+        
+        .banner-carousel {
+            margin: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            position: relative;
+            height: 180px;
+            box-shadow: var(--shadow-2);
+            transition: transform 0.3s var(--transition-spring);
+        }
+        
+        .banner-carousel:hover {
+            transform: translateY(-3px);
+        }
+        
+        .banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .service-categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s var(--transition-spring);
+        }
+        
+        .category-item:active {
+            transform: scale(0.95);
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(41, 98, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-color);
+            font-size: 24px;
+            transition: all var(--transition-normal) var(--transition-timing);
+            box-shadow: 0 4px 8px rgba(41, 98, 255, 0.15);
+        }
+        
+        .category-item:hover .category-icon {
+            transform: translateY(-5px);
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: var(--shadow-2);
+        }
+        
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .view-all {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+        
+        .technician-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+            padding: 0 var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .technician-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-1);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .technician-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-2);
+        }
+        
+        .technician-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        .technician-info {
+            padding: var(--spacing-md);
+        }
+        
+        .technician-name {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .technician-rating {
+            color: var(--secondary-color);
+            font-size: var(--font-size-sm);
+        }
+        
+        .technician-specialty {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .technician-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--font-size-xs);
+            color: var(--neutral-500);
+        }
+        
+        .promotion-section {
+            background-color: white;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .promotion-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+        }
+        
+        .promotion-card {
+            background: linear-gradient(135deg, #2962ff 0%, #1565c0 100%);
+            color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-md);
+            position: relative;
+            overflow: hidden;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .promotion-card.orange {
+            background: linear-gradient(135deg, #ff6d00 0%, #e65100 100%);
+        }
+        
+        .promotion-title {
+            font-weight: 600;
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-sm);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .promotion-desc {
+            font-size: var(--font-size-sm);
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .promotion-icon {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            font-size: 80px;
+            opacity: 0.2;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--neutral-600);
+            font-size: var(--font-size-xs);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: var(--spacing-xs);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="location.html" class="location-selector">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>北京市朝阳区</span>
+            <i class="fas fa-chevron-down"></i>
+        </a>
+        <a href="messages.html">
+            <i class="fas fa-bell"></i>
+        </a>
+    </header>
+    
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" class="search-input" placeholder="搜索维修店、服务项目" readonly onclick="window.location.href='service.html'">
+    </div>
+    
+    <div class="promotion-section">
+        <div class="section-title">
+            <h3>限时活动</h3>
+            <a href="service.html?type=promotion" class="view-all">更多活动 <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="promotion-grid">
+            <a href="service-detail.html?id=1" class="promotion-card">
+                <img src="../images/promotion-maintenance.svg" alt="全车保养特惠" style="width: 100%; height: 100%; object-fit: cover;">
+            </a>
+            <a href="service-detail.html?id=2" class="promotion-card orange">
+                <img src="../images/promotion-tire.svg" alt="轮胎更换优惠" style="width: 100%; height: 100%; object-fit: cover;">
+            </a>
+        </div>
+    </div>
+    
+    <div class="service-categories">
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-tools"></i>
+            </div>
+            <span>车辆检测</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-oil-can"></i>
+            </div>
+            <span>保养套餐</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-car-battery"></i>
+            </div>
+            <span>补胎/换胎</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon">
+                <i class="fas fa-car-battery"></i>
+            </div>
+            <span>电瓶救援</span>
+        </div>
+    </div>
+    
+    <div class="section-title">
+        <h3>附近维修店</h3>
+        <a href="shop-list.html" class="view-all">查看全部 <i class="fas fa-chevron-right"></i></a>
+    </div>
+    
+    <div class="technician-list">
+        <a href="shop-detail.html?id=1" class="technician-card">
+            <img src="../images/service-maintenance.svg" alt="维修店照片" class="technician-img">
+            <div class="technician-info">
+                <div class="technician-name">
+                    <span>车友汽修</span>
+                    <span class="technician-rating"><i class="fas fa-star"></i> 4.9</span>
+                </div>
+                <div class="technician-specialty">专长：发动机维修、电路故障</div>
+                <div class="technician-stats">
+                    <span>5年经验</span>
+                    <span>1.5km</span>
+                </div>
+            </div>
+        </a>
+        <a href="shop-detail.html?id=2" class="technician-card">
+            <img src="../images/service-maintenance.svg" alt="维修店照片" class="technician-img">
+            <div class="technician-info">
+                <div class="technician-name">
+                    <span>速修汽车</span>
+                    <span class="technician-rating"><i class="fas fa-star"></i> 4.8</span>
+                </div>
+                <div class="technician-specialty">专长：底盘维修、刹车系统</div>
+                <div class="technician-stats">
+                    <span>8年经验</span>
+                    <span>2.3km</span>
+                </div>
+            </div>
+        </a>
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item active">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fas fa-wrench nav-icon"></i>
+            <span>服务</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-list-alt nav-icon"></i>
+            <span>订单</span>
+        </a>
+        <a href="messages.html" class="nav-item">
+            <i class="fas fa-comments nav-icon"></i>
+            <span>消息</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+</body>
+</html>
+        
+        <div class="technician-card">
+            <img src="../images/service-maintenance.svg" alt="维修店照片" class="technician-img">
+            <div class="technician-info">
+                <div class="technician-name">
+                    <span>安捷汽修</span>
+                    <span class="technician-rating"><i class="fas fa-star"></i> 5.0</span>
+                </div>
+                <div class="technician-specialty">专长：全车检测、电脑诊断</div>
+                <div class="technician-stats">
+                    <span>10年经验</span>
+                    <span>3.2km</span>
+                </div>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>服务详情 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
+        }
+        
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: calc(70px + var(--safe-area-inset-bottom));
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .back-btn {
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .back-btn, .share-btn {
+            color: var(--neutral-800);
+            font-size: 18px;
+            background: none;
+            border: none;
+            padding: var(--spacing-xs);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+        
+        .back-btn:active, .share-btn:active {
+            background-color: var(--neutral-200);
+        }
+        
+        .service-banner {
+            position: relative;
+            height: 45vh;
+            min-height: 280px;
+            max-height: 360px;
+            overflow: hidden;
+            background-color: var(--neutral-900);
+            border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+        }
+        
+        .service-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+        
+        .service-banner:active .service-img {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        .service-price-tag {
+            position: absolute;
+            bottom: var(--spacing-lg);
+            right: var(--spacing-lg);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-2);
+        }
+
+        .price-amount {
+            color: var(--primary-color);
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+        }
+
+        .price-unit {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+            margin-left: var(--spacing-xs);
+        }
+        
+        .service-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.5) 50%, transparent);
+            padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-lg);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .service-title {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .service-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            font-size: var(--font-size-sm);
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .meta-item i {
+            margin-right: var(--spacing-xs);
+            color: var(--secondary-color);
+        }
+        
+        .service-price-bar {
+            background-color: white;
+            margin: var(--spacing-md);
+            padding: var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .price-info {
+            display: flex;
+            align-items: baseline;
+        }
+        
+        .price-label {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+            margin-right: var(--spacing-xs);
+        }
+        
+        .price-value {
+            color: var(--primary-color);
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+        }
+        
+        .price-original {
+            color: var(--neutral-500);
+            font-size: var(--font-size-sm);
+            text-decoration: line-through;
+            margin-left: var(--spacing-sm);
+        }
+        
+        .service-section {
+            background-color: white;
+            margin: var(--spacing-md);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .section-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: var(--spacing-sm);
+            color: var(--primary-color);
+        }
+        
+        .service-desc {
+            color: var(--neutral-700);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .service-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(41, 98, 255, 0.1);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-sm);
+        }
+        
+        .feature-text {
+            font-size: var(--font-size-sm);
+        }
+        
+        .process-steps {
+            counter-reset: step;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .process-step {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .process-step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .process-step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .process-step::after {
+            content: "";
+            position: absolute;
+            left: 15px;
+            top: 30px;
+            bottom: -10px;
+            width: 2px;
+            background-color: var(--neutral-300);
+        }
+        
+        .process-step:last-child::after {
+            display: none;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .step-desc {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+        }
+        
+        .technician-card {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-lg);
+            background-color: var(--neutral-50);
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+            transition: transform 0.2s ease;
+        }
+        
+        .technician-card:active {
+            transform: scale(0.98);
+        }
+        
+        .technician-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: var(--spacing-lg);
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .technician-info {
+            flex: 1;
+        }
+        
+        .technician-name {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            display: flex;
+            align-items: center;
+        }
+        
+        .technician-rating {
+            margin-left: var(--spacing-sm);
+            color: var(--secondary-color);
+            font-size: var(--font-size-sm);
+        }
+        
+        .technician-meta {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+            display: flex;
+            gap: var(--spacing-md);
+        }
+        
+        .review-item {
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .review-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: var(--spacing-sm);
+        }
+        
+        .reviewer-name {
+            font-weight: 500;
+        }
+        
+        .review-date {
+            color: var(--neutral-500);
+            font-size: var(--font-size-xs);
+        }
+        
+        .review-rating {
+            color: var(--secondary-color);
+        }
+        
+        .review-content {
+            color: var(--neutral-800);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .review-photos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+        
+        .review-photo {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: var(--border-radius-lg);
+            object-fit: cover;
+            transition: transform 0.2s ease;
+        }
+        
+        .review-photo:active {
+            transform: scale(0.95);
+        }
+        
+        .action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg) calc(var(--spacing-md) + env(safe-area-inset-bottom));
+            display: flex;
+            gap: var(--spacing-md);
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-contact {
+            background-color: rgba(41, 98, 255, 0.1);
+            color: var(--primary-color);
+            border: none;
+        }
+        
+        .btn-contact:active {
+            background-color: rgba(41, 98, 255, 0.2);
+        }
+        
+        .btn-order {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        
+        .btn-order:active {
+            transform: scale(0.98);
+            background-color: var(--primary-color-dark);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="service.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">服务详情</h1>
+        <button class="share-btn" onclick="shareService()">
+            <i class="fas fa-share-alt"></i>
+        </button>
+    </header>
+    
+    <div class="service-banner">
+        <img src="../images/car-maintenance.svg" alt="汽车保养服务" class="service-img">
+        <div class="service-overlay">
+            <h1 class="service-title">全车基础保养</h1>
+            <div class="service-meta">
+                <div class="meta-item">
+                    <i class="fas fa-star"></i>
+                    <span>4.9 (512条评价)</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>约90分钟</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="service-price-bar">
+        <div class="price-info">
+            <span class="price-label">价格</span>
+            <span class="price-value">¥299</span>
+            <span class="price-original">¥399</span>
+        </div>
+        <div class="price-tag">
+            <span class="badge" style="background-color: var(--primary-color); color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">限时优惠</span>
+        </div>
+    </div>
+    
+    <div class="service-section">
+        <h3 class="section-title"><i class="fas fa-info-circle"></i> 服务介绍</h3>
+        <p class="service-desc">
+            全车基础保养是为您的爱车提供的全面养护服务，包含机油、机滤更换，全车安全检测，四轮定位检测等基础保养项目。定期保养可以延长车辆使用寿命，提高行车安全性，降低故障率。
+        </p>
+        
+        <div class="service-features">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="feature-text">专业维修服务</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="feature-text">原厂配件保障</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="feature-text">准时上门服务</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <div class="feature-text">透明定价无套路</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="service-section">
+        <h3 class="section-title"><i class="fas fa-list-ol"></i> 服务流程</h3>
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-title">在线预约</div>
+                <div class="step-desc">选择服务时间和地点</div>
+            </div>
+            <div class="process-step">
+                <div class="step-title">技师上门</div>
+                <div class="step-desc">专业技师准时到达服务</div>
+            </div>
+            <div class="process-step">
+                <div class="step-title">完成保养</div>
+                <div class="step-desc">专业检测，质量保证</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <div class="action-btn btn-contact" onclick="window.location.href='customer-service.html'">联系客服</div>
+        <div class="action-btn btn-order" onclick="goToPayment()">立即下单</div>
+    </div>
+
+    <script>
+        function goToPayment() {
+            const serviceTitle = document.querySelector('.service-title').textContent;
+            const servicePrice = document.querySelector('.price-value').textContent;
+            const serviceImg = document.querySelector('.service-img').src;
+            
+            const params = new URLSearchParams();
+            params.append('title', serviceTitle);
+            params.append('price', servicePrice);
+            params.append('image', serviceImg);
+            
+            window.location.href = `payment.html?${params.toString()}`;
+        }
+
+        function shareService() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.title,
+                    text: document.querySelector('.service-desc').textContent,
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                alert('您的浏览器不支持分享功能');
+            }
+        }
+
+        // 添加页面滚动效果
+        window.addEventListener('scroll', () => {
+            const banner = document.querySelector('.service-banner');
+            const scrolled = window.scrollY;
+            if (scrolled > 0) {
+                banner.style.transform = `scale(${1 - scrolled * 0.001})`;
+                banner.style.opacity = 1 - scrolled * 0.003;
+            } else {
+                banner.style.transform = 'scale(1)';
+                banner.style.opacity = 1;
+            }
+        });
+    </script>
+</body>

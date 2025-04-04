@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>故障诊断 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .diagnosis-section {
+            padding: var(--spacing-md) var(--spacing-lg);
+        }
+        
+        .diagnosis-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .symptom-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .symptom-item {
+            background-color: var(--neutral-100);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .symptom-item:hover {
+            background-color: var(--primary-color-light);
+            color: var(--primary-color);
+        }
+        
+        .technician-list {
+            margin-top: var(--spacing-md);
+        }
+        
+        .technician-card {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+
+        .technician-card:hover {
+            background-color: var(--neutral-100);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .technician-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .technician-info {
+            flex: 1;
+        }
+        
+        .chat-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+
+        .chat-button:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-2);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="home.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">故障诊断</h1>
+        <div style="width: 24px;"></div>
+    </header>
+
+    <main class="diagnosis-section">
+        <!-- 自助诊断部分 -->
+        <div class="diagnosis-card">
+            <h2>自助诊断</h2>
+            <p>请选择您遇到的故障症状：</p>
+            <div class="symptom-list">
+                <div class="symptom-item">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>发动机抖动</span>
+                </div>
+                <div class="symptom-item">
+                    <i class="fas fa-battery-quarter"></i>
+                    <span>电池问题</span>
+                </div>
+                <div class="symptom-item">
+                    <i class="fas fa-thermometer-full"></i>
+                    <span>温度过高</span>
+                </div>
+                <div class="symptom-item">
+                    <i class="fas fa-oil-can"></i>
+                    <span>机油问题</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 在线技师咨询部分 -->
+        <div class="diagnosis-card">
+            <h2>在线技师咨询</h2>
+            <p>专业技师在线解答您的问题</p>
+            <div class="technician-list">
+                <div class="technician-card">
+                    <img src="../images/avatar-business.svg" alt="技师头像" class="technician-avatar">
+                    <div class="technician-info">
+                        <h3>张师傅</h3>
+                        <p>专注发动机维修 | 8年经验</p>
+                    </div>
+                    <button class="chat-button">咨询</button>
+                </div>
+                <div class="technician-card">
+                    <img src="../images/avatar-business.svg" alt="技师头像" class="technician-avatar">
+                    <div class="technician-info">
+                        <h3>李师傅</h3>
+                        <p>电路系统专家 | 10年经验</p>
+                    </div>
+                    <button class="chat-button">咨询</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fas fa-wrench"></i>
+            <span>服务</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-list-alt"></i>
+            <span>订单</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+</body>
+</html>

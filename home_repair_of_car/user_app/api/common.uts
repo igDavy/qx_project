@@ -1,0 +1,17 @@
+import { request, IParams } from '@/utils/request';
+
+/**
+ * api示例
+ */
+export const goodsApi = (data : UTSJSONObject) : Promise<any> => {
+    const requestData : IParams = {
+        method: 'POST',
+        api: '/api/goodsPage',
+        header:{'X-Custom-Header': 'custom-value'},
+        data,
+        formData:true,
+		auth: null,
+        loading:{title:'加载中...',mask:true },
+    };
+    return request(requestData);
+};

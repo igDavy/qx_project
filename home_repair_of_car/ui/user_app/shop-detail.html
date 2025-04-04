@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>店铺详情 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="./components/time-picker.js"></script>
+    <!-- 引入时间选择器组件 -->
+    <script type="module">
+        // import TimePickerModal from './components/time-picker.js';
+        
+        console.log(TimePickerModal)
+        // 初始化时间选择器
+        window.timePicker = new TimePickerModal();
+    </script>
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .shop-banner {
+            position: relative;
+            height: 200px;
+            background-color: white;
+            overflow: hidden;
+        }
+        
+        .shop-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .shop-info {
+            background-color: white;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .shop-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .shop-rating {
+            color: var(--warning-color);
+            font-size: 16px;
+        }
+        
+        .shop-meta {
+            display: flex;
+            gap: var(--spacing-lg);
+            color: var(--neutral-500);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .shop-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+        }
+        
+        .shop-tag {
+            padding: 2px var(--spacing-sm);
+            background-color: var(--primary-color-light);
+            color: var(--primary-color);
+            border-radius: var(--border-radius-sm);
+            font-size: 12px;
+        }
+        
+        .service-section {
+            background-color: white;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .service-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+        }
+        
+        .service-item {
+            background-color: var(--neutral-100);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .service-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--border-radius-md);
+            background-color: var(--primary-color-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+        
+        .service-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            width: 100%;
+        }
+        
+        .service-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        
+        .service-price {
+            color: var(--warning-color);
+            font-size: 18px;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .service-price:hover {
+            transform: scale(1.1);
+        }
+
+        .service-order-btn {
+            width: 100%;
+            padding: var(--spacing-sm);
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .service-order-btn:active {
+            transform: scale(0.98);
+            background-color: var(--primary-color-dark);
+        }
+        
+        .review-section {
+            background-color: white;
+            padding: var(--spacing-lg);
+        }
+        
+        .review-card {
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .reviewer-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .review-rating {
+            color: var(--warning-color);
+        }
+        
+        .review-content {
+            color: var(--neutral-700);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.5;
+        }
+        
+        .review-images {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+        }
+        
+        .review-image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--border-radius-md);
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- 时间选择器容器 -->
+    <div id="timePickerContainer"></div>
+    
+    <header class="app-header">
+        <a href="shop-list.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">店铺详情</h1>
+        <div style="width: 24px;"></div>
+    </header>
+
+    <div class="shop-banner">
+        <img src="../images/service-maintenance.svg" alt="店铺封面">
+    </div>
+
+    <div class="shop-info">
+        <div class="shop-header">
+            <h2 class="shop-name">阳光汽修</h2>
+            <div class="shop-rating">
+                <i class="fas fa-star"></i>
+                <span>4.8</span>
+            </div>
+        </div>
+        <div class="shop-meta">
+            <span><i class="fas fa-map-marker-alt"></i> 2.3km</span>
+            <span><i class="fas fa-tools"></i> 已服务1280次</span>
+            <span><i class="fas fa-clock"></i> 08:00-20:00</span>
+        </div>
+        <div class="shop-tags">
+            <span class="shop-tag">专业维修</span>
+            <span class="shop-tag">24小时服务</span>
+            <span class="shop-tag">价格透明</span>
+            <span class="shop-tag">正品配件</span>
+            <span class="shop-tag">五星店铺</span>
+        </div>
+    </div>
+
+    <div class="service-section">
+        <h3 class="section-title">服务项目</h3>
+        <div class="service-list">
+            <div class="service-item">
+                <div class="service-info">
+                    <div class="service-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div>
+                        <div class="service-name">常规保养</div>
+                        <div class="service-price">¥299起</div>
+                    </div>
+                </div>
+                <button class="service-order-btn" onclick="goToPayment('常规保养', '¥299')">立即下单</button>
+            </div>
+            <div class="service-item">
+                <div class="service-info">
+                    <div class="service-icon">
+                        <i class="fas fa-car-battery"></i>
+                    </div>
+                    <div>
+                        <div class="service-name">电瓶更换</div>
+                        <div class="service-price">¥399起</div>
+                    </div>
+                </div>
+                <button class="service-order-btn" onclick="goToPayment('电瓶更换', '¥399')">立即下单</button>
+            </div>
+            <div class="service-item">
+                <div class="service-info">
+                    <div class="service-icon">
+                        <i class="fas fa-oil-can"></i>
+                    </div>
+                    <div>
+                        <div class="service-name">机油更换</div>
+                        <div class="service-price">¥199起</div>
+                    </div>
+                </div>
+                <button class="service-order-btn" onclick="goToPayment('机油更换', '¥199')">立即下单</button>
+            </div>
+            <div class="service-item">
+                <div class="service-info">
+                    <div class="service-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div>
+                        <div class="service-name">故障检测</div>
+                        <div class="service-price">¥99起</div>
+                    </div>
+                </div>
+                <button class="service-order-btn" onclick="goToPayment('故障检测', '¥99')">立即下单</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="review-section">
+        <h3 class="section-title">用户评价</h3>
+        <div class="review-card">
+            <div class="review-header">
+                <div class="reviewer-info">
+                    <img src="../images/avatar-business.svg" alt="用户头像" class="reviewer-avatar">
+                    <span>张先生</span>
+                </div>
+                <div class="review-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="review-content">
+                技师很专业，服务态度也很好，修车速度快，价格合理。下次还会来这里。
+            </div>
+            <div class="review-images">
+                <img src="../images/service-maintenance.svg" alt="评价图片" class="review-image">
+                <img src="../images/engine-service.svg" alt="评价图片" class="review-image">
+            </div>
+        </div>
+
+        <div class="review-card">
+            <div class="review-header">
+                <div class="reviewer-info">
+                    <img src="../images/avatar-business.svg" alt="用户头像" class="reviewer-avatar">
+                    <span>李女士</span>
+                </div>
+                <div class="review-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <div class="review-content">
+                上门服务很方便，技师很耐心地解答了我的问题，维修后车子运行正常了。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goToPayment(title, price) {
+            // 显示时间选择器
+            window.timePicker.show();
+            
+            // 监听时间选择完成事件
+            document.addEventListener('timeSelected', (event) => {
+                const selectedDateTime = event.detail;
+                const params = new URLSearchParams();
+                params.append('title', title);
+                params.append('price', price);
+                params.append('date', selectedDateTime.date);
+                params.append('time', selectedDateTime.time);
+                window.location.href = `payment.html?${params.toString()}`;
+            }, { once: true }); // 确保事件监听器只执行一次
+        }
+    </script>
+</body>
+</html>

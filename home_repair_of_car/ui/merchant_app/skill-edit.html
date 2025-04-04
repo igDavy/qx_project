@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑技能 - 宝驹商家端</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .btn-back {
+            background: none;
+            border: none;
+            color: var(--neutral-600);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .form-container {
+            padding: var(--spacing-lg);
+        }
+        
+        .form-group {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--neutral-800);
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .form-input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(255, 109, 0, 0.1);
+            outline: none;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            background-color: white;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .tag-item {
+            background-color: var(--neutral-100);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .tag-remove {
+            color: var(--danger-color);
+            cursor: pointer;
+        }
+        
+        .tag-input {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .tag-input input {
+            flex: 1;
+        }
+        
+        .btn-add {
+            padding: var(--spacing-xs) var(--spacing-md);
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: var(--spacing-md);
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color-dark);
+        }
+        
+        .image-upload {
+            border: 2px dashed var(--neutral-300);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .image-upload i {
+            font-size: var(--font-size-xl);
+            color: var(--neutral-400);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .upload-text {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <button class="btn-back" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h2>编辑技能</h2>
+        <div style="width: 24px;"></div>
+    </header>
+    
+    <div class="form-container">
+        <form id="skillForm">
+            <div class="form-group">
+                <label class="form-label">技能类型</label>
+                <select class="form-select" required>
+                    <option value="">请选择技能类型</option>
+                    <option value="engine">发动机维修</option>
+                    <option value="transmission">变速箱维修</option>
+                    <option value="brake">制动系统</option>
+                    <option value="electrical">电气系统</option>
+                    <option value="diagnostic">故障诊断</option>
+                </select>
+                
+                <label class="form-label">技能等级</label>
+                <select class="form-select" required>
+                    <option value="">请选择技能等级</option>
+                    <option value="junior">初级技师</option>
+                    <option value="intermediate">中级技师</option>
+                    <option value="senior">高级技师</option>
+                    <option value="expert">专家技师</option>
+                </select>
+                
+                <label class="form-label">技能标签</label>
+                <div class="tags-container">
+                    <span class="tag-item">发动机大修 <i class="fas fa-times tag-remove"></i></span>
+                    <span class="tag-item">电控系统 <i class="fas fa-times tag-remove"></i></span>
+                    <span class="tag-item">故障诊断 <i class="fas fa-times tag-remove"></i></span>
+                </div>
+                <div class="tag-input">
+                    <input type="text" class="form-input" placeholder="输入标签名称" style="margin-bottom: 0;">
+                    <button type="button" class="btn-add">添加</button>
+                </div>
+                
+                <label class="form-label">技能描述</label>
+                <textarea class="form-textarea" placeholder="请详细描述您的技能经验和专长" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">服务案例</label>
+                <div class="image-upload">
+                    <i class="fas fa-camera"></i>
+                    <div class="upload-text">点击上传案例图片</div>
+                    <input type="file" accept="image/*" style="display: none;">
+                </div>
+                
+                <label class="form-label">案例标题</label>
+                <input type="text" class="form-input" placeholder="请输入案例标题">
+                
+                <label class="form-label">案例描述</label>
+                <textarea class="form-textarea" placeholder="请详细描述维修过程和效果"></textarea>
+            </div>
+            
+            <button type="submit" class="btn-primary">保存</button>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('skillForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // TODO: 处理表单提交
+            alert('技能信息已保存');
+            history.back();
+        });
+    </script>
+</body>
+</html>

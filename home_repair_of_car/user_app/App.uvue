@@ -1,0 +1,48 @@
+<script lang="uts">
+	let firstBackTime = 0
+	export default {
+		onLaunch: function () {
+		},
+		onShow: function () {
+		},
+		onHide: function () {
+		},
+		// #ifdef APP-ANDROID
+		onLastPageBackPress: function () {
+			console.log('App LastPageBackPress')
+			if (firstBackTime == 0) {
+				uni.showToast({
+					title: '再按一次退出应用',
+					position: 'bottom',
+				})
+				firstBackTime = Date.now()
+				setTimeout(() => {
+					firstBackTime = 0
+				}, 2000)
+			} else if (Date.now() - firstBackTime < 2000) {
+				firstBackTime = Date.now()
+				uni.exit()
+			}
+		},
+		// #endif
+		onExit: function () {
+			console.log('App Exit')
+		}
+	}
+</script>
+
+<style lang="scss">
+	@import "uview-plus/index.scss";
+	/*每个页面公共css */
+	.uni-row {
+		flex-direction: row;
+	}
+
+	.uni-column {
+		flex-direction: column;
+	}
+	.u-input__content{
+		height: 68rpx;
+		padding-left: 20rpx;
+	}
+</style>

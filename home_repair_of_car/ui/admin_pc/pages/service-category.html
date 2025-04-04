@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务分类管理 - 宝驹后台管理系统</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        .page-container {
+            padding: var(--spacing-lg);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            background-color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        th {
+            background-color: var(--neutral-100);
+            font-weight: 600;
+            color: var(--neutral-700);
+        }
+
+        .action-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: none;
+            border-radius: var(--radius-sm);
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-normal);
+            margin-right: var(--spacing-xs);
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-color-dark);
+        }
+
+        .action-btn.danger {
+            background-color: var(--danger-color);
+        }
+
+        .action-btn.danger:hover {
+            background-color: var(--danger-color-dark);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            padding: var(--spacing-md);
+            background-color: white;
+            border-top: 1px solid var(--neutral-200);
+        }
+
+        .page-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            background-color: white;
+            margin: 0 2px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .page-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .page-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .add-btn {
+            background-color: var(--success-color);
+        }
+
+        .add-btn:hover {
+            background-color: var(--success-color-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="搜索分类名称">
+            <button class="action-btn add-btn">新增分类</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>分类ID</th>
+                        <th>分类名称</th>
+                        <th>图标</th>
+                        <th>排序</th>
+                        <th>状态</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>日常保养</td>
+                        <td><i class="fas fa-tools"></i></td>
+                        <td>1</td>
+                        <td>启用</td>
+                        <td>2023-06-15 10:30</td>
+                        <td>
+                            <button class="action-btn">编辑</button>
+                            <button class="action-btn danger">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>故障维修</td>
+                        <td><i class="fas fa-wrench"></i></td>
+                        <td>2</td>
+                        <td>启用</td>
+                        <td>2023-06-15 10:30</td>
+                        <td>
+                            <button class="action-btn">编辑</button>
+                            <button class="action-btn danger">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>轮胎服务</td>
+                        <td><i class="fas fa-circle-notch"></i></td>
+                        <td>3</td>
+                        <td>启用</td>
+                        <td>2023-06-15 10:30</td>
+                        <td>
+                            <button class="action-btn">编辑</button>
+                            <button class="action-btn danger">删除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button class="page-btn">上一页</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">下一页</button>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+</html>

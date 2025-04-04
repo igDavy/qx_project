@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>添加服务 - 宝驹商家端</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .form-container {
+            padding: var(--spacing-lg);
+        }
+        
+        .form-group {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--neutral-800);
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .form-input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(255, 109, 0, 0.1);
+            outline: none;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            background-color: white;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: var(--spacing-md);
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color-dark);
+        }
+        
+        .btn-back {
+            background: none;
+            border: none;
+            color: var(--neutral-600);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .image-upload {
+            border: 2px dashed var(--neutral-300);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+
+        .image-upload:hover {
+            border-color: var(--secondary-color);
+        }
+
+        .image-upload i {
+            font-size: 48px;
+            color: var(--neutral-400);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .image-preview {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            display: none;
+            margin-bottom: var(--spacing-md);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <button class="btn-back" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h2>添加服务</h2>
+        <div style="width: 24px;"></div>
+    </header>
+    
+    <div class="form-container">
+        <form id="serviceAddForm">
+            <div class="form-group">
+                <label class="form-label">服务类型</label>
+                <select class="form-select" required>
+                    <option value="">请选择服务类型</option>
+                    <option value="tire_pressure">汽车胎压监测加气</option>
+                    <option value="battery_rescue">应急搭电</option>
+                    <option value="maintenance">常规保养</option>
+                    <option value="unlock">开锁</option>
+                    <option value="windshield_fluid">添加玻璃水</option>
+                    <option value="brake_pad">更换制动片</option>
+                    <option value="battery_replacement">蓄电池更换</option>
+                    <option value="tire_repair">快捷补胎</option>
+                    <option value="spare_tire">更换备胎</option>
+                </select>
+                
+                <label class="form-label">服务名称</label>
+                <input type="text" class="form-input" placeholder="请输入服务名称" required>
+                
+                <label class="form-label">服务价格</label>
+                <input type="number" class="form-input" min="0" step="0.01" placeholder="请输入服务价格" required>
+                
+                <label class="form-label">服务时长（分钟）</label>
+                <input type="number" class="form-input" min="1" placeholder="请输入预计服务时长" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">服务描述</label>
+                <textarea class="form-textarea" placeholder="请详细描述服务内容、服务范围等信息" required></textarea>
+                
+                <label class="form-label">服务图片</label>
+                <div class="image-upload" onclick="document.getElementById('imageInput').click()">
+                    <input type="file" id="imageInput" accept="image/*" style="display: none" onchange="previewImage(this)">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>点击上传服务图片</p>
+                </div>
+                <img id="imagePreview" class="image-preview">
+            </div>
+            
+            <button type="submit" class="btn-primary">提交</button>
+        </form>
+    </div>
+    
+    <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        document.getElementById('serviceAddForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // TODO: 处理表单提交
+            alert('服务添加成功');
+            history.back();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技师管理 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .back-btn {
+            margin-right: var(--spacing-md);
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+            margin-right: var(--spacing-xl);
+        }
+
+        .form-container {
+            background-color: white;
+            margin: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .form-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .section-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--neutral-800);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--neutral-700);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-md);
+            transition: all var(--transition-normal);
+        }
+
+        .form-input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(255, 109, 0, 0.2);
+            outline: none;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+        }
+
+        .skill-tag {
+            background-color: rgba(255, 109, 0, 0.1);
+            color: var(--secondary-color);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .skill-tag.selected {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: var(--spacing-md);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .submit-btn:hover {
+            background-color: #e65100;
+        }
+
+        .required::after {
+            content: '*';
+            color: var(--error-color);
+            margin-left: var(--spacing-xs);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: var(--font-size-sm);
+            margin-top: var(--spacing-xs);
+            display: none;
+        }
+
+        .error .form-input {
+            border-color: var(--error-color);
+        }
+
+        .error .error-message {
+            display: block;
+        }
+
+        .verify-code-btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            white-space: nowrap;
+            min-width: 100px;
+        }
+
+        .verify-code-btn:disabled {
+            background-color: var(--neutral-400);
+            cursor: not-allowed;
+        }
+
+        .account-status-switch {
+            position: relative;
+            display: inline-block;
+        }
+
+        .switch-input {
+            display: none;
+        }
+
+        .switch-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            width: 160px;
+            height: 32px;
+            background: var(--neutral-200);
+            border-radius: 16px;
+            position: relative;
+            transition: all var(--transition-normal);
+            padding: 0 8px;
+        }
+
+        .switch-button {
+            position: absolute;
+            left: 4px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-1);
+        }
+
+        .switch-text-on,
+        .switch-text-off {
+            position: absolute;
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            transition: all var(--transition-normal);
+        }
+
+        .switch-text-on {
+            right: 12px;
+            opacity: 0;
+        }
+
+        .switch-text-off {
+            left: 36px;
+            opacity: 1;
+        }
+
+        .switch-input:checked + .switch-label {
+            background: var(--success-color);
+        }
+
+        .switch-input:checked + .switch-label .switch-button {
+            left: calc(100% - 28px);
+        }
+
+        .switch-input:checked + .switch-label .switch-text-on {
+            opacity: 1;
+            color: white;
+        }
+
+        .switch-input:checked + .switch-label .switch-text-off {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="technician.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title" id="pageTitle">添加技师</h1>
+    </header>
+
+    <form id="technicianForm" class="form-container">
+        <div class="form-section">
+            <h2 class="section-title">基本信息</h2>
+            <div class="form-group">
+                <label class="form-label required">姓名</label>
+                <input type="text" class="form-input" id="name" name="name" required>
+                <div class="error-message">请输入姓名</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required">专长技能</label>
+                <div class="skill-tags">
+                    <div class="skill-tag" data-skill="发动机维修">发动机维修</div>
+                    <div class="skill-tag" data-skill="变速箱维修">变速箱维修</div>
+                    <div class="skill-tag" data-skill="底盘维修">底盘维修</div>
+                    <div class="skill-tag" data-skill="电器维修">电器维修</div>
+                    <div class="skill-tag" data-skill="钣金喷漆">钣金喷漆</div>
+                    <div class="skill-tag" data-skill="轮胎更换">轮胎更换</div>
+                    <div class="skill-tag" data-skill="保养服务">保养服务</div>
+                </div>
+                <input type="hidden" id="skills" name="skills" required>
+                <div class="error-message">请至少选择一项专长技能</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">个人简介</label>
+                <textarea class="form-input form-textarea" id="introduction" name="introduction"></textarea>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2 class="section-title">账号信息</h2>
+
+            <div class="form-group">
+                <label class="form-label required">手机号</label>
+                <div style="display: flex; gap: var(--spacing-sm);">
+                    <input type="tel" class="form-input" id="phone" name="phone" required pattern="^1[3-9]\d{9}$" style="flex: 1;">
+                    <button type="button" class="verify-code-btn" id="getVerifyCode">获取验证码</button>
+                </div>
+                <div class="error-message">请输入有效的手机号</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required">验证码</label>
+                <input type="text" class="form-input" id="verifyCode" name="verifyCode" required maxlength="6" pattern="^\d{6}$">
+                <div class="error-message">请输入6位验证码</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required">登录密码</label>
+                <input type="password" class="form-input" id="password" name="password" required minlength="6">
+                <div class="error-message">密码长度至少6位</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label required">确认密码</label>
+                <input type="password" class="form-input" id="confirmPassword" name="confirmPassword" required>
+                <div class="error-message">两次输入的密码不一致</div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">账号状态</label>
+                <div class="account-status-switch">
+                    <input type="checkbox" id="accountStatus" name="accountStatus" class="switch-input">
+                    <label for="accountStatus" class="switch-label">
+                        <span class="switch-button"></span>
+                        <span class="switch-text-on">已启用</span>
+                        <span class="switch-text-off">已禁用</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">保存</button>
+    </form>
+
+    <script>
+        // 获取URL参数
+        const urlParams = new URLSearchParams(window.location.search);
+        const technicianId = urlParams.get('id');
+        const isEdit = !!technicianId;
+
+        // 更新页面标题
+        if (isEdit) {
+            document.getElementById('pageTitle').textContent = '编辑技师';
+        }
+
+        // 技能标签选择
+        const skillTags = document.querySelectorAll('.skill-tag');
+        const skillsInput = document.getElementById('skills');
+        const selectedSkills = new Set();
+
+        skillTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                const skill = tag.dataset.skill;
+                if (tag.classList.toggle('selected')) {
+                    selectedSkills.add(skill);
+                } else {
+                    selectedSkills.delete(skill);
+                }
+                skillsInput.value = Array.from(selectedSkills).join(',');
+            });
+        });
+
+        // 表单验证
+        const form = document.getElementById('technicianForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // 重置错误状态
+            const errorGroups = form.querySelectorAll('.error');
+            errorGroups.forEach(group => group.classList.remove('error'));
+
+            let hasError = false;
+
+            // 验证必填字段
+            const requiredInputs = form.querySelectorAll('[required]');
+            requiredInputs.forEach(input => {
+                if (!input.value) {
+                    input.closest('.form-group').classList.add('error');
+                    hasError = true;
+                }
+            });
+
+            // 验证手机号格式
+            const phone = document.getElementById('phone');
+            if (phone.value && !phone.value.match(/^1[3-9]\d{9}$/)) {
+                phone.closest('.form-group').classList.add('error');
+                hasError = true;
+            }
+
+            // 验证验证码
+            const verifyCode = document.getElementById('verifyCode');
+            if (!verifyCode.value || !verifyCode.value.match(/^\d{6}$/)) {
+                verifyCode.closest('.form-group').classList.add('error');
+                hasError = true;
+            }
+
+            // 验证密码一致性
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.closest('.form-group').classList.add('error');
+                hasError = true;
+            }
+
+            // 验证技能选择
+            if (selectedSkills.size === 0) {
+                skillsInput.closest('.form-group').classList.add('error');
+                hasError = true;
+            }
+
+            if (!hasError) {
+                // TODO: 提交表单数据到服务器
+                console.log('表单数据:', {
+                    name: form.name.value,
+                    phone: form.phone.value,
+                    skills: Array.from(selectedSkills),
+                    introduction: form.introduction.value,
+                    username: form.username.value,
+                    password: form.password.value
+                });
+
+                // 提交成功后返回技师列表页
+                window.location.href = 'technician.html';
+            }
+        });
+
+        // 如果是编辑模式，加载技师数据
+        // 验证码发送和倒计时逻辑
+        const getVerifyCodeBtn = document.getElementById('getVerifyCode');
+        let countdown = 60;
+        let timer = null;
+
+        function startCountdown() {
+            getVerifyCodeBtn.disabled = true;
+            getVerifyCodeBtn.textContent = `${countdown}秒后重试`;
+            timer = setInterval(() => {
+                countdown--;
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    getVerifyCodeBtn.disabled = false;
+                    getVerifyCodeBtn.textContent = '获取验证码';
+                    countdown = 60;
+                } else {
+                    getVerifyCodeBtn.textContent = `${countdown}秒后重试`;
+                }
+            }, 1000);
+        }
+
+        getVerifyCodeBtn.addEventListener('click', async () => {
+            const phone = document.getElementById('phone');
+            if (!phone.value || !phone.value.match(/^1[3-9]\d{9}$/)) {
+                phone.closest('.form-group').classList.add('error');
+                return;
+            }
+
+            try {
+                // TODO: 调用发送验证码接口
+                // const response = await fetch('/api/send-verify-code', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({ phone: phone.value })
+                // });
+                // const data = await response.json();
+                // if (data.success) {
+                    startCountdown();
+                // }
+            } catch (error) {
+                console.error('发送验证码失败:', error);
+            }
+        });
+
+        if (isEdit) {
+            // TODO: 从服务器获取技师数据
+            const mockTechnicianData = {
+                name: '张师傅',
+                phone: '13800138000',
+                skills: ['发动机维修', '变速箱维修', '电器维修'],
+                introduction: '从业15年，擅长各类发动机故障诊断与维修。',
+                username: 'zhangshifu'
+            };
+
+            // 填充表单数据
+            form.name.value = mockTechnicianData.name;
+            form.phone.value = mockTechnicianData.phone;
+            form.introduction.value = mockTechnicianData.introduction;
+            form.username.value = mockTechnicianData.username;
+
+            // 选中技能标签
+            mockTechnicianData.skills.forEach(skill => {
+                const tag = Array.from(skillTags).find(t => t.dataset.skill === skill);
+                if (tag) {
+                    tag.classList.add('selected');
+                    selectedSkills.add(skill);
+                }
+            });
+            skillsInput.value = mockTechnicianData.skills.join(',');
+
+            // 编辑模式下不显示密码字段
+            const passwordFields = form.querySelectorAll('[type="password"]');
+            passwordFields.forEach(field => {
+                field.closest('.form-group').style.display = 'none';
+                field.required = false;
+            });
+        }
+    </script>
+</body>
+</html>
+<style>
+</style>

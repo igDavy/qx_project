@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>退款管理 - 宝驹后台管理系统</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        .page-container {
+            padding: var(--spacing-lg);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            background-color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        th {
+            background-color: var(--neutral-100);
+            font-weight: 600;
+            color: var(--neutral-700);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-sm);
+        }
+
+        .status-pending {
+            background-color: var(--warning-color-light);
+            color: var(--warning-color);
+        }
+
+        .status-approved {
+            background-color: var(--success-color-light);
+            color: var(--success-color);
+        }
+
+        .status-rejected {
+            background-color: var(--danger-color-light);
+            color: var(--danger-color);
+        }
+
+        .status-processing {
+            background-color: var(--primary-color-light);
+            color: var(--primary-color);
+        }
+
+        .action-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: none;
+            border-radius: var(--radius-sm);
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-normal);
+            margin-right: var(--spacing-xs);
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-color-dark);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            padding: var(--spacing-md);
+            background-color: white;
+            border-top: 1px solid var(--neutral-200);
+        }
+
+        .page-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            background-color: white;
+            margin: 0 2px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .page-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .page-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .refund-amount {
+            font-weight: bold;
+            color: var(--danger-color);
+        }
+
+        .refund-reason {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="搜索订单号或用户信息">
+            <select class="search-input">
+                <option value="">所有状态</option>
+                <option value="pending">待审核</option>
+                <option value="approved">已通过</option>
+                <option value="rejected">已驳回</option>
+                <option value="processing">退款中</option>
+            </select>
+            <input type="date" class="search-input">
+            <button class="action-btn">搜索</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>退款单号</th>
+                        <th>关联订单</th>
+                        <th>用户信息</th>
+                        <th>商家信息</th>
+                        <th>退款金额</th>
+                        <th>申请原因</th>
+                        <th>申请时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>R202306150001</td>
+                        <td>O202306140002</td>
+                        <td>张先生 (138****8000)</td>
+                        <td>宝驹汽修中心</td>
+                        <td class="refund-amount">¥680</td>
+                        <td class="refund-reason">服务质量不满意，要求全额退款</td>
+                        <td>2023-06-15 10:30</td>
+                        <td><span class="status-badge status-pending">待审核</span></td>
+                        <td>
+                            <button class="action-btn">审核</button>
+                            <button class="action-btn">查看</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>R202306150002</td>
+                        <td>O202306130005</td>
+                        <td>李女士 (139****9000)</td>
+                        <td>速修保养店</td>
+                        <td class="refund-amount">¥320</td>
+                        <td class="refund-reason">零件更换后仍有问题</td>
+                        <td>2023-06-15 09:15</td>
+                        <td><span class="status-badge status-approved">已通过</span></td>
+                        <td>
+                            <button class="action-btn">查看</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>R202306140003</td>
+                        <td>O202306120008</td>
+                        <td>王先生 (137****7000)</td>
+                        <td>车友汽修</td>
+                        <td class="refund-amount">¥150</td>
+                        <td class="refund-reason">服务时间延误</td>
+                        <td>2023-06-14 15:45</td>
+                        <td><span class="status-badge status-rejected">已驳回</span></td>
+                        <td>
+                            <button class="action-btn">查看</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button class="page-btn">上一页</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">下一页</button>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+</html>

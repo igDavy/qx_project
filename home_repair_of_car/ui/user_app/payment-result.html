@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付结果 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .result-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-xxl) var(--spacing-lg);
+            text-align: center;
+        }
+
+        .result-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-xl);
+            width: 100%;
+            max-width: 400px;
+            box-shadow: var(--shadow-2);
+            border: 1px solid var(--neutral-200);
+        }
+
+        .result-icon {
+            font-size: 60px;
+            margin-bottom: var(--spacing-lg);
+            display: inline-block;
+            padding: var(--spacing-lg);
+            border-radius: 50%;
+            background-color: var(--neutral-50);
+        }
+
+        .result-icon.success {
+            color: var(--success-color);
+        }
+
+        .result-icon.error {
+            color: var(--danger-color);
+        }
+
+        .result-title {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--neutral-900);
+        }
+
+        .result-message {
+            color: var(--neutral-600);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .order-info {
+            background-color: var(--neutral-50);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-sm);
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            color: var(--neutral-600);
+        }
+
+        .info-value {
+            color: var(--neutral-900);
+            font-weight: 500;
+        }
+
+        .amount {
+            color: var(--primary-color);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .btn {
+            flex: 1;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--neutral-300);
+            background-color: white;
+            color: var(--neutral-700);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #1a54ff;
+        }
+
+        .error-section {
+            display: none;
+        }
+
+        .payment-failed .success-section {
+            display: none;
+        }
+
+        .payment-failed .error-section {
+            display: block;
+        }
+    </style>
+</head>
+<body class="payment-success">
+    <div class="result-container">
+        <div class="result-card">
+            <!-- 支付成功部分 -->
+            <div class="success-section">
+                <i class="fas fa-check-circle result-icon success"></i>
+                <h1 class="result-title">支付成功</h1>
+                <p class="result-message">您的订单已支付成功，我们将尽快为您安排服务</p>
+            </div>
+
+            <!-- 支付失败部分 -->
+            <div class="error-section">
+                <i class="fas fa-times-circle result-icon error"></i>
+                <h1 class="result-title">支付失败</h1>
+                <p class="result-message">抱歉，支付过程中遇到问题，请重新尝试</p>
+            </div>
+
+            <!-- 订单信息 -->
+            <div class="order-info">
+                <div class="info-item">
+                    <span class="info-label">订单号</span>
+                    <span class="info-value" id="orderNumber">2023061501</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">支付方式</span>
+                    <span class="info-value">微信支付</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">支付金额</span>
+                    <span class="info-value amount">¥399.00</span>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="action-buttons">
+                <a href="#" onclick="goBack()" class="btn btn-outline">返回</a>
+                <a href="#" onclick="viewOrder()" class="btn btn-primary">查看订单</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取URL参数
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const orderId = urlParams.get('orderId');
+        const amount = urlParams.get('amount');
+        const shopId = urlParams.get('shopId');
+        const serviceId = urlParams.get('serviceId');
+
+        function goBack() {
+            const referrer = document.referrer;
+            if (referrer && referrer.includes('shop-detail.html') && shopId) {
+                window.location.href = `shop-detail.html?id=${shopId}`;
+            } else if (referrer && referrer.includes('service-detail.html') && serviceId) {
+                window.location.href = `service-detail.html?id=${serviceId}`;
+            } else {
+                window.location.href = 'home.html';
+            }
+        }
+
+        function viewOrder() {
+            if (orderId) {
+                window.location.href = `order-detail.html?id=${orderId}`;
+            } else {
+                window.location.href = 'orders.html';
+            }
+        }
+
+        // 根据状态显示不同结果
+        if (status === 'failed') {
+            document.body.classList.remove('payment-success');
+            document.body.classList.add('payment-failed');
+        }
+
+        // 更新订单信息
+        if (orderId) {
+            document.getElementById('orderNumber').textContent = orderId;
+        }
+
+        // 更新支付金额
+        if (amount) {
+            const amountElements = document.getElementsByClassName('amount');
+            for (let el of amountElements) {
+                el.textContent = `¥${amount}`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基础配置 - 宝驹后台管理系统</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        .page-container {
+            padding: var(--spacing-lg);
+        }
+
+        .config-section {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .section-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--neutral-700);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .config-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--neutral-600);
+        }
+
+        .form-input {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .form-desc {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-500);
+        }
+
+        .action-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: none;
+            border-radius: var(--radius-md);
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-normal);
+            margin-top: var(--spacing-lg);
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-color-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="config-section">
+            <h2 class="section-title">平台费率设置</h2>
+            <div class="config-form">
+                <div class="form-group">
+                    <label class="form-label">平台服务费率（%）</label>
+                    <input type="number" class="form-input" value="5" step="0.1" min="0" max="100">
+                    <p class="form-desc">平台从每笔订单中收取的服务费比例</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">商家结算费率（%）</label>
+                    <input type="number" class="form-input" value="95" step="0.1" min="0" max="100">
+                    <p class="form-desc">商家每笔订单的实际结算比例</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="config-section">
+            <h2 class="section-title">提现设置</h2>
+            <div class="config-form">
+                <div class="form-group">
+                    <label class="form-label">最低提现金额（元）</label>
+                    <input type="number" class="form-input" value="100" step="10" min="0">
+                    <p class="form-desc">商家发起提现申请的最低金额限制</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">单笔最高提现金额（元）</label>
+                    <input type="number" class="form-input" value="50000" step="1000" min="0">
+                    <p class="form-desc">单次提现操作的最高金额限制</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="config-section">
+            <h2 class="section-title">订单设置</h2>
+            <div class="config-form">
+                <div class="form-group">
+                    <label class="form-label">订单自动确认时间（天）</label>
+                    <input type="number" class="form-input" value="7" step="1" min="1">
+                    <p class="form-desc">服务完成后，用户未确认情况下自动确认的天数</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">订单退款期限（天）</label>
+                    <input type="number" class="form-input" value="15" step="1" min="1">
+                    <p class="form-desc">订单完成后可申请退款的最长期限</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="action-btn">保存设置</button>
+    </div>
+</body>
+</html>

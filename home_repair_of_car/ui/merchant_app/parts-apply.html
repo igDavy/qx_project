@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>申请配件 - 宝驹商家端</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .form-container {
+            padding: var(--spacing-lg);
+        }
+        
+        .form-group {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--neutral-800);
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .form-input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(255, 109, 0, 0.1);
+            outline: none;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            background-color: white;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: var(--spacing-md);
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color-dark);
+        }
+        
+        .btn-back {
+            background: none;
+            border: none;
+            color: var(--neutral-600);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <button class="btn-back" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h2>申请配件</h2>
+        <div style="width: 24px;"></div>
+    </header>
+    
+    <div class="form-container">
+        <form id="partsApplyForm">
+            <div class="form-group">
+                <label class="form-label">配件类型</label>
+                <select class="form-select" required>
+                    <option value="">请选择配件类型</option>
+                    <option value="filter">滤清器</option>
+                    <option value="oil">机油</option>
+                    <option value="brake">刹车片</option>
+                    <option value="battery">蓄电池</option>
+                    <option value="other">其他</option>
+                </select>
+                
+                <label class="form-label">配件名称</label>
+                <input type="text" class="form-input" placeholder="请输入配件名称" required>
+                
+                <label class="form-label">品牌</label>
+                <input type="text" class="form-input" placeholder="请输入品牌名称" required>
+                
+                <label class="form-label">规格型号</label>
+                <input type="text" class="form-input" placeholder="请输入规格型号" required>
+                
+                <label class="form-label">申请数量</label>
+                <input type="number" class="form-input" min="1" placeholder="请输入申请数量" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">申请原因</label>
+                <textarea class="form-textarea" placeholder="请说明申请原因" required></textarea>
+                
+                <label class="form-label">备注说明</label>
+                <textarea class="form-textarea" placeholder="其他补充说明（选填）"></textarea>
+            </div>
+            
+            <button type="submit" class="btn-primary">提交申请</button>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('partsApplyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // TODO: 处理表单提交
+            alert('申请已提交');
+            history.back();
+        });
+    </script>
+</body>
+</html>

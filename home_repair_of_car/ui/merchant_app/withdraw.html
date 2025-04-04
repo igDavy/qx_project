@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>申请提现 - 汽修宝商家端</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .btn-back {
+            background: none;
+            border: none;
+            color: var(--neutral-600);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .balance-card {
+            background-color: white;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+            text-align: center;
+        }
+        
+        .balance-label {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .balance-amount {
+            font-size: var(--font-size-xxl);
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .form-container {
+            padding: 0 var(--spacing-lg);
+        }
+        
+        .form-group {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--neutral-800);
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .form-input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(255, 109, 0, 0.1);
+            outline: none;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            background-color: white;
+        }
+        
+        .withdraw-tips {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            margin-top: var(--spacing-sm);
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: var(--spacing-md);
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color-dark);
+        }
+        
+        .btn-primary:disabled {
+            background-color: var(--neutral-400);
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <button class="btn-back" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h2>申请提现</h2>
+        <div style="width: 24px;"></div>
+    </header>
+    
+    <div class="balance-card">
+        <div class="balance-label">可提现金额</div>
+        <div class="balance-amount">¥3,580.00</div>
+    </div>
+    
+    <div class="form-container">
+        <form id="withdrawForm">
+            <div class="form-group">
+                <label class="form-label">提现金额</label>
+                <input type="number" class="form-input" placeholder="请输入提现金额" required min="100" step="0.01">
+                <div class="withdraw-tips">单笔提现金额不低于100元</div>
+                
+                <label class="form-label">提现方式</label>
+                <select class="form-select" required>
+                    <option value="">请选择提现方式</option>
+                    <option value="alipay">支付宝</option>
+                    <option value="wechat">微信</option>
+                    <option value="bank">银行卡</option>
+                </select>
+                
+                <label class="form-label">提现账号</label>
+                <input type="text" class="form-input" placeholder="请输入提现账号" required>
+                
+                <label class="form-label">账号姓名</label>
+                <input type="text" class="form-input" placeholder="请输入账号姓名" required>
+            </div>
+            
+            <button type="submit" class="btn-primary">确认提现</button>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // TODO: 处理提现申请
+            alert('提现申请已提交');
+            history.back();
+        });
+    </script>
+</body>
+</html>

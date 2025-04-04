@@ -1,0 +1,13 @@
+<template>
+	<view class="register-container">
+		注册页面
+	</view>
+</template>
+
+<script setup>
+		
+</script>
+
+<style>
+		
+</style>

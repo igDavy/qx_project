@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隐私设置 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .back-btn {
+            margin-right: var(--spacing-md);
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+            margin-right: var(--spacing-xl);
+        }
+
+        .privacy-list {
+            background: white;
+            margin: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .privacy-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .privacy-item:last-child {
+            border-bottom: none;
+        }
+
+        .privacy-content {
+            flex: 1;
+        }
+
+        .privacy-title {
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .privacy-desc {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+
+        .privacy-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            border-radius: 12px;
+            background-color: var(--neutral-300);
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .privacy-switch.active {
+            background-color: var(--primary-color);
+        }
+
+        .privacy-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+
+        .privacy-switch.active::after {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="profile.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">隐私设置</h1>
+    </header>
+
+    <div class="privacy-list">
+        <div class="privacy-item">
+            <div class="privacy-content">
+                <div class="privacy-title">位置信息</div>
+                <div class="privacy-desc">允许应用访问位置信息</div>
+            </div>
+            <div class="privacy-switch active"></div>
+        </div>
+
+        <div class="privacy-item">
+            <div class="privacy-content">
+                <div class="privacy-title">消息通知</div>
+                <div class="privacy-desc">接收应用推送的消息通知</div>
+            </div>
+            <div class="privacy-switch active"></div>
+        </div>
+
+        <div class="privacy-item">
+            <div class="privacy-content">
+                <div class="privacy-title">个人信息展示</div>
+                <div class="privacy-desc">向其他用户展示个人信息</div>
+            </div>
+            <div class="privacy-switch"></div>
+        </div>
+
+        <div class="privacy-item">
+            <div class="privacy-content">
+                <div class="privacy-title">数据分析</div>
+                <div class="privacy-desc">参与用户体验改进计划</div>
+            </div>
+            <div class="privacy-switch active"></div>
+        </div>
+
+        <div class="privacy-item">
+            <div class="privacy-content">
+                <div class="privacy-title">广告推荐</div>
+                <div class="privacy-desc">接收个性化的广告推荐</div>
+            </div>
+            <div class="privacy-switch"></div>
+        </div>
+    </div>
+
+</body>
+</html>

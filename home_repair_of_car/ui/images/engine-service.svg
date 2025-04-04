@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+    <!-- 背景 -->
+    <rect width="800" height="600" fill="#f5f7fa"/>
+    
+    <!-- 发动机轮廓 -->
+    <path d="M250 200 L550 200 L550 400 L250 400 Z" fill="#495057"/>
+    
+    <!-- 发动机细节 -->
+    <rect x="270" y="220" width="260" height="160" rx="5" fill="#868e96"/>
+    <circle cx="400" cy="300" r="50" fill="#2962ff" opacity="0.2"/>
+    
+    <!-- 齿轮组 -->
+    <circle cx="400" cy="300" r="30" fill="#2962ff"/>
+    <path d="M385 280 L415 280 L415 320 L385 320 Z" fill="#ffffff"/>
+    <path d="M380 285 L420 285 L420 315 L380 315 Z" fill="#ffffff" transform="rotate(45 400 300)"/>
+    
+    <!-- 连接管道 -->
+    <path d="M300 250 L350 250 L350 270 L300 270 Z" fill="#868e96"/>
+    <path d="M450 250 L500 250 L500 270 L450 270 Z" fill="#868e96"/>
+    
+    <!-- 检测图标 -->
+    <circle cx="400" cy="400" r="30" fill="#51cf66" opacity="0.2"/>
+    <path d="M385 390 L395 410 L415 380" stroke="#51cf66" stroke-width="4" fill="none"/>
+    
+    <!-- 文本 -->
+    <text x="400" y="480" font-family="Arial" font-size="24" fill="#495057" text-anchor="middle">发动机检修服务</text>
+</svg>

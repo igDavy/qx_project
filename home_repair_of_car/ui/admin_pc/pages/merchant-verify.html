@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资质审核 - 宝驹后台管理系统</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        .page-container {
+            padding: var(--spacing-lg);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            background-color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+        }
+
+        .verify-container {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-1);
+            padding: var(--spacing-lg);
+        }
+
+        .merchant-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .info-value {
+            font-size: var(--font-size-md);
+            color: var(--neutral-900);
+        }
+
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .document-card {
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .document-preview {
+            width: 100%;
+            height: 200px;
+            background-color: var(--neutral-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .document-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .document-info {
+            padding: var(--spacing-md);
+        }
+
+        .document-title {
+            font-size: var(--font-size-md);
+            color: var(--neutral-900);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .document-desc {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+
+        .verify-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: flex-end;
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--neutral-200);
+        }
+
+        .action-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .approve-btn {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .approve-btn:hover {
+            background-color: var(--success-color-dark);
+        }
+
+        .reject-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .reject-btn:hover {
+            background-color: var(--danger-color-dark);
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-lg);
+            font-size: var(--font-size-md);
+            resize: vertical;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="搜索商家名称或ID">
+            <select class="search-input">
+                <option value="">所有状态</option>
+                <option value="pending">待审核</option>
+                <option value="approved">已通过</option>
+                <option value="rejected">已驳回</option>
+            </select>
+            <button class="action-btn">搜索</button>
+        </div>
+
+        <div class="verify-container">
+            <div class="merchant-info">
+                <div class="info-item">
+                    <div class="info-label">商家ID</div>
+                    <div class="info-value">M10002</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">商家名称</div>
+                    <div class="info-value">速修保养店</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">联系人</div>
+                    <div class="info-value">李四</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">联系电话</div>
+                    <div class="info-value">13900139000</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">提交时间</div>
+                    <div class="info-value">2023-06-14 15:30:00</div>
+                </div>
+            </div>
+
+            <div class="document-grid">
+                <div class="document-card">
+                    <div class="document-preview">
+                        <img src="../../images/real/business-license.jpg" alt="营业执照">
+                    </div>
+                    <div class="document-info">
+                        <div class="document-title">营业执照</div>
+                        <div class="document-desc">统一社会信用代码：91110105MA00F4XN9L</div>
+                    </div>
+                </div>
+                <div class="document-card">
+                    <div class="document-preview">
+                        <img src="../../images/real/qualification.jpg" alt="维修资质证书">
+                    </div>
+                    <div class="document-info">
+                        <div class="document-title">维修资质证书</div>
+                        <div class="document-desc">证书编号：JX2023051001</div>
+                    </div>
+                </div>
+                <div class="document-card">
+                    <div class="document-preview">
+                        <img src="../../images/real/technician.jpg" alt="技师资格证">
+                    </div>
+                    <div class="document-info">
+                        <div class="document-title">技师资格证</div>
+                        <div class="document-desc">持证人：王小明</div>
+                    </div>
+                </div>
+            </div>
+
+            <textarea class="comment-input" placeholder="请输入审核意见..."></textarea>
+
+            <div class="verify-actions">
+                <button class="action-btn approve-btn">通过审核</button>
+                <button class="action-btn reject-btn">驳回申请</button>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+</html>

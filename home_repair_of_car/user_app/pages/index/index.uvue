@@ -1,0 +1,42 @@
+<template>
+	<view>
+		<up-action-sheet :actions="list" v-model:show="show"></up-action-sheet>
+		<up-button type="primary" @click="handleTest" text="月落"></up-button>
+	</view>
+</template>
+
+<script setup>
+	import { ref } from 'vue';
+	
+	const list = ref([
+	  {
+	    text: '点赞',
+	    color: 'blue',
+	    fontSize: 28
+	  },
+	  {
+	    text: '分享'
+	  },
+	  {
+	    text: '评论'
+	  }
+	]);
+	
+	const show = ref(true);
+	
+	const handleTest = () => show.value = !show.value
+</script>
+
+<style>
+	.logo {
+		height: 100px;
+		width: 100px;
+		margin: 100px auto 25px auto;
+	}
+
+	.title {
+		font-size: 18px;
+		color: #8f8f94;
+    text-align: center;
+	}
+</style>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务管理 - 宝驹商家端</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px; /* 为底部导航留出空间 */
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: var(--shadow-2);
+            border-top: 1px solid var(--neutral-200);
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+        }
+        
+        .nav-item.active {
+            color: var(--secondary-color);
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .service-tabs {
+            display: flex;
+            background-color: white;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            overflow-x: auto;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+            scrollbar-width: none;
+            position: sticky;
+            top: 56px; /* 头部导航栏高度 */
+            z-index: 99;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .service-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .service-tab {
+            white-space: nowrap;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            color: var(--neutral-600);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .service-tab.active {
+            background-image: var(--gradient-secondary);
+            color: white;
+            box-shadow: var(--shadow-1);
+            transform: translateY(-1px);
+        }
+        
+        .search-bar {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            align-items: center;
+            margin: var(--spacing-md) var(--spacing-lg);
+            box-shadow: var(--shadow-1);
+            border: 1px solid var(--neutral-200);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(255, 109, 0, 0.1);
+        }
+        
+        .search-bar i {
+            color: var(--neutral-500);
+            margin-right: var(--spacing-sm);
+        }
+        
+        .search-input {
+            border: none;
+            background: none;
+            flex: 1;
+            font-size: var(--font-size-md);
+            outline: none;
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-1);
+            transition: all var(--transition-normal) var(--transition-spring);
+            border: 1px solid var(--neutral-200);
+            cursor: pointer;
+            opacity: 1;
+            transform: translateY(0);
+            position: relative;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-2), var(--shadow-glow);
+            border-color: var(--secondary-color);
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-image: var(--gradient-secondary);
+            opacity: 0;
+            transition: opacity var(--transition-normal) var(--transition-timing);
+        }
+        
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        
+        .card-clicked {
+            animation: card-click 0.3s forwards;
+        }
+        
+        @keyframes card-click {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        
+        .service-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        .service-info {
+            padding: var(--spacing-md);
+        }
+        
+        .service-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .service-price {
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+        
+        .service-desc {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-sm);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .service-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--font-size-xs);
+            color: var(--neutral-500);
+        }
+        
+        .service-status {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-active {
+            background-color: var(--success-color);
+        }
+        
+        .status-inactive {
+            background-color: var(--neutral-500);
+        }
+        
+        .add-service-btn {
+            position: fixed;
+            bottom: 80px;
+            right: var(--spacing-lg);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-image: var(--gradient-secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-3), var(--shadow-glow);
+            font-size: 24px;
+            transition: all var(--transition-normal) var(--transition-spring);
+            transform: scale(1);
+            cursor: pointer;
+        }
+        
+        .add-service-btn:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-3), var(--shadow-glow);
+            transition: all var(--transition-normal) var(--transition-bounce);
+            z-index: 90;
+        }
+        
+        .add-service-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: var(--shadow-2);
+            border-top: 1px solid var(--neutral-200);
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+        }
+        
+        .nav-item.active {
+            color: var(--secondary-color);
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: var(--spacing-xs);
+        }
+    </style>
+</head>
+<body>
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-list-alt nav-icon"></i>
+            <span>订单</span>
+        </a>
+        <a href="services.html" class="nav-item active">
+            <i class="fas fa-tools nav-icon"></i>
+            <span>服务</span>
+        </a>
+        <a href="parts.html" class="nav-item">
+            <i class="fas fa-cog nav-icon"></i>
+            <span>配件</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+    <header class="app-header">
+        <h2>服务管理</h2>
+        <div>
+            <i class="fas fa-ellipsis-v"></i>
+        </div>
+    </header>
+    
+    <div class="service-tabs">
+        <div class="service-tab active">全部</div>
+        <div class="service-tab">故障维修</div>
+        <div class="service-tab">保养套餐</div>
+        <div class="service-tab">电瓶救援</div>
+        <div class="service-tab">汽车美容</div>
+        <div class="service-tab">轮胎服务</div>
+        <div class="service-tab">空调系统</div>
+    </div>
+    
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" class="search-input" placeholder="搜索服务名称、关键词">
+    </div>
+    
+    <div class="service-grid">
+        <div class="service-card">
+            <img src="../images/engine-repair.svg" alt="发动机故障检测" class="service-img">
+            <div class="service-info">
+                <div class="service-title">
+                    <span>发动机故障检测</span>
+                    <span class="service-price">¥199起</span>
+                </div>
+                <p class="service-desc">专业检测发动机故障，包括电脑诊断、传感器检测、燃油系统检查等</p>
+                <div class="service-meta">
+                    <div class="service-status">
+                        <span class="status-dot status-active"></span>
+                        <span>已上线</span>
+                    </div>
+                    <span>已接单 28次</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="service-card">
+            <img src="../images/car-maintenance.svg" alt="全车基础保养" class="service-img">
+            <div class="service-info">
+                <div class="service-title">
+                    <span>全车基础保养</span>
+                    <span class="service-price">¥299起</span>
+                </div>
+                <p class="service-desc">包含机油、机滤更换，全车安全检测，四轮定位检测等基础保养项目</p>
+                <div class="service-meta">
+                    <div class="service-status">
+                        <span class="status-dot status-active"></span>
+                        <span>已上线</span>
+                    </div>
+                    <span>已接单 42次</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="service-card">
+            <img src="../images/battery-service.svg" alt="电瓶上门救援" class="service-img">
+            <div class="service-info">
+                <div class="service-title">
+                    <span>电瓶上门救援</span>
+                    <span class="service-price">¥150起</span>
+                </div>
+                <p class="service-desc">专业维修店上门检测电瓶状态，提供应急启动或更换服务</p>
+                <div class="service-meta">
+                    <div class="service-status">
+                        <span class="status-dot status-active"></span>
+                        <span>已上线</span>
+                    </div>
+                    <span>已接单 15次</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="service-card">
+            <img src="../images/real/service-photos/car-maintenance.svg" alt="服务图片" class="service-img">
+            <div class="service-info">
+                <div class="service-title">
+                    <span>刹车系统检修</span>
+                    <span class="service-price">¥350起</span>
+                </div>
+                <p class="service-desc">全面检测刹车系统，包括刹车片、刹车盘、刹车油等更换和维修</p>
+                <div class="service-meta">
+                    <div class="service-status">
+                        <span class="status-dot status-inactive"></span>
+                        <span>已下线</span>
+                    </div>
+                    <span>已接单 8次</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="service-card">
+            <img src="../images/real/service-photos/car-maintenance.svg" alt="服务图片" class="service-img">
+            <div class="service-info">
+                <div class="service-title">
+                    <span>空调系统清洗</span>
+                    <span class="service-price">¥280起</span>
+                </div>
+                <p class="service-desc">专业空调系统清洗，去除异味，杀菌消毒，提升制冷效果</p>
+                <div class="service-meta">
+                    <div class="service-status">
+                        <span class="status-dot status-active"></span>
+                        <span>已上线</span>
+                    </div>
+                    <span>已接单 22次</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="service-card">
+            <img src="../images/real/service-photos/car-maintenance.svg" alt="服务图片" class="service-img">
+            <div class="service-info">
+                <div class="service-title">
+                    <span>轮胎更换服务</span>
+                    <span class="service-price">¥180起/条</span>
+                </div>
+                <p class="service-desc">提供各品牌轮胎更换、动平衡调整、四轮定位等服务</p>
+                <div class="service-meta">
+                    <div class="service-status">
+                        <span class="status-dot status-active"></span>
+                        <span>已上线</span>
+                    </div>
+                    <span>已接单 36次</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <a href="service-add.html" class="add-service-btn">
+        <i class="fas fa-plus"></i>
+    </a>
+    
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-list-alt nav-icon"></i>
+            <span>订单</span>
+        </a>
+        <a href="services.html" class="nav-item active">
+            <i class="fas fa-tools nav-icon"></i>
+            <span>服务</span>
+        </a>
+        <a href="parts.html" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>配件</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </a>
+    </nav>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>配件管理 - 宝驹商家端</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .parts-tabs {
+            display: flex;
+            background-color: white;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            overflow-x: auto;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+            scrollbar-width: none;
+            position: sticky;
+            top: 56px;
+            z-index: 99;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .parts-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .parts-tab {
+            white-space: nowrap;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            color: var(--neutral-600);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .parts-tab.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .search-bar {
+            background-color: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            align-items: center;
+            margin: var(--spacing-md) var(--spacing-lg);
+            box-shadow: var(--shadow-1);
+            border: 1px solid var(--neutral-200);
+        }
+        
+        .search-bar i {
+            color: var(--neutral-500);
+            margin-right: var(--spacing-sm);
+        }
+        
+        .search-input {
+            border: none;
+            background: none;
+            flex: 1;
+            font-size: var(--font-size-md);
+            outline: none;
+        }
+        
+        .parts-list {
+            padding: 0 var(--spacing-lg);
+        }
+        
+        .parts-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .parts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .parts-name {
+            font-weight: 600;
+            color: var(--neutral-800);
+        }
+        
+        .parts-stock {
+            color: var(--success-color);
+            font-weight: 500;
+        }
+        
+        .parts-stock.low {
+            color: var(--warning-color);
+        }
+        
+        .parts-stock.out {
+            color: var(--danger-color);
+        }
+        
+        .parts-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-sm);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+        
+        .parts-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+        
+        .btn-outline {
+            padding: var(--spacing-xs) var(--spacing-md);
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            background: none;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: var(--shadow-2);
+            border-top: 1px solid var(--neutral-200);
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .nav-item.active {
+            color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: var(--spacing-xs);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <h2>配件管理</h2>
+        <a href="parts-apply.html" class="btn-outline">申请配件</a>
+    </header>
+    
+    <div class="parts-tabs">
+        <a href="#" class="parts-tab active">库存查询</a>
+        <a href="#" class="parts-tab">使用记录</a>
+        <a href="#" class="parts-tab">申请记录</a>
+    </div>
+    
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" class="search-input" placeholder="搜索配件名称或编号">
+    </div>
+    
+    <div class="parts-list">
+        <div class="parts-card">
+            <div class="parts-header">
+                <span class="parts-name">机油滤芯 #A123456</span>
+                <span class="parts-stock">库存: 15</span>
+            </div>
+            <div class="parts-info">
+                <span>品牌: 博世</span>
+                <span>规格: 1.5L</span>
+                <span>适用车型: 大众系列</span>
+                <span>位置: A区-01-02</span>
+            </div>
+            <div class="parts-actions">
+                <button class="btn-outline">查看详情</button>
+            </div>
+        </div>
+        
+        <div class="parts-card">
+            <div class="parts-header">
+                <span class="parts-name">空气滤清器 #B789012</span>
+                <span class="parts-stock low">库存: 3</span>
+            </div>
+            <div class="parts-info">
+                <span>品牌: 马勒</span>
+                <span>规格: 标准型</span>
+                <span>适用车型: 丰田系列</span>
+                <span>位置: B区-03-01</span>
+            </div>
+            <div class="parts-actions">
+                <button class="btn-outline">查看详情</button>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-list-alt"></i>
+            <span>订单</span>
+        </a>
+        <a href="services.html" class="nav-item">
+            <i class="fas fa-tools"></i>
+            <span>服务</span>
+        </a>
+        <a href="parts.html" class="nav-item active">
+            <i class="fas fa-cog"></i>
+            <span>配件</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+</body>
+</html>

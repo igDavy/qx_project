@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6200ea" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#3700b3" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="600" fill="url(#bg-gradient)"/>
+  
+  <!-- 汽车保养图形 -->
+  <g transform="translate(200, 200)">
+    <!-- 汽车轮廓 -->
+    <path d="M0,100 C50,80 100,70 200,70 L400,70 C500,70 550,80 600,100 L600,200 C550,220 500,230 400,230 L200,230 C100,230 50,220 0,200 Z" fill="#ffffff" fill-opacity="0.15"/>
+    <path d="M150,70 L150,30 C150,10 170,-10 200,-10 L400,-10 C430,-10 450,10 450,30 L450,70" stroke="#ffffff" stroke-width="3" fill="none"/>
+    
+    <!-- 车轮 -->
+    <circle cx="150" cy="200" r="40" fill="#ffffff" fill-opacity="0.2"/>
+    <circle cx="150" cy="200" r="25" fill="#ffffff" fill-opacity="0.3"/>
+    <circle cx="150" cy="200" r="10" fill="#ffffff" fill-opacity="0.4"/>
+    
+    <circle cx="450" cy="200" r="40" fill="#ffffff" fill-opacity="0.2"/>
+    <circle cx="450" cy="200" r="25" fill="#ffffff" fill-opacity="0.3"/>
+    <circle cx="450" cy="200" r="10" fill="#ffffff" fill-opacity="0.4"/>
+    
+    <!-- 保养图标 -->
+    <g transform="translate(250, 100)">
+      <circle cx="50" cy="50" r="40" fill="#ffffff" fill-opacity="0.2"/>
+      <path d="M30,50 L70,50 M50,30 L50,70" stroke="#ffffff" stroke-width="5"/>
+    </g>
+  </g>
+  
+  <!-- 保养工具 -->
+  <g transform="translate(700, 150)">
+    <!-- 扳手 -->
+    <path d="M50,50

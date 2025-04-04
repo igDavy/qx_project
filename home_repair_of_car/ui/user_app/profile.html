@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px; /* 为底部导航留出空间 */
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a54ff 100%);
+            color: white;
+            padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-xl);
+            position: relative;
+            border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            margin: 0 var(--spacing-md);
+            box-shadow: var(--shadow-1);
+            position: relative;
+            margin-top: -30px;
+        }
+
+        .function-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: var(--spacing-sm);
+            color: var(--neutral-800);
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .function-item:active {
+            transform: scale(0.95);
+        }
+
+        .function-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-xs);
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+
+        .function-name {
+            font-size: var(--font-size-sm);
+            margin-top: var(--spacing-xs);
+            color: var(--neutral-600);
+        }
+        
+        .header-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .header-icon {
+            font-size: 20px;
+            margin-left: var(--spacing-md);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: white;
+            object-fit: cover;
+            margin-right: var(--spacing-md);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .user-details {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .user-id {
+            font-size: var(--font-size-sm);
+            opacity: 0.8;
+        }
+        
+        .edit-profile {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-xs);
+        }
+        
+        .edit-profile i {
+            margin-right: var(--spacing-xs);
+        }
+        
+        .user-stats {
+            display: flex;
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            margin: -20px var(--spacing-md) 0;
+            box-shadow: var(--shadow-1);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            padding: var(--spacing-md) 0;
+            border-right: 1px solid var(--neutral-200);
+        }
+        
+        .stat-item:last-child {
+            border-right: none;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            font-size: var(--font-size-md);
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .stat-label {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-600);
+        }
+        
+        .menu-section {
+            background-color: white;
+            margin: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .section-title {
+            padding: var(--spacing-md);
+            font-weight: 600;
+            color: var(--neutral-800);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+            transition: background-color var(--transition-normal) var(--transition-timing);
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--neutral-50);
+        }
+        
+        .menu-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            font-size: 16px;
+        }
+        
+        .icon-primary {
+            background-color: rgba(41, 98, 255, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .icon-orange {
+            background-color: rgba(255, 109, 0, 0.1);
+            color: var(--secondary-color);
+        }
+        
+        .icon-green {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--success-color);
+        }
+        
+        .icon-red {
+            background-color: rgba(211, 47, 47, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .menu-text {
+            flex: 1;
+            color: var(--neutral-800);
+        }
+        
+        .menu-arrow {
+            color: var(--neutral-400);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-xs) 0;
+            color: var(--neutral-600);
+            font-size: var(--font-size-xs);
+            transition: color var(--transition-normal) var(--transition-timing);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-header">
+        <!-- <div class="header-actions">
+            <i class="fas fa-cog header-icon"></i>
+            <i class="fas fa-bell header-icon"></i>
+        </div> -->
+        <div class="user-info">
+            <img src="../images/avatar-business.svg" alt="用户头像" class="user-avatar">
+            <div class="user-details">
+                <div class="user-name">张先生</div>
+                <div class="user-id">ID: 10086753</div>
+            </div>
+            <a href="profile-edit.html" class="edit-profile">
+                <i class="fas fa-edit"></i>
+                <span>编辑</span>
+            </a>
+        </div>
+    </div>
+    
+    <div class="user-stats">
+        <a href="orders.html" class="stat-item">
+            <div class="stat-value">8</div>
+            <div class="stat-label">我的订单</div>
+        </a>
+        <a href="coupon.html" class="stat-item">
+            <div class="stat-value">3</div>
+            <div class="stat-label">优惠券</div>
+        </a>
+        <a href="points.html" class="stat-item">
+            <div class="stat-value">520</div>
+            <div class="stat-label">积分</div>
+        </a>
+    </div>
+    
+    <div class="menu-section">
+        <div class="section-title">我的服务</div>
+        <a href="vehicle.html" class="menu-item">
+            <div class="menu-icon icon-primary">
+                <i class="fas fa-car"></i>
+            </div>
+            <div class="menu-text">我的车辆</div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+        <a href="coupon.html" class="menu-item">
+            <div class="menu-icon icon-green">
+                <i class="fas fa-ticket-alt"></i>
+            </div>
+            <div class="menu-text">优惠券</div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+        <a href="points.html" class="menu-item">
+            <div class="menu-icon icon-orange">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="menu-text">我的积分</div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+    </div>
+    
+    <div class="menu-section">
+        <div class="section-title">账户与安全</div>
+        <a href="account-security.html" class="menu-item">
+            <div class="menu-icon icon-primary">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="menu-text">账户安全</div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+        <a href="payment-manage.html" class="menu-item">
+            <div class="menu-icon icon-orange">
+                <i class="fas fa-credit-card"></i>
+            </div>
+            <div class="menu-text">支付管理</div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+        <a href="privacy.html" class="menu-item">
+            <div class="menu-icon icon-red">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="menu-text">隐私设置</div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+    </div>
+    
+    <div class="menu-section">
+        <div class="section-title">关于我们</div>
+        <a href="about.html" class="menu-item">
+            <div class="menu-icon icon-primary">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <div class="menu-text">关于宝驹</div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+        <a href="customer-service.html" class="menu-item">
+            <div class="menu-icon icon-green">
+                <i class="fas fa-headset"></i>
+            </div>
+            <div class="menu-text">联系客服</div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+        <a href="help.html" class="menu-item">
+            <div class="menu-icon icon-orange">
+                <i class="fas fa-question-circle"></i>
+            </div>
+            <div class="menu-text">帮助中心</div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+    </div>
+    
+    <!-- 底部导航 -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fas fa-tools nav-icon"></i>
+            <span>服务</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-clipboard-list nav-icon"></i>
+            <span>订单</span>
+        </a>
+        <a href="messages.html" class="nav-item">
+            <i class="fas fa-comment-alt nav-icon"></i>
+            <span>消息</span>
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="service.html" class="nav-item">
+            <i class="fas fa-tools"></i>
+            <span>服务</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-list-alt"></i>
+            <span>订单</span>
+        </a>
+        <a href="messages.html" class="nav-item">
+            <i class="fas fa-comments"></i>
+            <span>消息</span>
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+</body>
+</html>

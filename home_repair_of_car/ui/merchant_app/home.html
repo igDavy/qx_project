@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家首页 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px; /* 为底部导航留出空间 */
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .technician-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .technician-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--secondary-color);
+        }
+        
+        .status-badge {
+            background-color: var(--success-color);
+            color: white;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-xs);
+            font-weight: 500;
+        }
+        
+        .status-badge.offline {
+            background-color: var(--neutral-500);
+        }
+        
+        .stats-container {
+            background-color: white;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .stat-card {
+            flex: 1;
+            text-align: center;
+            padding: var(--spacing-md);
+            background-color: var(--neutral-50);
+            border-radius: var(--border-radius);
+            margin: 0 var(--spacing-xs);
+            box-shadow: var(--shadow-1);
+        }
+        
+        .stat-value {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+        
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md) var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .section-title h3 {
+            font-weight: 600;
+            color: var(--neutral-800);
+        }
+        
+        .view-all {
+            font-size: var(--font-size-sm);
+            color: var(--secondary-color);
+        }
+        
+        .order-list {
+            padding: 0 var(--spacing-lg);
+            background-color: var(--neutral-100);
+        }
+        
+        .order-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-2);
+            border: none;
+            padding: var(--spacing-lg);
+            transition: transform var(--transition-normal) var(--transition-timing);
+        }
+        
+        .order-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .order-id {
+            font-size: var(--font-size-md);
+            color: var(--neutral-800);
+            font-weight: 500;
+        }
+        
+        .order-status {
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+        }
+        
+        .status-new {
+            background-color: rgba(255, 109, 0, 0.15);
+            color: var(--secondary-color);
+        }
+        
+        .status-in-progress {
+            background-color: rgba(41, 98, 255, 0.15);
+            color: var(--primary-color);
+        }
+        
+        .order-service {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.4;
+        }
+        
+        .order-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-md);
+            color: var(--neutral-700);
+        }
+        
+        .order-info i {
+            width: 20px;
+            margin-right: var(--spacing-md);
+            color: var(--neutral-600);
+            font-size: var(--font-size-lg);
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            padding-top: var(--spacing-md);
+            margin-top: var(--spacing-md);
+            border-top: 1px solid var(--neutral-200);
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: var(--spacing-sm);
+            text-align: center;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e65100;
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--neutral-300);
+            color: var(--neutral-700);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--secondary-color);
+            color: var(--secondary-color);
+        }
+        
+        .quick-actions {
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        
+        .quick-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(255, 109, 0, 0.1);
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .quick-action:hover .action-icon {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .action-text {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-700);
+            font-weight: 500;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: var(--shadow-2);
+            border-top: 1px solid var(--neutral-200);
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+        }
+        
+        .nav-item.active {
+            color: var(--secondary-color);
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: var(--spacing-xs);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <div class="technician-info">
+            <img src="../images/real/avatars/technician-avatar.svg" alt="店铺头像" class="technician-avatar">
+            <h3>宝驹汽修</h3>
+        </div>
+        <div class="status-badge">
+            <i class="fas fa-circle"></i> 在线接单
+        </div>
+    </header>
+    
+    <div class="stats-container">
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-value">4.9</div>
+                <div class="stat-label">综合评分</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">128</div>
+                <div class="stat-label">本月接单</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">¥8,650</div>
+                <div class="stat-label">本月收入</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="quick-actions">
+        <div class="quick-action" onclick="openQRScanner()">
+            <div class="action-icon">
+                <i class="fas fa-qrcode"></i>
+            </div>
+            <div class="action-text">扫一扫</div>
+        </div>
+        <div class="quick-action" onclick="window.location.href='orders.html'">
+            <div class="action-icon">
+                <i class="fas fa-clipboard-list"></i>
+            </div>
+            <div class="action-text">接单管理</div>
+        </div>
+        <div class="quick-action" onclick="window.location.href='withdraw.html'">
+            <div class="action-icon">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <div class="action-text">我的钱包</div>
+        </div>
+        <div class="quick-action" onclick="window.location.href='statistics.html'">
+            <div class="action-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="action-text">数据统计</div>
+        </div>
+        <div class="quick-action" onclick="window.location.href='qualification-submit.html'">
+            <div class="action-icon">
+                <i class="fas fa-id-card"></i>
+            </div>
+            <div class="action-text">资质管理</div>
+        </div>
+        <div class="quick-action" onclick="window.location.href='technician.html'">
+            <div class="action-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="action-text">技师管理</div>
+        </div>
+    </div>
+    
+    <div class="section-title">
+        <h3>待处理订单</h3>
+        <a href="orders.html" class="view-all">查看全部 <i class="fas fa-chevron-right"></i></a>
+    </div>
+    
+    <div class="order-list">
+        <div class="order-card">
+            <div class="order-header">
+                <span class="order-id">订单号：BJ20230615001</span>
+                <span class="order-status status-new">待接单</span>
+            </div>
+            <div class="order-service">发动机故障检测与维修</div>
+            <div class="order-info">
+                <i class="fas fa-car"></i>
+                <span>奥迪A6L 2022款 2.0T</span>
+            </div>
+            <div class="order-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>北京市朝阳区建国路88号</span>
+            </div>
+            <div class="order-info">
+                <i class="fas fa-wallet"></i>
+                <span>预估金额：¥680</span>
+            </div>
+            <div class="order-actions">
+                <button class="action-btn btn-primary" onclick="window.location.href='order-detail.html'">查看详情</button>
+                <button class="action-btn btn-outline">联系客户</button>
+            </div>
+        </div>
+
+        <div class="order-card">
+            <div class="order-header">
+                <span class="order-id">订单号：BJ20230615002</span>
+                <span class="order-status status-in-progress">进行中</span>
+            </div>
+            <div class="order-service">轮胎更换服务</div>
+            <div class="order-info">
+                <i class="fas fa-car"></i>
+                <span>丰田凯美瑞 2021款 2.5L</span>
+            </div>
+            <div class="order-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>北京市海淀区中关村大街15号</span>
+            </div>
+            <div class="order-info">
+                <i class="fas fa-wallet"></i>
+                <span>预估金额：¥450</span>
+            </div>
+            <div class="order-actions">
+                <button class="action-btn btn-primary" onclick="window.location.href='order-detail.html'">查看详情</button>
+                <button class="action-btn btn-outline">联系客户</button>
+            </div>
+        </div>
+    </div>
+    
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <i class="fas fa-list-alt"></i>
+            <span>订单</span>
+        </a>
+        <a href="services.html" class="nav-item">
+            <i class="fas fa-tools"></i>
+            <span>服务</span>
+        </a>
+        <a href="parts.html" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>配件</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+    <script>
+    function openQRScanner() {
+        // 检查浏览器是否支持getUserMedia
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            alert('您的浏览器不支持摄像头功能，请更换浏览器后重试。');
+            return;
+        }
+
+        // 创建扫码界面
+        const scannerUI = document.createElement('div');
+        scannerUI.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        `;
+
+        const video = document.createElement('video');
+        video.style.cssText = `
+            width: 100%;
+            max-width: 400px;
+            margin-top: 60px;
+        `;
+
+        const closeBtn = document.createElement('button');
+        closeBtn.textContent = '关闭';
+        closeBtn.style.cssText = `
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        `;
+
+        scannerUI.appendChild(video);
+        scannerUI.appendChild(closeBtn);
+        document.body.appendChild(scannerUI);
+
+        // 关闭扫码界面
+        function closeScanner() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+            scannerUI.remove();
+        }
+
+        closeBtn.onclick = closeScanner;
+
+        // 启动摄像头
+        let stream;
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+            .then(videoStream => {
+                stream = videoStream;
+                video.srcObject = stream;
+                video.play();
+
+                // 这里需要引入二维码扫描库（如jsQR）来处理视频帧
+                // 扫描成功后跳转到订单详情页面
+                // 示例：
+                // const code = '123456';
+                // window.location.href = `order-detail.html?code=${code}`;
+            })
+            .catch(error => {
+                alert('无法访问摄像头，请确保已授予摄像头权限。');
+                closeScanner();
+            });
+    }
+    </script>
+</body>
+</html>

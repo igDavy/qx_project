@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮助中心 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .back-btn {
+            margin-right: var(--spacing-md);
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+            margin-right: var(--spacing-xl);
+        }
+
+        .search-bar {
+            background: white;
+            margin: var(--spacing-md);
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius-lg);
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow-1);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: var(--spacing-sm);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-800);
+        }
+
+        .search-input::placeholder {
+            color: var(--neutral-400);
+        }
+
+        .search-icon {
+            color: var(--neutral-400);
+            padding: 0 var(--spacing-sm);
+        }
+
+        .help-section {
+            background: white;
+            margin: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+            overflow: hidden;
+        }
+
+        .section-title {
+            padding: var(--spacing-md);
+            font-weight: 600;
+            color: var(--neutral-800);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .help-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .help-item:last-child {
+            border-bottom: none;
+        }
+
+        .help-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            font-size: 18px;
+        }
+
+        .help-content {
+            flex: 1;
+        }
+
+        .help-title {
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+            color: var(--neutral-800);
+        }
+
+        .help-desc {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+
+        .help-arrow {
+            color: var(--neutral-400);
+            margin-left: var(--spacing-md);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="profile.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">帮助中心</h1>
+    </header>
+
+    <div class="search-bar">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="搜索常见问题">
+    </div>
+
+    <div class="help-section">
+        <div class="section-title">常见问题</div>
+        <a href="#" class="help-item">
+            <div class="help-icon">
+                <i class="fas fa-car"></i>
+            </div>
+            <div class="help-content">
+                <div class="help-title">如何预约维修服务？</div>
+                <div class="help-desc">了解预约流程和注意事项</div>
+            </div>
+            <i class="fas fa-chevron-right help-arrow"></i>
+        </a>
+        <a href="#" class="help-item">
+            <div class="help-icon">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <div class="help-content">
+                <div class="help-title">支付方式有哪些？</div>
+                <div class="help-desc">查看支持的支付方式和说明</div>
+            </div>
+            <i class="fas fa-chevron-right help-arrow"></i>
+        </a>
+        <a href="#" class="help-item">
+            <div class="help-icon">
+                <i class="fas fa-ticket-alt"></i>
+            </div>
+            <div class="help-content">
+                <div class="help-title">优惠券使用规则</div>
+                <div class="help-desc">了解优惠券的使用方法和限制</div>
+            </div>
+            <i class="fas fa-chevron-right help-arrow"></i>
+        </a>
+    </div>
+
+    <div class="help-section">
+        <div class="section-title">服务指南</div>
+        <a href="#" class="help-item">
+            <div class="help-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <div class="help-content">
+                <div class="help-title">新手使用指南</div>
+                <div class="help-desc">快速了解宝驹的基本功能</div>
+            </div>
+            <i class="fas fa-chevron-right help-arrow"></i>
+        </a>
+        <a href="#" class="help-item">
+            <div class="help-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="help-content">
+                <div class="help-title">服务保障说明</div>
+                <div class="help-desc">了解服务质量保障政策</div>
+            </div>
+            <i class="fas fa-chevron-right help-arrow"></i>
+        </a>
+        <a href="#" class="help-item">
+            <div class="help-icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="help-content">
+                <div class="help-title">用户协议</div>
+                <div class="help-desc">查看用户服务协议内容</div>
+            </div>
+            <i class="fas fa-chevron-right help-arrow"></i>
+        </a>
+    </div>
+
+</body>
+</html>

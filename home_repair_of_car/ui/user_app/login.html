@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .login-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--spacing-lg);
+            max-width: 393px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .login-title {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .login-subtitle {
+            color: var(--neutral-600);
+            font-size: var(--font-size-md);
+        }
+        
+        .login-form {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-2);
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: var(--spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neutral-500);
+        }
+        
+        .form-control {
+            padding-left: 40px;
+        }
+        
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            margin: var(--spacing-md) 0;
+            font-size: var(--font-size-sm);
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: var(--spacing-md);
+            font-size: var(--font-size-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: var(--spacing-lg) 0;
+            color: var(--neutral-500);
+            font-size: var(--font-size-sm);
+        }
+        
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: var(--neutral-300);
+        }
+        
+        .divider::before {
+            margin-right: var(--spacing-sm);
+        }
+        
+        .divider::after {
+            margin-left: var(--spacing-sm);
+        }
+        
+        .social-login {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-sm);
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--neutral-300);
+            background-color: white;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-1);
+            border-color: var(--primary-color);
+        }
+        
+        .social-btn i {
+            font-size: 20px;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: var(--spacing-lg);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+        
+        .login-footer a {
+            font-weight: 500;
+        }
+        
+        .verification-code {
+            position: relative;
+        }
+        
+        .get-code-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            padding: 0 var(--spacing-md);
+            background: none;
+            border: none;
+            border-left: 1px solid var(--neutral-300);
+            color: var(--primary-color);
+            font-weight: 500;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <img src="../images/logo.svg" alt="宝驹" class="login-logo">
+            <h1 class="login-title">宝驹</h1>
+            <p class="login-subtitle">专业上门汽车维修服务</p>
+        </div>
+        
+        <div class="login-form">
+            <div class="input-group">
+                <i class="fas fa-mobile-alt"></i>
+                <input type="tel" class="form-control" placeholder="请输入手机号码" maxlength="11">
+            </div>
+            
+            <div class="input-group verification-code">
+                <i class="fas fa-key"></i>
+                <input type="text" class="form-control" placeholder="请输入验证码" maxlength="6">
+                <button class="get-code-btn">获取验证码</button>
+            </div>
+            
+            <div class="login-options">
+                <label class="remember-me">
+                    <input type="checkbox" checked>
+                    <span>记住我</span>
+                </label>
+                <a href="#">忘记密码？</a>
+            </div>
+            
+            <button class="btn btn-primary btn-login">登录</button>
+            
+            <div class="divider">或使用以下方式登录</div>
+            
+            <div class="social-login">
+                <button class="social-btn">
+                    <i class="fab fa-weixin" style="color: #07C160;"></i>
+                </button>
+                <button class="social-btn">
+                    <i class="fab fa-qq" style="color: #12B7F5;"></i>
+                </button>
+                <button class="social-btn">
+                    <i class="fab fa-alipay" style="color: #1677FF;"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="login-footer">
+            <p>还没有账号？<a href="register.html">立即注册</a></p>
+            <p class="mt-sm">登录即表示您同意<a href="#">用户协议</a>和<a href="#">隐私政策</a></p>
+        </div>
+    </div>
+    
+    <script>
+        // 验证码倒计时功能
+        document.querySelector('.get-code-btn').addEventListener('click', function() {
+            let btn = this;
+            let count = 60;
+            btn.disabled = true;
+            btn.textContent = `${count}秒后重新获取`;
+            
+            let timer = setInterval(() => {
+                count--;
+                btn.textContent = `${count}秒后重新获取`;
+                
+                if (count <= 0) {
+                    clearInterval(timer);
+                    btn.disabled = false;
+                    btn.textContent = '获取验证码';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付管理 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            padding-bottom: 70px;
+        }
+
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .back-btn {
+            margin-right: var(--spacing-md);
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+
+        .header-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+            margin-right: var(--spacing-xl);
+        }
+
+        .payment-list {
+            background: white;
+            margin: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .payment-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .payment-item:last-child {
+            border-bottom: none;
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            font-size: 18px;
+        }
+
+        .payment-content {
+            flex: 1;
+        }
+
+        .payment-title {
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .payment-desc {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+
+        .payment-action {
+            color: var(--primary-color);
+            font-size: var(--font-size-sm);
+        }
+
+        .section-title {
+            padding: var(--spacing-md);
+            font-weight: 600;
+            color: var(--neutral-800);
+        }
+
+        .transaction-list {
+            background: white;
+            margin: var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-info {
+            flex: 1;
+        }
+
+        .transaction-title {
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .transaction-date {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-500);
+        }
+
+        .transaction-amount {
+            font-weight: 500;
+            color: var(--danger-color);
+        }
+
+        .transaction-amount.income {
+            color: var(--success-color);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="profile.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">支付管理</h1>
+    </header>
+
+    <div class="section-title">支付方式</div>
+    <div class="payment-list">
+        <div class="payment-item">
+            <div class="payment-icon">
+                <i class="fab fa-alipay"></i>
+            </div>
+            <div class="payment-content">
+                <div class="payment-title">支付宝</div>
+                <div class="payment-desc">已绑定：186****8888</div>
+            </div>
+            <a href="#" class="payment-action">解绑</a>
+        </div>
+
+        <div class="payment-item">
+            <div class="payment-icon">
+                <i class="fab fa-weixin"></i>
+            </div>
+            <div class="payment-content">
+                <div class="payment-title">微信支付</div>
+                <div class="payment-desc">已绑定：微信昵称</div>
+            </div>
+            <a href="#" class="payment-action">解绑</a>
+        </div>
+
+        <div class="payment-item">
+            <div class="payment-icon">
+                <i class="fas fa-credit-card"></i>
+            </div>
+            <div class="payment-content">
+                <div class="payment-title">银行卡</div>
+                <div class="payment-desc">添加银行卡</div>
+            </div>
+            <a href="#" class="payment-action">添加</a>
+        </div>
+    </div>
+
+    <div class="section-title">交易记录</div>
+    <div class="transaction-list">
+        <div class="transaction-item">
+            <div class="transaction-info">
+                <div class="transaction-title">发动机维修服务</div>
+                <div class="transaction-date">2024-01-15 14:30</div>
+            </div>
+            <div class="transaction-amount">-¥1,280.00</div>
+        </div>
+
+        <div class="transaction-item">
+            <div class="transaction-info">
+                <div class="transaction-title">优惠券返现</div>
+                <div class="transaction-date">2024-01-10 10:15</div>
+            </div>
+            <div class="transaction-amount income">+¥50.00</div>
+        </div>
+
+        <div class="transaction-item">
+            <div class="transaction-info">
+                <div class="transaction-title">轮胎更换服务</div>
+                <div class="transaction-date">2024-01-05 16:45</div>
+            </div>
+            <div class="transaction-amount">-¥800.00</div>
+        </div>
+    </div>
+
+</body>
+</html>

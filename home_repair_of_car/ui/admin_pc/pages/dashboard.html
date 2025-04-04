@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - 宝驹后台管理系统</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        .dashboard {
+            padding: var(--spacing-lg);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-1);
+        }
+
+        .stat-card-title {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-card-value {
+            font-size: var(--font-size-xl);
+            font-weight: bold;
+            color: var(--neutral-900);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-card-trend {
+            display: flex;
+            align-items: center;
+            font-size: var(--font-size-sm);
+        }
+
+        .trend-up {
+            color: var(--success-color);
+        }
+
+        .trend-down {
+            color: var(--danger-color);
+        }
+
+        .chart-container {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-1);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .chart-title {
+            font-size: var(--font-size-lg);
+            color: var(--neutral-900);
+            margin-bottom: var(--spacing-lg);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-title">今日订单总量</div>
+                <div class="stat-card-value">128</div>
+                <div class="stat-card-trend trend-up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>12.5% 较昨日</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">今日交易额</div>
+                <div class="stat-card-value">¥25,680</div>
+                <div class="stat-card-trend trend-up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>8.3% 较昨日</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">活跃商家数</div>
+                <div class="stat-card-value">86</div>
+                <div class="stat-card-trend trend-up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>5.2% 较昨日</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">新增用户数</div>
+                <div class="stat-card-value">245</div>
+                <div class="stat-card-trend trend-down">
+                    <i class="fas fa-arrow-down"></i>
+                    <span>3.1% 较昨日</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="chart-title">订单趋势</h3>
+            <div id="orderChart" style="height: 300px;"></div>
+        </div>
+
+        <div class="chart-container">
+            <h3 class="chart-title">收入统计</h3>
+            <div id="revenueChart" style="height: 300px;"></div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script>
+        // 订单趋势图表
+        const orderChart = echarts.init(document.getElementById('orderChart'));
+        orderChart.setOption({
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: [120, 132, 101, 134, 90, 230, 210],
+                type: 'line',
+                smooth: true
+            }]
+        });
+
+        // 收入统计图表
+        const revenueChart = echarts.init(document.getElementById('revenueChart'));
+        revenueChart.setOption({
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['总收入', '商家收入', '平台收入']
+            },
+            xAxis: {
+                type: 'category',
+                data: ['1月', '2月', '3月', '4月', '5月', '6月']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name: '总收入',
+                    type: 'bar',
+                    data: [32000, 39000, 33000, 45000, 44000, 48000]
+                },
+                {
+                    name: '商家收入',
+                    type: 'bar',
+                    data: [25600, 31200, 26400, 36000, 35200, 38400]
+                },
+                {
+                    name: '平台收入',
+                    type: 'bar',
+                    data: [6400, 7800, 6600, 9000, 8800, 9600]
+                }
+            ]
+        });
+
+        // 响应窗口大小变化
+        window.addEventListener('resize', function() {
+            orderChart.resize();
+            revenueChart.resize();
+        });
+    </script>
+</body>
+</html>

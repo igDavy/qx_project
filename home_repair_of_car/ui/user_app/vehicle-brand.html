@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选择车辆品牌 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+
+        .back-btn {
+            margin-right: var(--spacing-md);
+            font-size: 20px;
+            color: var(--neutral-800);
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+            margin: var(--spacing-md) var(--spacing-lg);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            padding-left: 40px;
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius-lg);
+            font-size: var(--font-size-sm);
+            background-color: var(--neutral-100);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: var(--spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neutral-500);
+        }
+
+        .hot-brands {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 8px solid var(--neutral-100);
+        }
+
+        .section-title {
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            color: var(--neutral-800);
+        }
+
+        .hot-brand-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .hot-brand-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--border-radius);
+            background-color: white;
+        }
+
+        .hot-brand-logo {
+            width: 40px;
+            height: 40px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .hot-brand-name {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-800);
+            text-align: center;
+        }
+
+        .brand-list {
+            height: calc(100vh - 260px);
+            overflow-y: auto;
+        }
+
+        .brand-section {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .brand-section-title {
+            font-size: var(--font-size-sm);
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            background-color: rgba(41, 98, 255, 0.1);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            display: inline-block;
+        }
+
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-sm);
+        }
+
+        .brand-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--border-radius);
+            background-color: white;
+        }
+
+        .brand-logo {
+            width: 30px;
+            height: 30px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .brand-name {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-800);
+            text-align: center;
+        }
+
+        .index-bar {
+            position: fixed;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: var(--spacing-xs);
+            border-radius: var(--border-radius);
+            z-index: 90;
+        }
+
+        .index-item {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-600);
+            padding: 2px var(--spacing-xs);
+            cursor: pointer;
+        }
+
+        .index-item.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="javascript:history.back()" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="header-title">选择品牌</h1>
+    </header>
+
+    <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="搜索品牌">
+    </div>
+
+    <section class="hot-brands">
+        <h2 class="section-title">热门品牌</h2>
+        <div class="hot-brand-grid">
+            <div class="hot-brand-item" data-brand="大众">
+                <img src="../images/brands/vw.svg" alt="大众" class="hot-brand-logo">
+                <span class="hot-brand-name">大众</span>
+            </div>
+            <div class="hot-brand-item" data-brand="丰田">
+                <img src="../images/brands/toyota.svg" alt="丰田" class="hot-brand-logo">
+                <span class="hot-brand-name">丰田</span>
+            </div>
+            <div class="hot-brand-item" data-brand="本田">
+                <img src="../images/brands/honda.svg" alt="本田" class="hot-brand-logo">
+                <span class="hot-brand-name">本田</span>
+            </div>
+            <div class="hot-brand-item" data-brand="奔驰">
+                <img src="../images/brands/benz.svg" alt="奔驰" class="hot-brand-logo">
+                <span class="hot-brand-name">奔驰</span>
+            </div>
+            <div class="hot-brand-item" data-brand="宝马">
+                <img src="../images/brands/bmw.svg" alt="宝马" class="hot-brand-logo">
+                <span class="hot-brand-name">宝马</span>
+            </div>
+            <div class="hot-brand-item" data-brand="奥迪">
+                <img src="../images/brands/audi.svg" alt="奥迪" class="hot-brand-logo">
+                <span class="hot-brand-name">奥迪</span>
+            </div>
+            <div class="hot-brand-item" data-brand="日产">
+                <img src="../images/brands/nissan.svg" alt="日产" class="hot-brand-logo">
+                <span class="hot-brand-name">日产</span>
+            </div>
+            <div class="hot-brand-item" data-brand="现代">
+                <img src="../images/brands/hyundai.svg" alt="现代" class="hot-brand-logo">
+                <span class="hot-brand-name">现代</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="brand-list">
+        <!-- A开头品牌 -->
+        <section class="brand-section" id="section-A">
+            <h3 class="brand-section-title">A</h3>
+            <div class="brand-grid">
+                <div class="brand-item" data-brand="奥迪">
+                    <img src="../images/brands/audi.svg" alt="奥迪" class="brand-logo">
+                    <span class="brand-name">奥迪</span>
+                </div>
+                <!-- 其他A开头品牌 -->
+            </div>
+        </section>
+
+        <!-- B开头品牌 -->
+        <section class="brand-section" id="section-B">
+            <h3 class="brand-section-title">B</h3>
+            <div class="brand-grid">
+                <div class="brand-item" data-brand="宝马">
+                    <img src="../images/brands/bmw.svg" alt="宝马" class="brand-logo">
+                    <span class="brand-name">宝马</span>
+                </div>
+                <div class="brand-item" data-brand="奔驰">
+                    <img src="../images/brands/benz.svg" alt="奔驰" class="brand-logo">
+                    <span class="brand-name">奔驰</span>
+                </div>
+                <!-- 其他B开头品牌 -->
+            </div>
+        </section>
+
+        <!-- 其他字母区块 -->
+    </div>
+
+    <div class="index-bar">
+        <div class="index-item active">A</div>
+        <div class="index-item">B</div>
+        <div class="index-item">C</div>
+        <!-- 其他字母索引 -->
+    </div>
+
+    <script>
+        // 品牌选择事件处理
+        document.querySelectorAll('.hot-brand-item, .brand-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const selectedBrand = item.dataset.brand;
+                // 将选中的品牌信息传回上一页
+                window.opener.postMessage({
+                    type: 'brandSelected',
+                    brand: selectedBrand
+                }, '*');
+                window.close();
+            });
+        });
+
+        // 搜索功能
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', (e) => {
+            const searchText = e.target.value.toLowerCase();
+            const allBrands = document.querySelectorAll('.hot-brand-item, .brand-item');
+            
+            allBrands.forEach(brand => {
+                const brandName = brand.dataset.brand.toLowerCase();
+                if (brandName.includes(searchText)) {
+                    brand.style.display = '';
+                } else {
+                    brand.style.display = 'none';
+                }
+            });
+        });
+
+        // 字母索引点击事件
+        document.querySelectorAll('.index-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const letter = item.textContent;
+                const section = document.getElementById(`section-${letter}`);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // 滚动时更新索引状态
+        const brandList = document.querySelector('.brand-list');
+        brandList.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.brand-section');
+            const indexItems = document.querySelectorAll('.index-item');
+            
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    indexItems.forEach(item => item.classList.remove('active'));
+                    indexItems[index].classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

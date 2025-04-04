@@ -1,0 +1,122 @@
+import $config from "@/config/config"
+
+/**
+ * @function request
+ * @param {IParams} 参数
+ * @return {Promise} 返回Promise对象
+ * @description 封装uniappx的request
+ * @author zhaoyongqiang
+ *
+ */
+interface IloadingOptions {
+  title?: string;
+  mask?: boolean;
+}
+
+export type IParams = {
+	url ?: string;
+	api : string;
+	method ?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
+	header?: any; 
+	data ?: any;
+	loading?: IloadingOptions;
+	formData ?: boolean | null;
+	timeout ?: number;
+	withCredentials ?: boolean;
+	auth ?: boolean | null;
+}
+
+const setHeader(url: string, auth:boolean,formData:boolean):UTSJSONObject {
+	let header = {
+		'content-type': 'application/json',
+		clientType: 'C',
+		communityId: uni.getStorageSync('communityId'),
+		Authorization:uni.getStorageSync('token')
+	};
+	if (formData) {
+		header['content-type'] = 'application/x-www-form-urlencoded'
+	}
+	if (!auth) {
+		header['Authorization'] = null 
+	}
+	return header
+}
+
+export function request({
+	url = process.env.NODE_ENV == 'development' ? $config.baseUrl.dev + '/api' : $config.baseUrl.pro,
+	api,
+	method = 'GET',
+	header,
+	data = null,
+	loading,
+	formData = false,
+	auth = true,
+	timeout = $config.timeout,
+	withCredentials = false,
+} : IParams) : Promise<any> {
+	return new Promise((resolve, reject) => {
+		if(loading?.title){
+			uni.showLoading({
+				title:loading.title,
+				mask:loading.mask || false
+			})
+		}
+		const baseHeader = setHeader(url, auth, formData);
+		const finalHeader = header != null ? header : baseHeader;
+		
+		uni.request({
+			url: url + api,
+			method,
+			header: finalHeader,
+			data,
+			timeout,
+			withCredentials,
+			success: (res) => {
+				if(loading?.title){
+					uni.hideLoading()
+				}
+				if ($config.httpSuccessCodes.includes(res.statusCode)) {
+					let dataCopy = res.data
+					if (res['code'] == 401) {
+						uni.showToast({
+							title: '登录过期',
+							icon: 'error'
+						});
+						reject(res.data as UTSJSONObject);
+					} else if (res['code'] == 500) { 
+						uni.showToast({
+							title: res['message'] as string,
+							icon: 'none',
+							duration: 2500
+						});
+						reject(res.data as UTSJSONObject);
+					}else{
+						resolve(res.data as UTSJSONObject);
+					}
+					
+				} else if (res.statusCode == 401) {
+					
+					reject('登录鉴权');
+				} else if (res.statusCode >= 500) {
+					reject('服务器错误');
+					uni.showToast({
+						title: '服务器错误',
+						icon: 'error',
+						duration: 2500
+					});
+				}
+			},
+			fail: (err) => {
+				if(loading?.title){
+					uni.hideLoading()
+				}
+				reject(err.errMsg);
+				uni.showToast({
+					title: '无法连接到服务器',
+					icon: 'error',
+					duration: 2500
+				});
+			}
+		});
+	});
+}

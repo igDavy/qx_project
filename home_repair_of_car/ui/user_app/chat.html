@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天 - 宝驹</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-header {
+            background-color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-1);
+        }
+        
+        .back-btn {
+            margin-right: var(--spacing-md);
+            color: var(--neutral-800);
+            font-size: 18px;
+        }
+        
+        .chat-info {
+            flex: 1;
+        }
+        
+        .shop-name {
+            font-weight: 600;
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .order-info {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-600);
+        }
+        
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--spacing-md);
+        }
+        
+        .message {
+            display: flex;
+            margin-bottom: var(--spacing-md);
+            align-items: flex-start;
+        }
+        
+        .message.sent {
+            flex-direction: row-reverse;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 var(--spacing-sm);
+            background-color: var(--neutral-200);
+        }
+        
+        .message-content {
+            max-width: 70%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius-lg);
+            position: relative;
+        }
+        
+        .message.received .message-content {
+            background-color: white;
+            margin-right: var(--spacing-xl);
+        }
+        
+        .message.sent .message-content {
+            background-color: var(--primary-color);
+            color: white;
+            margin-left: var(--spacing-xl);
+        }
+        
+        .message-time {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-500);
+            margin-top: var(--spacing-xs);
+            text-align: center;
+        }
+        
+        .input-container {
+            background-color: white;
+            padding: var(--spacing-md);
+            border-top: 1px solid var(--neutral-200);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .message-input {
+            flex: 1;
+            border: 1px solid var(--neutral-300);
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: var(--font-size-md);
+            resize: none;
+            height: 40px;
+            line-height: 24px;
+        }
+        
+        .send-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        
+        .send-btn:hover {
+            background-color: var(--primary-color-dark);
+            transform: translateY(-1px);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--spacing-sm) 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--neutral-600);
+            font-size: var(--font-size-xs);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: var(--spacing-xs);
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="javascript:history.back()" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="chat-info">
+            <div class="shop-name">车友汽修</div>
+            <div class="order-info">订单号：2023072501</div>
+        </div>
+    </header>
+    
+    <div class="chat-container">
+        <div class="message-time">2023年7月25日 14:30</div>
+        
+        <div class="message sent">
+            <img src="../images/avatar-business.svg" class="avatar" alt="用户头像">
+            <div class="message-content">
+                您好，我的车最近启动时有异响，想咨询一下。
+            </div>
+        </div>
+        
+        <div class="message received">
+            <img src="../images/logo-merchant.svg" class="avatar" alt="商家头像">
+            <div class="message-content">
+                您好！请问是什么时候开始出现的？能具体描述一下异响的声音吗？
+            </div>
+        </div>
+    </div>
+    
+    <div class="input-container">
+        <textarea class="message-input" placeholder="请输入消息..."></textarea>
+        <button class="send-btn">发送</button>
+    </div>
+</body>
+</html>

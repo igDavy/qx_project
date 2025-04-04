@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>选择城市 - 宝驹养车</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--neutral-100);
+            font-family: var(--font-family);
+        }
+        .location-container {
+            max-width: 393px;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            position: relative;
+        }
+        .header {
+            padding: var(--spacing-md);
+            background-color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-1);
+        }
+        .search-box {
+            position: relative;
+            margin-bottom: var(--spacing-sm);
+        }
+        .search-box input {
+            width: 100%;
+            height: 40px;
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--neutral-200);
+            background-color: var(--neutral-50);
+            padding: 0 var(--spacing-xl) 0 var(--spacing-xl);
+            font-size: var(--font-size-md);
+            transition: all var(--transition-normal) var(--transition-timing);
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: white;
+            box-shadow: 0 0 0 3px var(--primary-color-light);
+        }
+        .search-icon {
+            position: absolute;
+            left: var(--spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neutral-500);
+        }
+        .current-location {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+            background-color: white;
+        }
+        .location-title {
+            color: var(--neutral-600);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 500;
+        }
+        .location-content {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-size: var(--font-size-md);
+        }
+        .location-icon {
+            color: var(--primary-color);
+            margin-right: var(--spacing-xs);
+        }
+        .hot-cities {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+            background-color: white;
+        }
+        .city-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-sm);
+        }
+        .city-item {
+            text-align: center;
+            padding: var(--spacing-sm);
+            background-color: var(--neutral-50);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-md);
+            transition: all var(--transition-normal) var(--transition-timing);
+            cursor: pointer;
+        }
+        .city-item:active {
+            transform: scale(0.95);
+            background-color: var(--primary-color-light);
+            color: var(--primary-color);
+        }
+        .city-list {
+            position: relative;
+            background-color: white;
+        }
+        .city-section {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        .city-section-title {
+            color: var(--primary-color);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        .city-section-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-sm);
+        }
+        .index-bar {
+            position: fixed;
+            right: var(--spacing-xs);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            font-size: var(--font-size-xs);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: var(--spacing-xs);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-1);
+        }
+        .index-item {
+            padding: var(--spacing-xs);
+            color: var(--neutral-600);
+            transition: all var(--transition-normal) var(--transition-timing);
+            cursor: pointer;
+        }
+        .index-item:active {
+            color: var(--primary-color);
+            font-weight: 600;
+            transform: scale(1.1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .city-section {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="location-container">
+        <div class="header">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="搜索城市名称">
+            </div>
+        </div>
+
+        <div class="current-location">
+            <div class="location-title">当前定位</div>
+            <div class="location-content">
+                <i class="fas fa-location-dot location-icon"></i>
+                <span class="location-text">正在获取当前位置...</span>
+            </div>
+        </div>
+
+        <div class="hot-cities">
+            <div class="location-title">热门城市</div>
+            <div class="city-grid">
+                <div class="city-item">北京</div>
+                <div class="city-item">上海</div>
+                <div class="city-item">广州</div>
+                <div class="city-item">深圳</div>
+                <div class="city-item">杭州</div>
+                <div class="city-item">成都</div>
+            </div>
+        </div>
+
+        <div class="city-list">
+            <div class="city-section" id="A">
+                <div class="city-section-title">A</div>
+                <div class="city-section-content">
+                    <div class="city-item">安庆</div>
+                    <div class="city-item">鞍山</div>
+                    <div class="city-item">安阳</div>
+                </div>
+            </div>
+            <div class="city-section" id="B">
+                <div class="city-section-title">B</div>
+                <div class="city-section-content">
+                    <div class="city-item">北京</div>
+                    <div class="city-item">保定</div>
+                    <div class="city-item">包头</div>
+                </div>
+            </div>
+            <div class="city-section" id="C">
+                <div class="city-section-title">C</div>
+                <div class="city-section-content">
+                    <div class="city-item">成都</div>
+                    <div class="city-item">重庆</div>
+                    <div class="city-item">长沙</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="index-bar">
+            <div class="index-item">A</div>
+            <div class="index-item">B</div>
+            <div class="index-item">C</div>
+            <div class="index-item">D</div>
+            <div class="index-item">E</div>
+            <div class="index-item">F</div>
+            <div class="index-item">G</div>
+            <div class="index-item">H</div>
+        </div>
+    </div>
+
+    <script>
+        // 获取当前位置
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        // 这里应该调用后端API来根据经纬度获取城市信息
+                        document.querySelector('.location-text').textContent = '定位中...';
+                    },
+                    error => {
+                        document.querySelector('.location-text').textContent = '定位失败，请手动选择';
+                    }
+                );
+            } else {
+                document.querySelector('.location-text').textContent = '您的浏览器不支持定位';
+            }
+        }
+
+        // 搜索功能
+        const searchInput = document.querySelector('.search-box input');
+        searchInput.addEventListener('input', (e) => {
+            const keyword = e.target.value.toLowerCase();
+            const citySections = document.querySelectorAll('.city-section');
+            
+            citySections.forEach(section => {
+                const cityItems = section.querySelectorAll('.city-item');
+                let hasVisibleCity = false;
+                
+                cityItems.forEach(item => {
+                    const cityName = item.textContent.toLowerCase();
+                    if (cityName.includes(keyword)) {
+                        item.style.display = 'block';
+                        hasVisibleCity = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                section.style.display = hasVisibleCity ? 'block' : 'none';
+            });
+        });
+
+        // 字母索引点击滚动
+        document.querySelectorAll('.index-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const letter = item.textContent;
+                const section = document.getElementById(letter);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // 城市选择
+        document.querySelectorAll('.city-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const selectedCity = item.textContent;
+                // 这里处理城市选择后的逻辑
+                console.log('Selected city:', selectedCity);
+                // 可以添加选择后的回调或跳转
+            });
+        });
+
+        // 初始化定位
+        getCurrentLocation();
+    </script>
+</body>
+</html>
