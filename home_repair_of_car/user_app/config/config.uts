@@ -14,8 +14,8 @@ export default <configType> {
 	title_name: '宝驹',
 	timeout: 10000,
 	baseUrl: {
-		dev: 'dev',
-		pro: 'pro'
+		dev: '/api',
+		pro: 'https://api.m.jd.com'
 	},
 	httpSuccessCodes: [200, 201, 202, 203, 204, 205, 206],
 }

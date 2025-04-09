@@ -1,0 +1,116 @@
+/* 订单页面样式 */
+.orders-container {
+	background-color: #f7f8fa;
+	min-height: 100vh;
+	padding-bottom: 20rpx;
+}
+
+/* 筛选标签样式 */
+.filter-tabs {
+	display: flex;
+	flex-direction: row;
+	background-color: #ffffff;
+	padding: 0 20rpx;
+	border-bottom: 1rpx solid #eeeeee;
+}
+
+.tab-item {
+	flex: 1;
+	height: 80rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 28rpx;
+	color: #666666;
+	position: relative;
+}
+
+.tab-item.active {
+	color: #1989fa;
+	font-weight: 500;
+}
+
+.tab-item.active::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 40rpx;
+	height: 4rpx;
+	background-color: #1989fa;
+	border-radius: 2rpx;
+}
+
+/* 订单列表样式 */
+.orders-list {
+	padding: 20rpx;
+}
+
+.order-item {
+	background-color: #ffffff;
+	border-radius: 12rpx;
+	padding: 30rpx;
+	margin-bottom: 20rpx;
+}
+
+.order-header {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20rpx;
+}
+
+.order-title {
+	font-size: 32rpx;
+	font-weight: 500;
+	color: #333333;
+}
+
+.order-price {
+	font-size: 32rpx;
+	font-weight: 600;
+	color: #333333;
+}
+
+.shop-name {
+	font-size: 26rpx;
+	color: #999999;
+	margin-bottom: 20rpx;
+}
+
+.order-status {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.status-tag {
+	font-size: 26rpx;
+}
+
+.waiting-payment {
+	color: #ff9500;
+}
+
+.waiting-service {
+	color: #1989fa;
+}
+
+.completed {
+	color: #4cd964;
+}
+
+.order-actions {
+	display: flex;
+}
+
+/* 空订单提示 */
+.empty-tip {
+	padding: 100rpx 0;
+}
+
+/* 修改uView按钮样式 */
+:deep .up-button--mini {
+	padding: 8rpx 20rpx !important;
+	font-size: 24rpx !important;
+}

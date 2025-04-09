@@ -1,0 +1,174 @@
+<template>
+	<view class="orders-container">
+		<!-- 订单状态筛选 -->
+		<view class="filter-tabs">
+			<view 
+				class="tab-item" 
+				:class="{ active: activeTab === index }"
+				v-for="(tab, index) in tabs" 
+				:key="index"
+				@tap="switchTab(index)"
+			>
+				<text>{{ tab }}</text>
+			</view>
+		</view>
+		
+		<!-- 订单列表 --> 
+		<view class="orders-list">
+			<!-- 遍历订单列表 -->
+			<view 
+				class="order-item" 
+				v-for="(order, index) in filteredOrders" 
+				:key="index"
+				@tap="viewOrderDetail(order.id)"
+			>
+				<!-- 订单标题和金额 -->
+				<view class="order-header">
+					<text class="order-title">{{ order.serviceName }}</text>
+					<text class="order-price">¥{{ order.price }}</text>
+				</view>
+				
+				<!-- 店铺名称 -->
+				<view class="shop-name">
+					<text>{{ order.shopName }}</text>
+				</view>
+				
+				<!-- 订单状态 -->
+				<view class="order-status">
+					<text :class="['status-tag', getStatusClass(order.status)]">{{ order.status }}</text>
+					
+					<!-- 订单操作按钮 -->
+					<view class="order-actions">
+						<up-button 
+							v-if="order.status === '待付款'" 
+							type="primary" 
+							size="mini"
+							@click.stop="goToPay(order.id)"
+						>去付款</up-button>
+						
+						<up-button 
+							v-if="order.status === '已完成'" 
+							type="primary" 
+							size="mini"
+							plain
+							@click.stop="rateOrder(order.id)"
+						>评价</up-button>
+					</view>
+				</view>
+			</view>
+			
+			<!-- 无订单提示 -->
+			<view class="empty-tip" v-if="filteredOrders.length === 0">
+				<up-empty
+					mode="order"
+					text="暂无订单"
+				></up-empty>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script setup>
+	import { ref, computed, onMounted } from 'vue';
+	
+	// 定义标签页
+	const tabs = ref(['全部', '待付款', '待服务', '已完成']);
+	const activeTab = ref(0);
+	
+	// 订单数据
+	const ordersList = ref([
+		{
+			id: 1,
+			serviceName: '常规保养套餐',
+			shopName: '阳光汽修',
+			price: 388,
+			status: '待付款'
+		},
+		{
+			id: 2,
+			serviceName: '发动机检测',
+			shopName: '宝驹快修',
+			price: 199,
+			status: '已完成'
+		},
+		{
+			id: 3,
+			serviceName: '轮胎更换',
+			shopName: '速达汽车服务',
+			price: 560,
+			status: '待服务'
+		}
+	]);
+	
+	// 根据选中的标签页筛选订单
+	const filteredOrders = computed(() => {
+		if (activeTab.value === 0) {
+			return ordersList.value;
+		} else {
+			return ordersList.value.filter(order => order.status === tabs.value[activeTab.value]);
+		}
+	});
+	
+	// 切换标签页
+	const switchTab = (index) => {
+		activeTab.value = index;
+	};
+	
+	// 查看订单详情
+	const viewOrderDetail = (orderId) => {
+		uni.navigateTo({
+			url: `/pages/orders/detail?id=${orderId}`
+		});
+	};
+	
+	// 去支付
+	const goToPay = (orderId) => {
+		uni.showToast({
+			title: `正在前往支付订单: ${orderId}`,
+			icon: 'none'
+		});
+		
+		// 实际项目中应跳转到支付页面
+		// uni.navigateTo({
+		//   url: `/pages/payment/index?orderId=${orderId}`
+		// });
+	};
+	
+	// 评价订单
+	const rateOrder = (orderId) => {
+		uni.showToast({
+			title: `正在前往评价订单: ${orderId}`,
+			icon: 'none'
+		});
+		
+		// 实际项目中应跳转到评价页面
+		// uni.navigateTo({
+		//   url: `/pages/orders/rate?id=${orderId}`
+		// });
+	};
+	
+	// 获取状态样式类名
+	const getStatusClass = (status) => {
+		switch (status) {
+			case '待付款':
+				return 'waiting-payment';
+			case '待服务':
+				return 'waiting-service';
+			case '已完成':
+				return 'completed';
+			default:
+				return '';
+		}
+	};
+	
+	// 页面加载完成
+	onMounted(() => {
+		console.log('订单页面加载完成');
+		// 实际项目中可以从API获取订单数据
+		// loadOrders();
+	});
+</script>
+
+<style lang="scss">
+	@import './index.scss';
+</style>

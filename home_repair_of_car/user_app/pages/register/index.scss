@@ -1,0 +1,109 @@
+/* 注册页面样式 */
+.register-container {
+  background-color: #ffffff;
+}
+
+/* 头部样式 */
+.header {
+  padding-top: 20rpx;
+  margin-bottom: 40rpx;
+}
+
+.back-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.title {
+  color: #333333;
+}
+
+/* 表单样式 */
+.form-container {
+  padding: 0 20rpx;
+}
+
+.up-form-item {
+  margin-bottom: 20rpx;
+}
+
+.up-input {
+  border-radius: 8rpx;
+  background-color: #f7f7f7;
+  height: 88rpx;
+  padding: 0 20rpx;
+}
+
+.input-label {
+  color: #333333;
+  font-weight: 500;
+  margin-right: 20rpx;
+  min-width: 140rpx;
+  display: inline-block;
+  text-align: justify;
+}
+
+/* 输入框前缀容器样式 */
+.input-prefix {
+  display: flex;
+  align-items: center;
+  padding-right: 24rpx;
+  border-right: 1px solid #EEEEEE;
+  margin-right: 24rpx;
+}
+
+/* 密码可见性切换图标 */
+.password-toggle-icon {
+  color: #999;
+  padding: 0 10rpx;
+  font-size: 40rpx;
+}
+
+.icon-eye-open,
+.icon-eye-close {
+  font-size: 36rpx;
+}
+
+/* 协议样式 */
+.agreement-box {
+  font-size: 24rpx;
+  color: #666666;
+  margin: 40rpx 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.agreement-text {
+  margin-right: 5rpx;
+}
+
+.agreement-text.highlight {
+  color: #1989fa;
+}
+
+/* 按钮样式 */
+.submit-btn {
+  margin: 60rpx 0 30rpx;
+}
+
+.up-button {
+  height: 90rpx !important;
+  font-size: 32rpx !important;
+  border-radius: 45rpx !important;
+  background-color: #1989fa !important;
+}
+
+.up-button--disabled {
+  background-color: #a0cfff !important;
+}
+
+/* 登录链接样式 */
+.login-link {
+  text-align: center;
+  font-size: 28rpx;
+  color: #1989fa;
+  margin-top: 30rpx;
+  padding-bottom: 30rpx;
+} 

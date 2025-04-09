@@ -1,0 +1,72 @@
+import { request, IParams } from '@/utils/request';
+
+/**
+ * 发送注册验证码
+ * @param phone 手机号码
+ */
+export const sendRegisterCode = (phone: string): Promise<any> => {
+    const requestData: IParams = {
+        method: 'POST',
+        api: '/api/user/sendRegisterCode',
+        data: { phone },
+        loading: { title: '发送中...', mask: true },
+    };
+    return request(requestData);
+};
+
+/**
+ * 用户注册
+ * @param data 注册信息
+ */
+export const register = (data: UTSJSONObject): Promise<any> => {
+    const requestData: IParams = {
+        method: 'POST',
+        api: '/api/user/register',
+        data,
+        loading: { title: '注册中...', mask: true },
+    };
+    return request(requestData);
+};
+
+/**
+ * 用户登录
+ * @param data 登录信息
+ */
+export const login = (data: UTSJSONObject): Promise<any> => {
+    const requestData: IParams = {
+        method: 'POST',
+        api: '/api/user/login',
+        data,
+        loading: { title: '登录中...', mask: true },
+    };
+    return request(requestData);
+};
+
+/**
+ * 微信登录
+ * @param code 微信授权码
+ */
+export const wechatLogin = (code: string): Promise<any> => {
+    const requestData: IParams = {
+        method: 'POST',
+        api: '/api/user/wechatLogin',
+        data: { code },
+        loading: { title: '登录中...', mask: true },
+    };
+    return request(requestData);
+};
+
+/**
+ * 短信验证码登录
+ * @param phone 手机号码
+ * @param code 验证码
+ */
+export const smsLogin = (phone: string, code: string): Promise<any> => {
+    const requestData: IParams = {
+        method: 'POST',
+        api: '/api/user/smsLogin',
+        data: { phone, code },
+        loading: { title: '登录中...', mask: true },
+    };
+    return request(requestData);
+}; 

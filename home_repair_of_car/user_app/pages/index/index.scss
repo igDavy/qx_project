@@ -1,0 +1,376 @@
+/* 全局样式 */
+page {
+  background-color: #ffffff;
+}
+
+/* 首页容器 */
+.home-container {
+  background-color: #ffffff;
+  min-height: 100vh;
+  padding-bottom: 100rpx; /* 为底部tabBar预留空间 */
+}
+
+/* 位置区域 */
+.location-area {
+  display: flex;
+  padding: 20rpx 30rpx;
+  background-color: #ffffff;
+}
+
+.location-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.location-text {
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 500;
+  margin: 0 8rpx;
+}
+
+/* 搜索框 */
+.search-wrapper {
+  padding: 0 40rpx 30rpx;
+  background-color: #ffffff;
+}
+
+/* 自定义搜索框样式 */
+.custom-search {
+  background-color: #f5f5f5 !important;
+  border-radius: 50rpx !important;
+  height: 80rpx !important;
+}
+
+/* 服务类型区域 */
+.service-type-area {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15rpx 20rpx;
+  background-color: #ffffff;
+}
+
+.service-type-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 48%;
+  background-color: #f5f5f5;
+  padding: 25rpx 20rpx;
+  border-radius: 8rpx;
+  margin-bottom: 15rpx;
+  box-sizing: border-box;
+}
+
+.service-icon {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+}
+
+.service-text {
+  font-size: 28rpx;
+  color: #333333;
+  flex: 1;
+}
+
+/* 通用模块标题 */
+.section-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx 40rpx 20rpx;
+  border-top: 20rpx solid #f5f5f5;
+}
+
+.section-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #333333;
+}
+
+.more-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.more-text {
+  font-size: 26rpx;
+  color: #1989fa;
+  margin-right: 6rpx;
+}
+
+/* 附近店铺区域 */
+.nearby-shops-area {
+  background-color: #ffffff;
+}
+
+.shops-list {
+  padding: 0;
+}
+
+.shop-item {
+  display: flex;
+  flex-direction: row;
+  padding: 24rpx 40rpx;
+  border-bottom: 1px solid #f5f5f5;
+  align-items: center;
+}
+
+.shop-item:last-child {
+  border-bottom: none;
+}
+
+.shop-image {
+  width: 200rpx;
+  height: 180rpx;
+  border-radius: 8rpx;
+  object-fit: cover;
+  margin-right: 30rpx;
+}
+
+.shop-info {
+  display: flex;
+  flex: 1;
+}
+
+.shop-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 12rpx;
+  text-align: right;
+}
+
+.shop-distance {
+  font-size: 26rpx;
+  color: #666666;
+  margin-bottom: 12rpx;
+  text-align: right;
+}
+
+.shop-rating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 12rpx;
+  justify-content: right;
+}
+
+.rating-value {
+  font-size: 26rpx;
+  color: #ff9500;
+  margin-right: 8rpx;
+  display: flex;
+}
+
+.service-count {
+  font-size: 26rpx;
+  color: #666666;
+  margin-bottom: 12rpx;
+  text-align: right;
+}
+
+.shop-tags {
+  margin-top: 6rpx;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.service-tag {
+  display: inline-block;
+  padding: 6rpx 16rpx;
+  background-color: #f8f8f8;
+  color: #666666;
+  font-size: 24rpx;
+  width: 200rpx;
+  margin-right: 10rpx;
+  margin-bottom: 8rpx;
+  border-radius: 6rpx;
+  text-align: center;
+}
+
+/* 用户评论区域 */
+.user-comments-area {
+  background-color: #ffffff;
+  margin-top: 20rpx;
+  border-top: 20rpx solid #f5f5f5;
+}
+
+.section-subtitle {
+  font-size: 24rpx;
+  color: #999999;
+  margin-left: 10rpx;
+}
+
+.comments-list {
+  padding: 0 40rpx;
+}
+
+.comment-item {
+  padding: 30rpx 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+}
+
+.comment-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  background-color: #94CEF9;
+  margin-bottom: 20rpx;
+}
+
+.user-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 6rpx;
+}
+
+.comment-time {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.device-tag {
+  font-size: 26rpx;
+  color: #666666;
+  background-color: #f8f8f8;
+  padding: 4rpx 16rpx;
+  border-radius: 6rpx;
+}
+
+.service-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15rpx;
+  flex-direction: row;
+}
+
+.rating-label {
+  font-size: 28rpx;
+  color: #333333;
+  margin-right: 10rpx;
+}
+
+.heart-rating {
+  margin-right: 10rpx;
+}
+
+.rating-value {
+  font-size: 28rpx;
+  color: #ff6b6b;
+  font-weight: bold;
+  margin-left: 10rpx;
+}
+
+.comment-tags {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-bottom: 15rpx;
+}
+
+.comment-tag {
+  display: inline-block;
+  padding: 6rpx 16rpx;
+  background-color: #fff4f4;
+  color: #ff6b6b;
+  font-size: 24rpx;
+  margin-right: 12rpx;
+  margin-bottom: 10rpx;
+  border-radius: 30rpx;
+}
+
+.comment-content {
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+
+.comment-images {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: 20rpx;
+}
+
+.comment-image {
+  width: 200rpx;
+  height: 150rpx;
+  margin-right: 15rpx;
+  margin-bottom: 15rpx;
+  border-radius: 8rpx;
+}
+
+.comment-service-tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.comment-service-tag {
+  display: inline-block;
+  padding: 6rpx 16rpx;
+  background-color: #f8f8f8;
+  color: #666666;
+  font-size: 24rpx;
+  margin-right: 10rpx;
+  margin-bottom: 8rpx;
+  border-radius: 6rpx;
+}
+
+.view-more-comments {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  padding: 30rpx 0;
+  border-top: 1px solid #f5f5f5;
+  font-size: 28rpx;
+  color: #1989fa;
+  margin: 0 40rpx;
+}
+
+/* 活动广告区域 */
+.promotion-area {
+  padding: 0 30rpx 30rpx;
+}
+
+.promotion-image {
+  width: 100%;
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}

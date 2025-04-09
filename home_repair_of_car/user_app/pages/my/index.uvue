@@ -1,0 +1,78 @@
+<template>
+	<view class="my-container">
+		<!-- 用户信息区域 -->
+		<view class="user-info-section">
+			<view class="avatar-wrapper">
+				<image class="avatar" src="/static/default-avatar.png" mode="aspectFill"></image>
+			</view>
+			<view class="user-details">
+				<view class="nickname">用户昵称</view>
+				<view class="member-tag">普通会员</view>
+			</view>
+		</view>
+		
+		<!-- 菜单项 -->
+		<view class="menu-section">
+			<view class="menu-item" @tap="navigateTo('/pages/cars/index')">
+				<up-icon name="car" size="32" color="#000000" class="menu-icon"></up-icon>
+				<view class="menu-title">我的车辆</view>
+				<up-icon name="arrow-right" size="24" color="#c0c4cc"></up-icon>
+			</view>
+			
+			<view class="menu-item" @tap="navigateTo('/pages/maintenance/records')">
+				<up-icon name="reload-time" size="28" color="#000000" class="menu-icon"></up-icon>
+				<view class="menu-title">保养记录</view>
+				<up-icon name="arrow-right" size="24" color="#c0c4cc"></up-icon>
+			</view>
+			
+			<view class="menu-item" @tap="navigateTo('/pages/favorites/shops')">
+				<up-icon name="heart" size="28" color="#000000" class="menu-icon"></up-icon>
+				<view class="menu-title">收藏店铺</view>
+				<up-icon name="arrow-right" size="24" color="#c0c4cc"></up-icon>
+			</view>
+			
+			<view class="menu-item" @tap="navigateTo('/pages/settings/index')">
+				<up-icon name="setting" size="28" color="#000000" class="menu-icon"></up-icon>
+				<view class="menu-title">设置</view>
+				<up-icon name="arrow-right" size="24" color="#c0c4cc"></up-icon>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script setup>
+	import { ref, onMounted } from 'vue';
+	
+	// 用户信息
+	const userInfo = ref({
+		nickname: '用户昵称',
+		memberLevel: '普通会员',
+		avatar: '/static/default-avatar.png',
+		isLogin: true
+	});
+	
+	// 导航到指定页面
+	const navigateTo = (url) => {
+		uni.navigateTo({
+			url: url
+		});
+	};
+	
+	// 跳转到登录页
+	const goToLogin = () => {
+		uni.navigateTo({
+			url: '/pages/login/index'
+		});
+	};
+	
+	// 页面加载
+	onMounted(() => {
+		console.log('个人中心页面加载完成');
+		// 检查用户登录状态，实际项目中可从本地存储或全局状态获取
+		// checkLoginStatus();
+	});
+</script>
+
+<style lang="scss">
+@import './index.scss';
+</style>

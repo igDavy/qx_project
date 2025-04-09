@@ -1,0 +1,19 @@
+import { request, IParams } from '@/utils/request';
+
+
+/**
+ * api示例
+ */
+export const getCarBrandList = (data : UTSJSONObject) : Promise<any> => {
+    const requestData : IParams = {
+        method: 'GET',
+		api: '',
+        // api: '/gw_carModelSoa?body={"queryType":"3","dynamicCard":0}&functionId=gw_carModelSoa&_t=1744096048792&appid=carHousekeeper',
+        // header:{'X-Custom-Header': 'custom-value'},
+        data,
+        // formData:true,
+		// auth: null,
+        loading:{title:'加载中...',mask:true },
+    };
+    return request(requestData);
+};

@@ -9,7 +9,6 @@
 		},
 		// #ifdef APP-ANDROID
 		onLastPageBackPress: function () {
-			console.log('App LastPageBackPress')
 			if (firstBackTime == 0) {
 				uni.showToast({
 					title: '再按一次退出应用',
@@ -26,7 +25,6 @@
 		},
 		// #endif
 		onExit: function () {
-			console.log('App Exit')
 		}
 	}
 </script>
@@ -44,5 +42,67 @@
 	.u-input__content{
 		height: 68rpx;
 		padding-left: 20rpx;
+	}
+
+	/* 图标字体 */
+	@font-face {
+		font-family: 'iconfont';
+		src: url('https://at.alicdn.com/t/free/iconfont.eot?t=1521339108316');
+		src: url('https://at.alicdn.com/t/free/iconfont.eot?t=1521339108316#iefix') format('embedded-opentype'),
+		url('https://at.alicdn.com/t/free/iconfont.woff?t=1521339108316') format('woff'),
+		url('https://at.alicdn.com/t/free/iconfont.ttf?t=1521339108316') format('truetype'),
+		url('https://at.alicdn.com/t/free/iconfont.svg?t=1521339108316#iconfont') format('svg');
+	}
+
+	.iconfont {
+		font-family: "iconfont" !important;
+		font-size: 32rpx;
+		font-style: normal;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	
+	/* 图标代码定义 */
+	.icon-location:before { content: "\e653"; }
+	.icon-search:before { content: "\e6f6"; }
+	.icon-star-filled:before { content: "\e645"; }
+	.icon-star-half:before { content: "\e646"; }
+	.icon-star-empty:before { content: "\e644"; }
+	.icon-right-arrow:before { content: "\e6a3"; }
+	.icon-home:before { content: "\e612"; }
+	.icon-order:before { content: "\e688"; }
+	.icon-user:before { content: "\e61c"; }
+	.icon-play:before { content: "\e65f"; }
+	.icon-inspection:before { content: "\e7d3"; }
+	.icon-maintenance:before { content: "\e604"; }
+	.icon-parts:before { content: "\e635"; }
+	.icon-emergency:before { content: "\e606"; }
+	
+	/* 全局颜色变量 */
+	:root {
+		--primary-color: #1989fa;
+		--background-color: #f7f8fa;
+		--text-color: #323233;
+		--text-color-light: #969799;
+		--border-color: #ebedf0;
+		--success-color: #07c160;
+		--danger-color: #ee0a24;
+		--warning-color: #ff976a;
+	}
+	
+	/* 自定义样式 */
+	.app-container {
+		background-color: var(--background-color);
+		min-height: 100vh;
+	}
+	
+	.page-container {
+		padding: 30rpx;
+	}
+	
+	.divider {
+		height: 1rpx;
+		background-color: var(--border-color);
+		margin: 20rpx 0;
 	}
 </style>

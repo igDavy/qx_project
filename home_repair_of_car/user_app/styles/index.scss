@@ -1,0 +1,223 @@
+/* 全局样式 */
+page {
+  background-color: #f7f8fa;
+}
+
+/* 首页容器 */
+.home-container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding-bottom: 100rpx; /* 为底部tabBar预留空间 */
+}
+
+/* 位置区域 */
+.location-area {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background-color: #ffffff;
+}
+
+.location-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.location-text {
+  font-size: 32rpx;
+  color: #333333;
+  margin: 0 10rpx;
+  max-width: 500rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 搜索框 */
+.search-wrapper {
+  padding: 20rpx 30rpx;
+  background-color: #ffffff;
+}
+
+/* 自定义搜索框样式 */
+.custom-search {
+  background-color: #f5f5f5 !important;
+  border-radius: 50rpx !important;
+}
+
+/* 服务类型区域 */
+.service-type-area {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 30rpx;
+  background-color: #ffffff;
+  margin-bottom: 20rpx;
+}
+
+.service-type-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 22%;
+}
+
+.service-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10rpx;
+}
+
+.service-icon.inspection {
+  background-color: rgba(25, 137, 250, 0.1);
+}
+
+.service-icon.maintenance {
+  background-color: rgba(76, 217, 100, 0.1);
+}
+
+.service-icon.parts {
+  background-color: rgba(255, 149, 0, 0.1);
+}
+
+.service-icon.emergency {
+  background-color: rgba(255, 59, 48, 0.1);
+}
+
+.service-text {
+  font-size: 24rpx;
+  color: #333333;
+}
+
+/* 通用模块标题 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333333;
+}
+
+.more-link {
+  display: flex;
+  align-items: center;
+}
+
+.more-text {
+  font-size: 28rpx;
+  color: #1989fa;
+  margin-right: 6rpx;
+}
+
+/* 附近店铺区域 */
+.nearby-shops-area {
+  background-color: #ffffff;
+  margin: 0 0 20rpx 0;
+  border-radius: 0;
+}
+
+.shops-list {
+  padding: 0;
+}
+
+.shop-item {
+  display: flex;
+  padding: 24rpx 30rpx;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.shop-item:last-child {
+  border-bottom: none;
+}
+
+.shop-image {
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 8rpx;
+  object-fit: cover;
+  margin-right: 30rpx;
+}
+
+.shop-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: 1;
+}
+
+.shop-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 8rpx;
+  text-align: right;
+}
+
+.shop-distance {
+  font-size: 24rpx;
+  color: #666666;
+  margin-bottom: 12rpx;
+  text-align: right;
+}
+
+.shop-rating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10rpx;
+  justify-content: flex-end;
+}
+
+.rating-value {
+  font-size: 24rpx;
+  color: #ff9500;
+  margin-right: 8rpx;
+}
+
+.service-count {
+  font-size: 24rpx;
+  color: #666666;
+  margin-bottom: 12rpx;
+  text-align: right;
+}
+
+.shop-tags {
+  width: 100%;
+  margin-top: 6rpx;
+  text-align: right;
+}
+
+.service-tag {
+  display: inline-block;
+  padding: 8rpx 16rpx;
+  background-color: #f8f8f8;
+  color: #666666;
+  font-size: 24rpx;
+  margin-right: 10rpx;
+  margin-bottom: 8rpx;
+  border-radius: 4rpx;
+  text-align: center;
+}
+
+/* 活动广告区域 */
+.promotion-area {
+  padding: 0 30rpx 30rpx;
+}
+
+.promotion-image {
+  width: 100%;
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 移除底部导航栏样式，因为使用pages.json中的tabBar配置 */ 

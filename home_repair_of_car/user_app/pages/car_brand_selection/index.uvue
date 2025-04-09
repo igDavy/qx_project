@@ -1,0 +1,23 @@
+<template>
+    <view>
+        <CarBrandSelection @handleShowDetail="handleShowDetail" />
+        <CarBrandDetail v-if="showDetail" />
+    </view>
+</template> 
+
+<script setup>
+import { ref } from "vue"
+import CarBrandSelection from "@/components/car-brand-selection/index.uvue"
+import CarBrandDetail from "@/components/car-brand-selection/detail.uvue"
+
+const showDetail = ref(false);
+
+const handleShowDetail = () => {
+    showDetail.value = true;
+}
+
+
+
+
+
+</script>

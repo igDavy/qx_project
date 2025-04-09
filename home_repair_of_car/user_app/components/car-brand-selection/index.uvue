@@ -1,0 +1,53 @@
+<template>
+  <view>
+    <up-index-list :index-list="indexList">
+		<template v-for="(item, index) in itemArr">
+			<!-- #ifdef APP-NVUE -->
+			<up-index-anchor :text="indexList[index]"></up-index-anchor>
+			<!-- #endif -->
+			<up-index-item>
+				<!-- #ifndef APP-NVUE -->
+				<up-index-anchor :text="indexList[index]"></up-index-anchor>
+				<!-- #endif -->
+				<view class="list-cell" v-for="(cell, index) in item">
+					{{cell}}
+				</view>
+			</up-index-item>
+		</template>
+	</up-index-list>
+  </view>
+</template>
+
+<script setup>
+import { ref, defineEmits } from 'vue';
+
+const emit = defineEmits(['handleShowDetail']);
+const handleShowDetail = () => {
+    emit('handleShowDetail');
+}
+
+
+
+// 创建响应式数据
+const indexList = ref(["A", "B", "C"]);
+const itemArr = ref([  
+  ['列表A1', '列表A2', '列表A3'],  
+  ['列表B1', '列表B2', '列表B3'],  
+  ['列表C1', '列表C2', '列表C3']  
+]);
+
+</script>
+
+<style scoped lang="scss">
+    .list-cell {
+		display: flex;
+		box-sizing: border-box;
+		width: 100%;
+		padding: 10px 24rpx;
+		overflow: hidden;
+		color: #323233;
+		font-size: 14px;
+		line-height: 24px;
+		background-color: #fff;
+	}
+</style>

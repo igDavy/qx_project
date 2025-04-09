@@ -9,41 +9,41 @@ import $config from "@/config/config"
  *
  */
 interface IloadingOptions {
-  title?: string;
-  mask?: boolean;
+  title?: string,
+  mask?: boolean
 }
 
 export type IParams = {
-	url ?: string;
-	api : string;
-	method ?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
-	header?: any; 
-	data ?: any;
-	loading?: IloadingOptions;
-	formData ?: boolean | null;
-	timeout ?: number;
-	withCredentials ?: boolean;
-	auth ?: boolean | null;
+	url ?: string,
+	api : string,
+	method ?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS',
+	header?: any,
+	data ?: any,
+	loading?: IloadingOptions,
+	formData ?: boolean | any,
+	timeout ?: number,
+	withCredentials ?: boolean,
+	auth ?: boolean | any
 }
 
-const setHeader(url: string, auth:boolean,formData:boolean):UTSJSONObject {
+const setHeader = (url: string, auth:boolean,formData:boolean):UTSJSONObject => {
 	let header = {
 		'content-type': 'application/json',
-		clientType: 'C',
-		communityId: uni.getStorageSync('communityId'),
-		Authorization:uni.getStorageSync('token')
+		// clientType: 'C',
+		// communityId: uni.getStorageSync('communityId'),
+		// Authorization:uni.getStorageSync('token')
 	};
 	if (formData) {
 		header['content-type'] = 'application/x-www-form-urlencoded'
 	}
 	if (!auth) {
-		header['Authorization'] = null 
+		// header['Authorization'] = null 
 	}
 	return header
 }
 
 export function request({
-	url = process.env.NODE_ENV == 'development' ? $config.baseUrl.dev + '/api' : $config.baseUrl.pro,
+	url = process.env.NODE_ENV == 'development' ? $config.baseUrl.dev : $config.baseUrl.pro,
 	api,
 	method = 'GET',
 	header,

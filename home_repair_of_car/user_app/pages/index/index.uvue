@@ -1,42 +1,320 @@
 <template>
-	<view>
-		<up-action-sheet :actions="list" v-model:show="show"></up-action-sheet>
-		<up-button type="primary" @click="handleTest" text="月落"></up-button>
+  <view class="home-container">
+    <!-- 位置区域 -->
+    <view class="location-area">
+      <view class="location-wrapper" @tap="selectLocation">
+        <up-icon name="map-fill" size="28" color="#333333"></up-icon>
+        <text class="location-text">{{ currentLocation }}</text>
+        <up-icon name="arrow-down" size="20" color="#999999"></up-icon>
+      </view>
+    </view>
+    
+    <!-- 搜索框 -->
+    <view class="search-wrapper" @tap="goToSearch">
+      <up-search
+        placeholder="搜索维修店铺"
+        :showAction="false"
+        shape="round"
+        :clearabled="false"
+        bgColor="#f5f5f5"
+        class="custom-search"
+        disabled
+      ></up-search>
+    </view>
+    
+    <!-- 服务类型区域 -->
+    <view class="service-type-area">
+      <view class="service-type-card" @tap="selectServiceType('inspection')">
+        <view class="service-icon inspection">
+          <up-icon name="warning" size="30" color="#2979ff"></up-icon>
+        </view>
+        <text class="service-text">车辆检测</text>
+      </view>
+      
+      <view class="service-type-card" @tap="selectServiceType('maintenance')">
+        <view class="service-icon maintenance">
+          <up-icon name="car-fill" size="30" color="#4cd964"></up-icon>
+        </view>
+        <text class="service-text">上门保养</text>
+      </view>
+      
+      <view class="service-type-card" @tap="selectServiceType('parts')">
+        <view class="service-icon parts">
+          <up-icon name="bag-fill" size="30" color="#ff9500"></up-icon>
+        </view>
+        <text class="service-text">配件更换</text>
+      </view>
+      
+      <view class="service-type-card" @tap="selectServiceType('emergency')">
+        <view class="service-icon emergency">
+          <up-icon name="server-fill" size="30" color="#ff3b30"></up-icon>
+        </view>
+        <text class="service-text">应急救援</text>
+      </view>
+    </view>
+    
+    <!-- 附近店铺区域 -->
+    <view class="nearby-shops-area">
+      <view class="section-header">
+        <text class="section-title">附近店铺</text>
+        <view class="more-link" @tap="viewMoreShops">
+          <text class="more-text">更多店铺</text>
+          <up-icon name="arrow-right" size="24" color="#1989fa"></up-icon>
+        </view>
+      </view>
+      
+      <view class="shops-list">
+        <view 
+          class="shop-item" 
+          v-for="(shop, index) in nearbyShops" 
+          :key="index"
+          @tap="viewShopDetail(shop.id)"
+        >
+          <!-- 左侧店铺图片 -->
+          <image class="shop-image" :src="shop.image" mode="aspectFill"></image>
+          
+          <!-- 右侧店铺信息 -->
+          <view class="shop-info">
+            <!-- 店铺名称 -->
+            <view class="shop-name">{{ shop.name }}</view>
+            
+            <!-- 距离 -->
+            <view class="shop-distance">{{ shop.distance }}</view>
+            
+            <!-- 服务计数 -->
+            <view class="service-count">订单 : {{ shop.serviceCount }}</view>
+
+            <!-- 评分 -->
+            <view class="shop-rating">
+              <up-rate
+                v-model="shop.rating"
+                :readonly="true"
+                :count="5"
+                :size="16"
+                activeColor="#ff9500"
+                inactiveColor="#dddddd"
+              ></up-rate>
+              <text class="rating-value">{{ shop.rating }}</text>
+            </view>
+            
+            <!-- 服务标签 -->
+            <view class="shop-tags">
+              <view 
+                v-for="(service, sIndex) in shop.services" 
+                :key="sIndex"
+                class="service-tag"
+              >
+                {{ service }}
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 用户评论区域 -->
+    <view class="user-comments-area">
+      <view class="section-header">
+        <view class="section-title">服务体验分享</view>
+      </view>
+      <view class="comments-list">
+        <view class="comment-item" v-for="(comment, index) in userComments.slice(0, 2)" :key="comment.id">
+          <view class="comment-header">
+            <view class="user-info">
+              <view class="user-avatar"></view>
+              <view class="user-detail">
+                <view class="user-name">{{ comment.username }}</view>
+                <view class="comment-time">{{ comment.time }}</view>
+              </view>
+            </view>
+            <view class="device-tag">{{ comment.device }}</view>
+          </view>
+          
+          <view class="service-rating">
+            <view class="rating-label">服务评分</view>
+            <up-rate
+              v-model="comment.rating"
+              :readonly="true"
+              :count="5"
+              :size="24"
+              activeColor="#ff6b6b"
+              inactiveColor="#dddddd"
+              class="heart-rating"
+            ></up-rate>
+            <view class="rating-value">{{ comment.rating }}.0</view>
+          </view>
+          
+          <view class="comment-tags" v-if="comment.tags && comment.tags.length > 0">
+            <view class="comment-tag" v-for="(tag, tagIndex) in comment.tags" :key="tagIndex">
+              {{ tag }}
+            </view>
+          </view>
+          
+          <view class="comment-content" v-if="comment.content">{{ comment.content }}</view>
+          
+          <view class="comment-images" v-if="comment.images && comment.images.length > 0">
+            <image class="comment-image" v-for="(img, imgIndex) in comment.images" :key="imgIndex" :src="img" mode="aspectFill"></image>
+          </view>
+        </view>
+      </view>
+      <view class="view-more-comments" @click="viewMoreComments">
+        查看更多评论
+        <up-icon name="arrow-right" size="18" color="#1989fa"></up-icon>
+      </view>
+    </view>
 	</view>
 </template>
 
 <script setup>
-	import { ref } from 'vue';
-	
-	const list = ref([
-	  {
-	    text: '点赞',
-	    color: 'blue',
-	    fontSize: 28
-	  },
-	  {
-	    text: '分享'
-	  },
-	  {
-	    text: '评论'
-	  }
-	]);
-	
-	const show = ref(true);
-	
-	const handleTest = () => show.value = !show.value
+	import { ref, onMounted } from 'vue';
+  
+  // 当前位置信息
+  const currentLocation = ref('北京市朝阳区');
+  
+  // 附近店铺数据
+  const nearbyShops = ref([
+    {
+      id: 1,
+      name: '阳光汽修',
+      rating: 4.5,
+      distance: '500m',
+      serviceCount: 1280,
+      services: ['上门保养', '车辆检测'],
+      image: '/static/xiulichang.png'
+    },
+    {
+      id: 2,
+      name: '速达汽车服务',
+      rating: 4.3,
+      distance: '1.2km',
+      serviceCount: 965,
+      services: ['上门保养', '配件更换'],
+      image: '/static/xiulichang.png'
+    },
+    {
+      id: 3,
+      name: '专业汽修中心',
+      rating: 4.7,
+      distance: '1.8km',
+      serviceCount: 1560,
+      services: ['应急救援', '车辆检测'],
+      image: '/static/xiulichang.png'
+    }
+  ]);
+  
+  // 用户评论数据
+  const userComments = ref([
+    {
+      id: 1,
+      username: '李先生',
+      device: '哈弗 F7',
+      time: '2023-10-15',
+      rating: 5,
+      tags: ['技师专业', '服务周到', '准时上门'],
+      content: '技师很专业，按时上门服务，并且非常耐心地解答了我的问题，下次还会选择！',
+      images: ['/static/xiulichang.png', '/static/xiulichang.png'],
+      services: ['上门保养', '机油更换']
+    },
+    {
+      id: 2,
+      username: '张女士',
+      device: '比亚迪 秦',
+      time: '2023-10-12',
+      rating: 4,
+      tags: ['价格合理', '服务及时'],
+      content: '师傅上门很准时，服务态度也很好，价格比4S店便宜多了，很满意！',
+      images: ['/static/xiulichang.png'],
+      services: ['轮胎更换', '底盘检测']
+    }
+  ]);
+  
+  // 方法：选择位置
+  const selectLocation = () => {
+    uni.showToast({
+      title: '选择位置功能开发中',
+      icon: 'none'
+    });
+    uni.navigateTo({
+      url: '/pages/car_brand_selection/index'
+    });
+  };
+  
+  // 方法：跳转到搜索页
+  const goToSearch = () => {
+    uni.navigateTo({
+      url: '/pages/search/index'
+    });
+  };
+  
+  // 方法：选择服务类型
+  const selectServiceType = (type) => {
+    uni.showToast({
+      title: `您选择了${type === 'inspection' ? '车辆检测' : 
+        type === 'maintenance' ? '上门保养' : 
+        type === 'parts' ? '配件更换' : '应急救援'}服务`,
+      icon: 'none'
+    });
+    
+    // 这里可以根据选择的服务类型跳转到相应的页面
+    uni.navigateTo({
+      url: `/pages/service/${type}`
+    });
+  };
+  
+  // 方法：查看更多店铺
+  const viewMoreShops = () => {
+    uni.navigateTo({
+      url: '/pages/shops/index'
+    });
+  };
+  
+  // 方法：查看店铺详情
+  const viewShopDetail = (shopId) => {
+    uni.navigateTo({
+      url: `/pages/shop/detail?id=${shopId}`
+    });
+  };
+  
+  // 方法：查看更多评论
+  const viewMoreComments = () => {
+    uni.navigateTo({
+      url: '/pages/comments/comments'
+    });
+  };
+  
+  // 页面加载完成
+  onMounted(() => {
+    // 确保位置信息正确显示
+    if (!currentLocation.value) {
+      currentLocation.value = '北京市朝阳区';
+    }
+  });
 </script>
 
-<style>
-	.logo {
-		height: 100px;
-		width: 100px;
-		margin: 100px auto 25px auto;
-	}
+<style lang="scss">
+@import './index.scss';
 
-	.title {
-		font-size: 18px;
-		color: #8f8f94;
-    text-align: center;
+/* 图标样式 */
+.icon-double-right, .icon-truck, .icon-cog, .icon-bell {
+  font-size: 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-double-right {
+  color: #2979ff;
+}
+
+.icon-truck {
+  color: #4cd964;
+}
+
+.icon-cog {
+  color: #ff9500;
+}
+
+.icon-bell {
+  color: #ff3b30;
 	}
 </style>

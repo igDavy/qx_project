@@ -14,7 +14,7 @@
             "urlCheck" : false
         },
         "usingComponents" : true,
-		"mergeVirtualHostAttributes" : true
+        "mergeVirtualHostAttributes" : true
     },
     "mp-alipay" : {
         "usingComponents" : true
@@ -24,7 +24,7 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true,
-		"mergeVirtualHostAttributes" : true
+        "mergeVirtualHostAttributes" : true
     },
     "uniStatistics" : {
         "enable" : false
@@ -40,6 +40,24 @@
                     "xxxhdpi" : ""
                 }
             }
+        }
+    },
+    "web" : {
+        "base" : "./",
+        "devServer" : {
+            "proxy" : {
+                "/api" : {
+                    //映射域名
+                    "target" : "https://api.m.jd.com",
+                    "changeOrigin" : true,
+                    "pathRewrite" : {
+                        "^/api" : "/"
+                    }
+                }
+            }
+        },
+        "router" : {
+            "base" : ""
         }
     }
 }
